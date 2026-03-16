@@ -1,3 +1,4 @@
+# https://github.com/libsdl-org/SDL/blob/main/docs/INTRO-cmake.md
 cmake_minimum_required(VERSION 3.16)
 project(hello)
 
