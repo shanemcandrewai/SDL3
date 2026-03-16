@@ -14,6 +14,8 @@ https://github.com/libsdl-org/SDL/releases/download/release-3.4.2/SDL3-devel-3.4
 %comspec% /k "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat"
 ### compile
     clang -o hell.exe hello.c -ISDL3-devel-3.4.2-VC\SDL3-3.4.2\include -lSDL3-devel-3.4.2-VC\SDL3-3.4.2\lib\x64\SDL3
+## clang-tidy wip
+    clang-tidy hello.c -checks=* --header-filter=ddd -- -ISDL3-devel-3.4.2-VC\SDL3-3.4.2\include
 ## msys2 gcc examples
     gcc -o build/hello.exe hello.c -ISDL3-3.4.2x86_64-w64-mingw32/include -LSDL3-3.4.2/x86_64-w64-mingw32/lib -lSDL3
     gcc -o build/woodeneye-008.exe -Wall -Wpedantic -Wextra woodeneye-008.c -ISDL3-3.4.2x86_64-w64-mingw32/include -lSDL3
