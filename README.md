@@ -10,9 +10,9 @@ https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.1/LLVM-22.1.
 C:\Program Files\LLVM\bin
 ## download SDL3 libraries and headers    
 https://github.com/libsdl-org/SDL/releases/download/release-3.4.2/SDL3-devel-3.4.2-VC.zip
-## compile
-### Execute x64 Native Tools Command Prompt for VS
-- %comspec% /k "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat"
+## Execute x64 Native Tools Command Prompt for VS
+%comspec% /k "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat"
+### compile
     clang -o hell.exe hello.c -ISDL3-devel-3.4.2-VC\SDL3-3.4.2\include -lSDL3-devel-3.4.2-VC\SDL3-3.4.2\lib\x64\SDL3
 ## msys2 gcc examples
     gcc -o build/hello.exe hello.c -ISDL3-3.4.2x86_64-w64-mingw32/include -LSDL3-3.4.2/x86_64-w64-mingw32/lib -lSDL3
