@@ -31,16 +31,23 @@ static SDL_Renderer *renderer = NULL;
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
   /* Create the window */
+
+  SDL_Log("%d", argc);
+  SDL_Log("%s", argv[0]);
+
   if (!SDL_CreateWindowAndRenderer("Hello World", WIDTH, HEIGHT,
                                    SDL_WINDOW_FULLSCREEN, &window, &renderer)) {
     SDL_Log("Couldn't create window and renderer: %s", SDL_GetError());
     return SDL_APP_FAILURE;
   }
+  (*appstate) = &argv[0];
+  *(appstate + 1) = &renderer;
   return SDL_APP_CONTINUE;
 }
 
 /* This function runs when a new event (mouse input, keypresses, etc) occurs. */
 SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
+  void *ddd = appstate;
   if (event->type == SDL_EVENT_KEY_DOWN || event->type == SDL_EVENT_QUIT) {
     return SDL_APP_SUCCESS; /* end the program, reporting success to the OS. */
   }
@@ -49,6 +56,9 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
 
 /* This function runs once per frame, and is the heart of the program. */
 SDL_AppResult SDL_AppIterate(void *appstate) {
+  SDL_Log("%s", "appstate");
+  char *kkk[] = *(char *)appstate;
+  SDL_Log("%s", kkk[0]);
   const char *message = "Hello World!";
   int width = 0;
   int height = 0;
