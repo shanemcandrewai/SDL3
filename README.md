@@ -8,12 +8,12 @@
 https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.1/LLVM-22.1.1-win64.exe
 ### add clang tools to path
     C:\Program Files\LLVM\bin
-## download SDL3 libraries and headers
+## download SDL3 libraries and headers, unzip in executable's directory
 https://github.com/libsdl-org/SDL/releases/download/release-3.4.2/SDL3-devel-3.4.2-VC.zip
-## Execute x64 Native Tools Command Prompt for VS
-    %comspec% /k "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat"
 ## copy to SDL3.dll to executable's directory
     copy SDL3-3.4.2\lib\x64\SDL3.dll .
+## Execute x64 Native Tools Command Prompt for VS
+    %comspec% /k "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat"
 ### compile
     clang -o hello.exe hello.c -ISDL3-3.4.2\include -lSDL3-3.4.2\lib\x64\SDL3
 ## clang-tidy wip
