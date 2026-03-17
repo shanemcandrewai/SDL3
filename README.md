@@ -15,7 +15,9 @@ https://github.com/libsdl-org/SDL/releases/download/release-3.4.2/SDL3-devel-3.4
 ## Execute x64 Native Tools Command Prompt for VS
     %comspec% /k "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat"
 ### compile
-    clang -o hello.exe hello.c -ISDL3-3.4.2\include -lSDL3-3.4.2\lib\x64\SDL3
+    clang -o hello.exe hello.c -I SDL3-3.4.2\include -l SDL3-3.4.2\lib\x64\SDL3 -Wl,/subsystem:console
+#### lld-link: warning: found main and WinMain; defaulting to /subsystem:console
+add linker option ```-Wl,/subsystem:console```
 ## clang-tidy wip
     clang-tidy hello.c -checks=* --header-filter=ddd -- -ISDL3-3.4.2\include
 ## msys2 gcc examples
