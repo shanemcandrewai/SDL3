@@ -19,7 +19,7 @@ https://github.com/libsdl-org/SDL/releases/download/release-3.4.2/SDL3-devel-3.4
 #### lld-link: warning: found main and WinMain; defaulting to /subsystem:console
 add linker option ```-Wl,/subsystem:console```
 ## clang-tidy wip
-    clang-tidy hello.c -checks=* --header-filter=ddd -- -ISDL3-3.4.2\include
+    cls && clang-tidy hello.c -checks=* --header-filter=ddd -- -ISDL3-3.4.2\include
 ## clang-format
     clang-format -i hello.c
 ## msys2 gcc examples

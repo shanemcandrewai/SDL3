@@ -30,8 +30,8 @@ const int static MAX = 255;
 
 struct AppState
 {
-    SDL_Window *window;
-    SDL_Renderer *renderer;
+    SDL_Window * window;
+    SDL_Renderer * renderer;
 };
 
 /* This function runs once at startup. */
@@ -63,9 +63,9 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
 /* This function runs once per frame, and is the heart of the program. */
 SDL_AppResult SDL_AppIterate(void *appstate) {
   SDL_Log("%s", "appstate");
-  void * apps = *appstate;
-  SDL_Window * window = (SDL_Window *)apps[0];
-  SDL_Renderer * renderer = (SDL_Renderer *)apps[1];
+  struct AppState * apps = appstate;
+  // SDL_Window * window = apps->window;
+  SDL_Renderer * renderer = apps->renderer;
   const char *message = "Hello World!";
   int width = 0;
   int height = 0;
