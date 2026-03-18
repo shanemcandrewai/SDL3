@@ -58,7 +58,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
 
 /* This function runs once per frame, and is the heart of the program. */
 SDL_AppResult SDL_AppIterate(void *appstate) {
-  SDL_Renderer *renderer = (SDL_Renderer *)appstate;
+  SDL_Renderer *renderer = static_cast<SDL_Renderer *>(appstate);
   int width = 0;
   int height = 0;
 
@@ -66,11 +66,11 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
   SDL_GetRenderOutputSize(renderer, &width, &height);
   SDL_SetRenderScale(renderer, SCALE, SCALE);
   float xpos =
-      (((float)width / SCALE) -
-       ((float)SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE * SDL_strlen(MESSAGE))) /
+      ((static_cast<float>(width) / SCALE) -
+       ((static_cast<float>(SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE) * SDL_strlen(MESSAGE))) /
       2;
   float ypos =
-      (((float)height / SCALE) - SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE) / 2;
+      ((static_cast<float>(height) / SCALE) - SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE) / 2;
 
   /* Draw the message */
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, MAX);
