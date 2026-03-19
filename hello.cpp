@@ -65,11 +65,11 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
   /* Center the message and scale it up */
   SDL_GetRenderOutputSize(renderer, &width, &height);
   SDL_SetRenderScale(renderer, SCALE, SCALE);
-  float xpos = ((static_cast<float>(width) / SCALE) -
+  const float xpos = ((static_cast<float>(width) / SCALE) -
                 (static_cast<float>(SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE) *
                  SDL_strlen(MESSAGE))) /
                2;
-  float ypos = ((static_cast<float>(height) / SCALE) -
+  const float ypos = ((static_cast<float>(height) / SCALE) -
                 SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE) /
                2;
 

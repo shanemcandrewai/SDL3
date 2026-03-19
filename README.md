@@ -20,6 +20,9 @@ https://github.com/libsdl-org/SDL/releases/download/release-3.4.2/SDL3-devel-3.4
 add linker option ```-Wl,/subsystem:console```
 ## clang-tidy wip
     cls && clang-tidy hello.c -checks=* --header-filter=ddd -- -ISDL3-3.4.2\include
+### using .clang-tidy
+    cls && clang-tidy hello.cpp -- -ISDL3-3.4.2\include
+    cls && clang-tidy hello.c -checks=-misc-unused-parameters,-cppcoreguidelines-avoid-non-const-global-variables -- -ISDL3-3.4.2\include
 ## clang-format
     clang-format -i hello.c
 ## msys2 gcc examples
