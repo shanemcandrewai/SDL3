@@ -84,4 +84,4 @@ SDL_AppResult SDL_AppIterate(void *appstate) { //NOLINT
 }
 
 /* This function runs once at shutdown. */
-void static SDL_AppQuit(void *appstate, SDL_AppResult result) {}//NOLINT misc-use-anonymous-namespace
+void SDL_AppQuit(void *appstate, SDL_AppResult result) {}//NOLINT misc-use-anonymous-namespace
