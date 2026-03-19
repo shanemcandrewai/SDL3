@@ -5,9 +5,9 @@ cmake_minimum_required(VERSION 3.20)
 
 project(hello)
 
-include_directories(SDL3-3.4.2/include/SDL3)
-# add_subdirectory(SDL3-3.4.2 EXCLUDE_FROM_ALL)
-add_library(SDL3.lib SDL3-3.4.2/lib/x64/)
+include_directories(SDL3-3.4.2/include)
+# add_subdirectory(SDL3-3.4.2/cmake)
+# add_library(SDL3.lib STATIC IMPORTED)
 
 
 add_executable(hello)
