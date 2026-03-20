@@ -1,5 +1,6 @@
 #https://cmake.org/cmake/help/book/mastering-cmake
 # cls && cmake -S . -B build && cmake --build build && build\Debug\hello.exe
+# cls && cmake -S . -B build && cmake --build build --config Release && build\Release\hello.exe
 cmake_minimum_required(VERSION 3.20)
 
 project(hello)
