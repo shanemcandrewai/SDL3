@@ -12,4 +12,4 @@ IMPORTED_IMPLIB "${CMAKE_SOURCE_DIR}/SDL3-3.4.2/lib/x64/SDL3.lib"
 
 add_executable(hello)
 target_sources(hello PRIVATE hello.cpp)
-target_link_libraries(hello PRIVATE SDL3)
+target_link_libraries(hello SDL3)
