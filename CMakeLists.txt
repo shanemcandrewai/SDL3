@@ -10,6 +10,5 @@ INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/SDL3-3.4.2/include"
 IMPORTED_IMPLIB "${CMAKE_SOURCE_DIR}/SDL3-3.4.2/lib/x64/SDL3.lib"
 )
 
-add_executable(hello)
-target_sources(hello PRIVATE hello.cpp)
-target_link_libraries(hello SDL3)
+add_executable(${PROJECT_NAME} hello.cpp)
+target_link_libraries(${PROJECT_NAME} SDL3)
