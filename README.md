@@ -27,6 +27,12 @@ add linker option ```-Wl,/subsystem:console```
     cls && clang-tidy hello.c -checks=-misc-unused-parameters,-cppcoreguidelines-avoid-non-const-global-variables -- -ISDL3-3.4.2\include
 ## clang-format
     clang-format -i hello.c
+## Emscripten
+https://github.com/libsdl-org/SDL/blob/main/docs/INTRO-emscripten.md
+### link SDL directory to SDL3/vendored/SDL
+The easiest way to use SDL is to include it as a subproject in your project.
+#### execute cmd.exe as admin
+    C:\Users\shane\dev\SDL3>mklink /d vendored\SDL ..\..\SDL
 ## msys2 gcc examples
     gcc -o build/hello.exe hello.c -ISDL3-3.4.2x86_64-w64-mingw32/include -LSDL3-3.4.2/x86_64-w64-mingw32/lib -lSDL3
     gcc -o build/woodeneye-008.exe -Wall -Wpedantic -Wextra woodeneye-008.c -ISDL3-3.4.2x86_64-w64-mingw32/include -lSDL3

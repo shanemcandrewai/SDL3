@@ -1,15 +1,25 @@
-#https://cmake.org/cmake/help/book/mastering-cmake
-# cls && cmake -S . -B build && cmake --build build && build\Debug\hello.exe
-# cls && cmake -S . -B build && cmake --build build --config Release && build\Release\hello.exe
 cmake_minimum_required(VERSION 3.20)
-
+#https://github.com/libsdl-org/SDL/blob/main/docs/INTRO-emscripten.md
+# emsdk>emsdk.bat install latest
+# emsdk>emsdk.bat activate latest
+# SDL3>emcmake cmake -S . -B build -G "Visual Studio 18 2026"
+# SDL3>emcmake cmake --build build
 project(hello)
+# set the output directory for built objects.
+# This makes sure that the dynamic library goes into the build directory automatically.
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 
-add_library(SDL3 SHARED IMPORTED)
-set_target_properties(SDL3 PROPERTIES
-INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/SDL3-3.4.2/include"
-IMPORTED_IMPLIB "${CMAKE_SOURCE_DIR}/SDL3-3.4.2/lib/x64/SDL3.lib"
-)
+# This assumes the SDL source is available in vendored/SDL
+add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 
-add_executable(${PROJECT_NAME} hello.cpp)
-target_link_libraries(${PROJECT_NAME} SDL3)
+# on Web targets, we need CMake to generate a HTML webpage.
+if(EMSCRIPTEN)
+  set(CMAKE_EXECUTABLE_SUFFIX ".html" CACHE INTERNAL "")
+endif()
+
+# Create your game executable target as usual
+add_executable(hello WIN32 hello.c)
+
+# Link to the actual SDL3 library.
+target_link_libraries(hello PRIVATE SDL3::SDL3)
