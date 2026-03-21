@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 #https://github.com/libsdl-org/SDL/blob/main/docs/INTRO-emscripten.md
 # emsdk>emsdk.bat install latest
-# emsdk>emsdk.bat activate latest
+# SDL3>..\emsdk\emsdk.bat activate latest
 # SDL3>emcmake cmake -S . -B build -G "Visual Studio 18 2026"
 # SDL3>emcmake cmake --build build
 project(hello)
