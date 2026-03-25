@@ -38,3 +38,6 @@ The easiest way to use SDL is to include it as a subproject in your project.
 ## msys2 gcc examples
     gcc -o build/hello.exe hello.c -ISDL3-3.4.2x86_64-w64-mingw32/include -LSDL3-3.4.2/x86_64-w64-mingw32/lib -lSDL3
     gcc -o build/woodeneye-008.exe -Wall -Wpedantic -Wextra woodeneye-008.c -ISDL3-3.4.2x86_64-w64-mingw32/include -lSDL3
+### emcc
+    emcc -o hell hello.c vendored/SDL/src/*.c vendored/SDL/src/main/*.c vendored/SDL/src/video/*.c vendored/SDL/src/core/*.c vendored/SDL/src/render/*.c vendored/SDL/src/thread/*.c vendored/SDL/src/stdlib/*.c vendored/SDL/src/events/*.c vendored/SDL/src/filesystem/*.c  vendored/SDL/src/thread/windows/*.c -I vendored/SDL/include/ -I vendored/SDL/include/build_config/ -I vendored/SDL/src/
+
