@@ -16,6 +16,8 @@ https://github.com/libsdl-org/SDL/releases/download/release-3.4.2/SDL3-devel-3.4
     %comspec% /k "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat"
 ### compile
     clang -o hello.exe hello.c -I SDL3-3.4.2\include -l SDL3-3.4.2\lib\x64\SDL3 -Wl,/subsystem:console
+#### testing hello world
+cls && clang -o hello.exe hello.c vendored\SDL\src\main\generic\SDL_sysmain_callbacks.c -I SDL3-3.4.2\include -I vendored\SDL\src -I vendored\SDL\include\build_config -Wl,/subsystem:console
 #### lld-link: warning: found main and WinMain; defaulting to /subsystem:console
 add linker option ```-Wl,/subsystem:console```
 #### MSVC compiler
