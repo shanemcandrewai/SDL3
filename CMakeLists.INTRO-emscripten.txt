@@ -2,8 +2,12 @@ cmake_minimum_required(VERSION 3.20)
 #https://github.com/libsdl-org/SDL/blob/main/docs/INTRO-emscripten.md
 # SDL3>..\emsdk\emsdk.bat install latest
 # SDL3>..\emsdk\emsdk.bat activate latest
+# SDL3>emcc hello.cpp -o hello.html -sUSE_SDL=3
+# SDL3>python -m http.server
+# SDL3>http://localhost:8000/hello.html
+# WIP build
 # SDL3>emcmake cmake -S vendored/SDL -B build -G "Visual Studio 18 2026"
-# SDL3>emcmake cmake --build build
+# SDL3>emcmake cmake --build build #fails
 # python ../emsdk/upstream/emscripten/emcc.py -O3 -s WASM=1 -s EXPORTED_RUNTIME_METHODS='["cwrap"]' -I vendored/SDL/include/build_config -I vendored/SDL/include -I vendored/SDL/src -I vendored/SDL/src/core -I vendored/SDL/src/render -I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um" -I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared" hello.c vendored/SDL/src/*.c  vendored/SDL/src/core/*.c vendored/SDL/src/render/*.c vendored/SDL/src/main/emscripten/*.c vendored/SDL/src/video/*.c vendored/SDL/src/stdlib/*.c vendored/SDL/src/thread/*.c vendored/SDL/src/thread/windows/*.c
 
 project(hello)
