@@ -16,8 +16,6 @@ https://github.com/libsdl-org/SDL/releases/download/release-3.4.2/SDL3-devel-3.4
     %comspec% /k "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat"
 ### compile
     clang -o hello.exe hello.c -I SDL3-3.4.2\include -l SDL3-3.4.2\lib\x64\SDL3 -Wl,/subsystem:console
-#### testing hello world
-cls && clang -o hello.exe hello.c vendored\SDL\src\main\generic\SDL_sysmain_callbacks.c -I SDL3-3.4.2\include -I vendored\SDL\src -I vendored\SDL\include\build_config -Wl,/subsystem:console
 #### lld-link: warning: found main and WinMain; defaulting to /subsystem:console
 add linker option ```-Wl,/subsystem:console```
 #### MSVC compiler
@@ -42,4 +40,6 @@ The easiest way to use SDL is to include it as a subproject in your project.
     emcc -o hello.exe hello.c vendored/SDL/src/*.c vendored/SDL/src/main/*.c vendored/SDL/src/video/*.c vendored/SDL/src/core/*.c vendored/SDL/src/render/*.c vendored/SDL/src/thread/*.c vendored/SDL/src/stdlib/*.c vendored/SDL/src/events/*.c vendored/SDL/src/filesystem/*.c  vendored/SDL/src/thread/windows/*.c -I vendored/SDL/include/ -I vendored/SDL/include/build_config/ -I vendored/SDL/src
 ### emcmake
 	emcmake cmake -S vendored/SDL -B build -G "Unix Makefiles" -DSDL_TESTS:BOOL=OFF
+### woodeneye-008.touch.c
+    emcc woodeneye-008.touch.c -sUSE_SDL=3 && copy /y a.* ..\shanemcandrewai.github.io && cd ..\shanemcandrewai.github.io && git commit -am 'next' && git push && cd ..\SDL3
 

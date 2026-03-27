@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.20)
 # SDL3>..\emsdk\emsdk.bat activate latest
 # SDL3>emcc hello.cpp -o hello.html -sUSE_SDL=3
 # SDL3>python -m http.server
-# SDL3>http://localhost:8000/hello.html
+# SDL3>http://localhost:8000/emscripten.html
 # WIP build
 # SDL3>emcmake cmake -S vendored/SDL -B build -G "Visual Studio 18 2026"
 # SDL3>emcmake cmake --build build #fails

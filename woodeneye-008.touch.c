@@ -390,6 +390,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
             int index = whoseMouse(id, players, player_count);
             if (index >= 0) {
                 players[index].yaw -= ((int)event->motion.xrel) * 0x00080000;
+		        SDL_snprintf(debug_string, sizeof(debug_string), "SDL_EVENT_FINGER_MOTION yaw %d", players[index].yaw);
                 players[index].pitch = SDL_max(-0x40000000, SDL_min(0x40000000, players[index].pitch - ((int)event->motion.yrel) * 0x00080000));
             } else if (id) {
                 for (i = 0; i < MAX_PLAYER_COUNT; i++) {
@@ -403,23 +404,27 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
             break;
         }
         case SDL_EVENT_FINGER_MOTION: {
-            SDL_MouseID id = event->motion.which;
-            int index = whoseMouse(id, players, player_count);
-            if (index >= 0) {
-                players[index].yaw -= ((int)event->motion.xrel) * 0x00080000;
-                players[index].pitch = SDL_max(-0x40000000, SDL_min(0x40000000, players[index].pitch - ((int)event->motion.yrel) * 0x00080000));
-            } else if (id) {
-                for (i = 0; i < MAX_PLAYER_COUNT; i++) {
-                    if (players[i].mouse == 0) {
-                        players[i].mouse = id;
-                        as->player_count = SDL_max(as->player_count, i + 1);
-                        break;
-                    }
-                }
-            }
+            SDL_TouchID  id = event->tfinger.touchID;
+            // int index = whoseMouse(id, players, player_count);
+            int index = 1;
+            // if (index >= 0) {
+                // players[index].yaw -= ((int)event->tfinger.dx) * 0x00080000;
+                players[index].yaw -= ((int)event->tfinger.dx  * 0x00080000);
+		        SDL_snprintf(debug_string, sizeof(debug_string), "tfinger.x %f", event->tfinger.x);
+                players[index].pitch = SDL_max(-0x40000000, SDL_min(0x40000000, players[index].pitch - ((int)event->tfinger.dy) * 0x00080000));
+            // } else if (id) {
+                // for (i = 0; i < MAX_PLAYER_COUNT; i++) {
+                    // if (players[i].mouse == 0) {
+                        // players[i].mouse = id;
+                        // as->player_count = SDL_max(as->player_count, i + 1);
+                        // break;
+                    // }
+                // }
+            // }
             break;
         }
-        case SDL_EVENT_FINGER_DOWN: {
+        case SDL_EVENT_MOUSE_BUTTON_DOWN: {
+			SDL_snprintf(debug_string, sizeof(debug_string), "%s", "SDL_EVENT_MOUSE_BUTTON_DOWN");
             SDL_MouseID id = event->button.which;
             int index = whoseMouse(id, players, player_count);
             if (index >= 0) {
@@ -427,7 +432,8 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
             }
             break;
         }
-        case SDL_EVENT_MOUSE_BUTTON_DOWN: {
+        case SDL_EVENT_FINGER_DOWN: {
+			SDL_snprintf(debug_string, sizeof(debug_string), "%s", "SDL_EVENT_FINGER_DOWN");
             SDL_MouseID id = event->button.which;
             int index = whoseMouse(id, players, player_count);
             if (index >= 0) {
@@ -486,7 +492,7 @@ SDL_AppResult SDL_AppIterate(void *appstate)
     draw(as->renderer, (const float (*)[6])as->edges, as->players, as->player_count);
     if (now - last > 999999999) {
         last = now;
-        SDL_snprintf(debug_string, sizeof(debug_string), "%" SDL_PRIu64 " Shane 2 FPS", accu);
+        SDL_snprintf(debug_string, sizeof(debug_string), "%" SDL_PRIu64 " Shane 12FPS", accu);
         accu = 0;
     }
     past = now;
