@@ -1,0 +1,9 @@
+cls && clang-tidy checkers.cpp -- -ISDL3-3.4.2\include -ISDL3_image-3.4.0\include
+
+cls && clang-tidy checkers.cpp -checks=* --header-filter=ddd --  ISDL3-3.4.2\include -ISDL3_image-3.4.0\include 
+
+cls && clang -Wall -Wextra -o checkers.exe checkers.cpp -ISDL3-3.4.2\include -ISDL3_image-3.4.0\include -lSDL3-3.4.2\lib\x64\SDL3 -lSDL3_image-3.4.0\lib\x64\SDL3_image -Wl,/subsystem:console
+
+clang-format -i checkers.cpp
+
+7808 warnings generated Suppressed 7814 warnings (7796 in non-user code, 18 NOLINT).
