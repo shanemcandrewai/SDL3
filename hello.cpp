@@ -30,7 +30,7 @@ const int static WIDTH = 800;
 const int static HEIGHT = 800;
 const int static MAX = 255;
 const float static SCALE = 4.0F;
-const char *MESSAGE = "Hello World!4"; //NOLINT
+const char static *MESSAGE = "Hello World!"; //NOLINT
 
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { //NOLINT
