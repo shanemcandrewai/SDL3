@@ -1,22 +1,22 @@
-#https://cmake.org/cmake/help/book/mastering-cmake
-# cls && cmake -S . -B build && cmake --build build && build\Debug\hello.exe
-# cls && cmake -S . -B build && cmake --build build --config Release && build\Release\hello.exe
-# build static SDL library
-# cls && cmake -S vendored\SDL -B buildSDL3 -DSDL_STATIC=ON -DSDL_TEST_LIBRARY=OFF && cmake --build buildSDL3
-# clang -o hello.exe hello.c -I SDL3-3.4.2\include -l SDL3-3.4.2\lib\x64\SDL3 -Wl,/subsystem:console
-# clang -o hello.exe hello.c -I SDL3-3.4.2\include -l buildSDL3\Debug\SDL3-static.lib -Wl,/subsystem:console #WIP
+cmake_minimum_required(VERSION 3.21)
+project(hello-wasm-sdl3-c)
 
-cmake_minimum_required(VERSION 3.20)
+# Set the name of the future application (in Windows this would be app.exe, while for web it will be app.js / app.wasm)
+add_executable(app)
 
-project(hello)
+# Set the C standard
+set(CMAKE_C_STANDARD 11)
 
-add_library(SDL3 SHARED IMPORTED)
-# add_library(SDL3 STATIC IMPORTED) #WIP
-set_target_properties(SDL3 PROPERTIES
-INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/SDL3-3.4.2/include"
-IMPORTED_IMPLIB "${CMAKE_SOURCE_DIR}/SDL3-3.4.2/lib/x64/SDL3.lib" # SHARED
-# IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/buildSDL3/Debug/SDL3-static.lib" #STATIC WIP
-)
+# Tell CMake where to find the SDL3 library configuration files
+set(SDL3_DIR build/lib/cmake/SDL3)
 
-add_executable(${PROJECT_NAME} hello.cpp)
-target_link_libraries(${PROJECT_NAME} SDL3)
+# Load SDL3 package settings (compilation parameters and paths to headers)
+find_package(SDL3 REQUIRED)
+
+# Link SDL3 to our application (configures linking and include paths)
+target_link_libraries(app PRIVATE SDL3::SDL3)
+
+# Add source code to the project
+target_sources(app
+    PRIVATE
+    hello.cpp)
