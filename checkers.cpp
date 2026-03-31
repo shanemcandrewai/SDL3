@@ -30,7 +30,7 @@
 const int static WIDTH = 800;
 const int static HEIGHT = 800;
 const int static MAX = 255;
-const float static SCALE = 4.0F;
+const float static SCALE = 2.0F;
 static char message[30] = "Hello World!"; // NOLINT
 
 /* This function runs once at startup. */
@@ -51,11 +51,15 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   const SDL_Texture *texture =
       IMG_LoadTexture(renderer, "blender/blue.ortho.png");
 
-  const int printf_rc =
-      SDL_snprintf(message, sizeof(message), "SDL_Texture.w %d", texture->w);
+  if (texture == nullptr) {
+    SDL_snprintf(message, sizeof(message), "IMG_LoadTexture failed");
+  } else {
+    const int printf_rc =
+        SDL_snprintf(message, sizeof(message), "SDL_Texture.w %d", texture->w);
 
-  if (printf_rc < 0) {
-    SDL_Log("SDL_snprintf return code: %d", printf_rc); // NOLINT
+    if (printf_rc < 0) {
+      SDL_Log("SDL_snprintf return code: %d", printf_rc); // NOLINT
+    }
   }
 
   return SDL_APP_CONTINUE;
