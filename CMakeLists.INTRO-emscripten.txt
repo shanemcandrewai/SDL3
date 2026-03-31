@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.20)
 #https://github.com/libsdl-org/SDL/blob/main/docs/INTRO-emscripten.md
 # SDL3>..\emsdk\emsdk.bat install latest
 # SDL3>..\emsdk\emsdk.bat activate latest
+# SDL3>emcmake cmake -S ../SDL -B build_libSDL3 -DSDL_TESTS:BOOL=OFF -DSDL_TEST_LIBRARY:BOOL=OFF -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=install_libSDL3
+# SDL3>cmake --build build_libSDL3
+# SDL3>cmake --install build_libSDL3
+# SDL3>emcmake cmake -S . -B build
+# SDL3>cmake --build build
+
 # SDL3>emcc hello.cpp -o hello.html -sUSE_SDL=3
 # SDL3>python -m http.server
 # SDL3>http://localhost:8000/emscripten.html

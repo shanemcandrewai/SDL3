@@ -8,9 +8,11 @@ add_executable(app)
 set(CMAKE_C_STANDARD 11)
 
 # Tell CMake where to find the SDL3 library configuration files
-set(SDL3_DIR build/lib/cmake/SDL3)
+# set(SDL3_DIR SDL3-3.4.2/cmake)
+set(SDL3_DIR install_libSDL3/lib/cmake/SDL3)
 
 # Load SDL3 package settings (compilation parameters and paths to headers)
+message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 find_package(SDL3 REQUIRED)
 
 # Link SDL3 to our application (configures linking and include paths)
