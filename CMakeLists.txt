@@ -25,6 +25,9 @@ cmake --install build_libSDL3_image
 emcmake cmake -S . -B build
 cmake --build build
 
+python -m http.server 8000
+http://localhost:8000/emscripten.html
+
 ]]
 cmake_minimum_required(VERSION 3.21)
 

@@ -20,6 +20,26 @@ https://github.com/libsdl-org/SDL/releases/download/release-3.4.2/SDL3-devel-3.4
 add linker option ```-Wl,/subsystem:console```
 #### MSVC compiler
     cl hello.cpp SDL3.lib -I SDL3-3.4.2\include /link /LIBPATH:SDL3-3.4.2\lib\x64 /SUBSYSTEM:CONSOLE
+## clang-repl
+### windows set up
+    set CPLUS_INCLUDE_PATH=SDL3-3.4.2/include
+	clang-repl
+	%lib SDL3-3.4.2/lib/x64/SDL3.dll
+### environmental library search path -L  passed on to the linker
+    LIBRARY_PATH
+### environmental include search path -I
+    C_INCLUDE_PATH
+    CPLUS_INCLUDE_PATH
+#### link to DLL
+    %lib SDL3-3.4.2/lib/x64/SDL3.dll
+#### disply environment variable in c
+    const char *p = getenv("PATH");
+	p [Enter]
+### windows
+#### display ENVIRONMENT_VARIABLE
+    echo %ENVIRONMENT_VARIABLE%
+#### set ENVIRONMENT_VARIABLE to "value"
+    set ENVIRONMENT_VARIABLE=value
 ## clang-tidy wip
     cls && clang-tidy hello.c -checks=* --header-filter=ddd -- -ISDL3-3.4.2\include
 ### using .clang-tidy
