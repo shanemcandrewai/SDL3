@@ -37,6 +37,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
 
   SDL_Window *window = nullptr;
   SDL_Renderer *renderer = nullptr;
+  void *state[2];
 
   /* Create the window */
   if (!SDL_CreateWindowAndRenderer("Hello World", WIDTH, HEIGHT,
@@ -45,7 +46,10 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());                           // NOLINT
     return SDL_APP_FAILURE;
   }
-  *appstate = renderer;
+  state[0] = renderer;
+  state[1] = window;
+  // *appstate = renderer;
+  appstate = state;
 
   surface = SDL_LoadPNG("blender/blue.ortho.png");
   if (surface == nullptr) {
@@ -68,29 +72,31 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) { // NOLINT
 
 /* This function runs once per frame, and is the heart of the program. */
 SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
-  auto *renderer = static_cast<SDL_Renderer *>(appstate);
+  auto **state = static_cast<void **>(appstate);
+  auto *local_renderer = static_cast<SDL_Renderer *>(state[0]);
+  // auto *local_renderer = static_cast<SDL_Renderer *>(appstate);
 
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-  SDL_RenderClear(renderer);
+  SDL_SetRenderDrawColor(local_renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+  SDL_RenderClear(local_renderer);
 
   SDL_FRect dst_rect;
   dst_rect.x = (100.0f);
   dst_rect.y = 0.0f;
   dst_rect.w = (float)surface->w;
   dst_rect.h = (float)surface->h;
-  SDL_RenderTexture(renderer, texture, NULL, &dst_rect);
+  SDL_RenderTexture(local_renderer, texture, NULL, &dst_rect);
 
   int width = 0;
   int height = 0;
 
   /* Center the message and scale it up */
-  SDL_GetRenderOutputSize(renderer, &width, &height);
-  SDL_SetRenderScale(renderer, SCALE, SCALE);
+  SDL_GetRenderOutputSize(local_renderer, &width, &height);
+  SDL_SetRenderScale(local_renderer, SCALE, SCALE);
 
   /* Draw the message */
-  // SDL_SetRenderDrawColor(renderer, MAX, MAX, MAX, MAX);
-  // SDL_RenderDebugText(renderer, xpos, ypos, message);
-  SDL_RenderPresent(renderer);
+  // SDL_SetRenderDrawColor(local_renderer, MAX, MAX, MAX, MAX);
+  // SDL_RenderDebugText(local_renderer, xpos, ypos, message);
+  SDL_RenderPresent(local_renderer);
 
   return SDL_APP_CONTINUE;
 }

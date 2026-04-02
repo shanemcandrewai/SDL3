@@ -47,6 +47,16 @@ add linker option ```-Wl,/subsystem:console```
     cls && clang-tidy hello.c -checks=-misc-unused-parameters,-cppcoreguidelines-avoid-non-const-global-variables -- -ISDL3-3.4.2\include
 ## clang-format
     clang-format -i hello.c
+## lldb (clang debugger)
+### error: unable to find 'python311.dll'.
+#### solution
+##### install python 3.11
+    py install 3.11
+##### create virtual enviroment
+    C:\Users\shane\AppData\Local\Python\bin\python3.11.exe -m venv ..\venv\3.11
+    ..\venv\3.11\Scripts\activate
+##### add dll to path
+    set PATH=%PATH%;%LocalAppData%\Python\pythoncore-3.11-64
 ## Emscripten
 https://github.com/libsdl-org/SDL/blob/main/docs/INTRO-emscripten.md
 ### link SDL directory to SDL3/vendored/SDL

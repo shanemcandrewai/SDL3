@@ -11,3 +11,15 @@ cls && emcc checkers.cpp -ISDL3-3.4.2\include -ISDL3_image-3.4.0\include -ISDL3_
 clang-format -i checkers.cpp
 
 7808 warnings generated Suppressed 7814 warnings (7796 in non-user code, 18 NOLINT).
+
+lldb
+set PATH=%PATH%;%LocalAppData%\Python\pythoncore-3.11-64
+
+cls && clang -g -Wall -Wextra -o checkers.exe checkers.cpp -ISDL3-3.4.2\include -lSDL3-3.4.2\lib\x64\SDL3 -Wl,/subsystem:console
+
+
+lldb checkers.exe
+b checkers.cpp:40
+br l
+br wr -f bp.txt
+br re -f bp.txt
