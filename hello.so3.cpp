@@ -1,6 +1,13 @@
 #define SDL_MAIN_USE_CALLBACKS 1 // NOLINT
-#include <SDL3/SDL.h>
-#include <SDL3/SDL_main.h>
+// #include <SDL3/SDL.h>  //uncomment for release
+#include <SDL3/SDL_error.h>  //clang-tidy
+#include <SDL3/SDL_events.h> //clang-tidy
+#include <SDL3/SDL_init.h>   //clang-tidy
+#include <SDL3/SDL_log.h>    //clang-tidy
+#include <SDL3/SDL_main.h>   //keep uncommented for release
+#include <SDL3/SDL_render.h> //clang-tidy
+#include <SDL3/SDL_stdinc.h> //clang-tidy
+#include <SDL3/SDL_video.h>  //clang-tidy
 
 const int static WIDTH = 600;
 const int static HEIGHT = 600;
@@ -18,7 +25,6 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
 
   SDL_Window *window = nullptr;
   SDL_Renderer *renderer = nullptr;
-  void *state[2];
 
   /* Create the window */
   if (!SDL_CreateWindowAndRenderer(MESSAGE, WIDTH, HEIGHT, SDL_WINDOW_RESIZABLE,
@@ -27,16 +33,14 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());                           // NOLINT
     return SDL_APP_FAILURE;
   }
-  state[0] = renderer;
-  state[1] = window;
   *appstate = new RendererAndWindow{renderer, window}; // allocate
   return SDL_APP_CONTINUE;
 }
 
 /* This function runs once per frame, and is the heart of the program. */
 SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
-  auto raw = static_cast<RendererAndWindow *>(appstate);
-  auto local_renderer = raw->m_renderer;
+  auto *raw = static_cast<RendererAndWindow *>(appstate);
+  auto *local_renderer = raw->m_renderer;
   int width = 0;
   int height = 0;
 
