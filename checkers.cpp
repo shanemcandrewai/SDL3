@@ -12,11 +12,10 @@
 #include <SDL3/SDL_rect.h>    //clang-tidy
 #include <SDL3/SDL_render.h>  //clang-tidy
 #include <SDL3/SDL_surface.h> //clang-tidy
-#include <SDL3/SDL_video.h> //clang-tidy
+#include <SDL3/SDL_video.h>   //clang-tidy
 
 const int static WIDTH = 600;
 const int static HEIGHT = 600;
-const float static SCALE = 1.0F;
 
 struct State { // NOLINT altera-struct-pack-align
   SDL_Renderer *prenderer;
@@ -36,18 +35,18 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   if (!SDL_CreateWindowAndRenderer("Hello World", WIDTH, HEIGHT,
                                    SDL_WINDOW_RESIZABLE, &window, &renderer)) {
     SDL_Log("Couldn't create window and renderer: %s", // NOLINT
-            SDL_GetError());                           // NOLINT
+            SDL_GetError());
     return SDL_APP_FAILURE;
   }
 
   surface = SDL_LoadPNG("blender/blue.ortho.png");
   if (surface == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT
-            SDL_GetError());          // NOLINT
+            SDL_GetError());
     return SDL_APP_FAILURE;
   }
   texture = SDL_CreateTextureFromSurface(renderer, surface);
-  *appstate = new State{renderer, surface, texture};
+  *appstate = new State{renderer, surface, texture}; // NOLINT
   return SDL_APP_CONTINUE;
 }
 
@@ -70,22 +69,15 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   SDL_RenderClear(renderer);
 
   SDL_FRect dst_rect;
-  dst_rect.x = 10.0F;
-  dst_rect.y = 10.0F;
   dst_rect.w = static_cast<float>(surface->w);
   dst_rect.h = static_cast<float>(surface->h);
-  SDL_RenderTexture(renderer, texture, nullptr, &dst_rect);
+  for (int i = 10; i < 400; i += 100) {
+    // SDL_Log("i: %d", i);// NOLINT
+    dst_rect.x =  static_cast<float>(i);
+    dst_rect.y = static_cast<float>(i);
+    SDL_RenderTexture(renderer, texture, nullptr, &dst_rect);
+  }
 
-  int width = 0;
-  int height = 0;
-
-  /* Center the message and scale it up */
-  SDL_GetRenderOutputSize(renderer, &width, &height);
-  SDL_SetRenderScale(renderer, SCALE, SCALE);
-
-  /* Draw the message */
-  // SDL_SetRenderDrawColor(renderer, MAX, MAX, MAX, MAX);
-  // SDL_RenderDebugText(renderer, xpos, ypos, message);
   SDL_RenderPresent(renderer);
 
   return SDL_APP_CONTINUE;
@@ -93,5 +85,5 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
 
 /* This function runs once at shutdown. */
 void SDL_AppQuit(void *appstate, SDL_AppResult result) { // NOLINT
-  delete static_cast<State *>(appstate);
+  delete static_cast<State *>(appstate);                 // NOLINT
 } // NOLINT misc-use-anonymous-namespace
