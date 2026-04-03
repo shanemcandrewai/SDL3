@@ -14,13 +14,15 @@
 #include <SDL3/SDL_surface.h> //clang-tidy
 #include <SDL3/SDL_video.h>   //clang-tidy
 
-const int static WIDTH = 600;
-const int static HEIGHT = 600;
+const int static WIDTH = 1280;
+const int static HEIGHT = 720;
 
 struct State { // NOLINT altera-struct-pack-align
   SDL_Renderer *prenderer;
-  SDL_Surface *psurface;
-  SDL_Texture *ptexture;
+  SDL_Surface *psBlue;
+  SDL_Surface *psCylinder;
+  SDL_Texture *ptBlue;
+  SDL_Texture *ptCylinder;
 };
 
 /* This function runs once at startup. */
@@ -28,25 +30,29 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
 
   SDL_Window *window = nullptr;
   SDL_Renderer *renderer = nullptr;
-  SDL_Surface *surface = nullptr;
-  SDL_Texture *texture = nullptr;
+  SDL_Surface *sBlue = nullptr;
+  SDL_Surface *sCylinder = nullptr;
+  SDL_Texture *textBlue = nullptr;
+  SDL_Texture *textCylinder = nullptr;
 
   /* Create the window */
-  if (!SDL_CreateWindowAndRenderer("Hello World", WIDTH, HEIGHT,
+  if (!SDL_CreateWindowAndRenderer("Checkers test", WIDTH, HEIGHT,
                                    SDL_WINDOW_RESIZABLE, &window, &renderer)) {
     SDL_Log("Couldn't create window and renderer: %s", // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
 
-  surface = SDL_LoadPNG("blender/blue.ortho.png");
-  if (surface == nullptr) {
+  sBlue = SDL_LoadPNG("blender/blue.ortho.png");
+  sCylinder = SDL_LoadPNG("blender/cylinder.png");
+  if (sBlue == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
-  texture = SDL_CreateTextureFromSurface(renderer, surface);
-  *appstate = new State{renderer, surface, texture}; // NOLINT
+  textBlue = SDL_CreateTextureFromSurface(renderer, sBlue);
+  textCylinder = SDL_CreateTextureFromSurface(renderer, sCylinder);
+  *appstate = new State{renderer, sBlue, sCylinder, textBlue, textCylinder}; // NOLINT
   return SDL_APP_CONTINUE;
 }
 
@@ -62,20 +68,25 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) { // NOLINT
 SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   auto *state = static_cast<State *>(appstate);
   auto *renderer = state->prenderer;
-  auto *surface = state->psurface;
-  auto *texture = state->ptexture;
+  auto *sBlue = state->psBlue;
+  auto *textBlue = state->ptBlue;
+  auto *textCylinder = state->ptCylinder;
 
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
   SDL_RenderClear(renderer);
 
   SDL_FRect dst_rect;
-  dst_rect.w = static_cast<float>(surface->w);
-  dst_rect.h = static_cast<float>(surface->h);
-  for (int i = 10; i < 400; i += 100) {
-    // SDL_Log("i: %d", i);// NOLINT
-    dst_rect.x =  static_cast<float>(i);
-    dst_rect.y = static_cast<float>(i);
-    SDL_RenderTexture(renderer, texture, nullptr, &dst_rect);
+  for (int x = 10; x < 900; x += 230) {
+    for (int y = 10; y < 400; y += 105) {
+      dst_rect.w = static_cast<float>(sBlue->w);
+      dst_rect.h = static_cast<float>(sBlue->h);
+      dst_rect.x = static_cast<float>(x);
+      dst_rect.y = static_cast<float>(y);
+      SDL_RenderTexture(renderer, textBlue, nullptr, &dst_rect);
+      dst_rect.w = static_cast<float>(sBlue->w) / 2;
+      dst_rect.h = static_cast<float>(sBlue->h) / 2;
+      SDL_RenderTexture(renderer, textCylinder, nullptr, &dst_rect);
+    }
   }
 
   SDL_RenderPresent(renderer);

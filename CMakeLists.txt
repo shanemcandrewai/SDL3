@@ -27,9 +27,9 @@ cmake_minimum_required(VERSION 3.21)
 
 project(checkers)
 
-# Set the C standard (must be set before add_executable)
-set(CMAKE_C_STANDARD 17)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 
 # Set the name of the future application (in Windows this would be app.exe, while for web it will be app.js / app.wasm)
 add_executable(${PROJECT_NAME} checkers.cpp)
@@ -46,8 +46,12 @@ target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 # Embed the image into the app.wasm file
 if (EMSCRIPTEN)
     # Use the SHELL: prefix to pass the --embed-file option to the linker
-    target_link_options("checkers" PRIVATE "SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/build/blender/blue.ortho.png\"")
+    target_link_options("checkers" PRIVATE
+	"--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/build/blender/cylinder.png\""
+	"--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/build/blender/blue.ortho.png\""
+	)
  
     # Ensure the target is relinked if the image file changes
     set_property(TARGET "checkers" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/build/blender/blue.ortho.png")
+    set_property(TARGET "checkers" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/build/blender/cylinder.png")
 endif()
