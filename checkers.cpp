@@ -76,12 +76,12 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   SDL_RenderClear(renderer);
 
   SDL_FRect dst_rect;
-  for (int x = 10; x < 900; x += 230) {
-    for (int y = 10; y < 400; y += 105) {
+  for (int xpos = 10; xpos < 900; xpos += 230) {
+    for (int ypos = 10; ypos < 400; ypos += 105) {
       dst_rect.w = static_cast<float>(sBlue->w);
       dst_rect.h = static_cast<float>(sBlue->h);
-      dst_rect.x = static_cast<float>(x);
-      dst_rect.y = static_cast<float>(y);
+      dst_rect.x = static_cast<float>(xpos);
+      dst_rect.y = static_cast<float>(ypos);
       SDL_RenderTexture(renderer, textBlue, nullptr, &dst_rect);
       dst_rect.w = static_cast<float>(sBlue->w) / 2;
       dst_rect.h = static_cast<float>(sBlue->h) / 2;

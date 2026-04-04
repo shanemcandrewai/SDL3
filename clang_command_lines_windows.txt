@@ -15,7 +15,6 @@ clang-format -i checkers.cpp
 lldb
 set PATH=%PATH%;%LocalAppData%\Python\pythoncore-3.11-64
 
-cls && clang -g -Wall -Wextra -o checkers.exe checkers.cpp -ISDL3-3.4.2\include -lSDL3-3.4.2\lib\x64\SDL3 -Wl,/subsystem:console
 
 
 lldb checkers.exe

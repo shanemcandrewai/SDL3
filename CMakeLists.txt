@@ -20,7 +20,7 @@ emcmake cmake -S . -B build
 cmake --build build
 
 python -m http.server 8000
-http://localhost:8000/emscripten.html
+http://localhost:8000
 
 ]]
 cmake_minimum_required(VERSION 3.21)
@@ -44,14 +44,12 @@ find_package(SDL3 REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 
 # Embed the image into the app.wasm file
+
 if (EMSCRIPTEN)
-    # Use the SHELL: prefix to pass the --embed-file option to the linker
     target_link_options("checkers" PRIVATE
-	"--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/build/blender/cylinder.png\""
-	"--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/build/blender/blue.ortho.png\""
+	"SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/blender/blue.ortho.png@/blender/blue.ortho.png\""
+	"SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/blender/cylinder.png@/blender/cylinder.png\""
 	)
- 
-    # Ensure the target is relinked if the image file changes
-    set_property(TARGET "checkers" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/build/blender/blue.ortho.png")
-    set_property(TARGET "checkers" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/build/blender/cylinder.png")
+
+    set_property(TARGET "checkers" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/blender/blue.ortho.png")
 endif()
