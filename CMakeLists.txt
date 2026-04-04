@@ -8,15 +8,12 @@ https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip
 unzip to ninja\ninja.exe
 add ninja\ to PATH
 
-..\emsdk\emsdk.bat install latest
-..\emsdk\emsdk.bat activate latest
-
-emcmake cmake -S ../SDL -B build_libSDL3 -DSDL_TESTS:BOOL=OFF -DSDL_TEST_LIBRARY:BOOL=OFF -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=install_libSDL3
+cmake -S ../SDL -B build_libSDL3 -DSDL_TESTS:BOOL=OFF -DSDL_TEST_LIBRARY:BOOL=OFF -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=install_libSDL3 -DCMAKE_TOOLCHAIN_FILE=../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -G Ninja
 
 cmake --build build_libSDL3
 cmake --install build_libSDL3
 
-emcmake cmake -S . -B build
+cmake -S . -B build -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_TOOLCHAIN_FILE=../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -G Ninja
 cmake --build build
 
 python -m http.server 8000
