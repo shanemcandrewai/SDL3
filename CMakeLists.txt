@@ -5,14 +5,15 @@ project(checkers)
 # This makes sure that the dynamic library goes into the build directory automatically.
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 # set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
+
 # set(SDL_STATIC ON)
 # set(SDL_SHARED OFF)
-set(SDL_SHARED ON)
-set(SDL_TEST_LIBRARY OFF)
-set(SDL_TESTS OFF)
-set(SDL_DISABLE_INSTALL ON)
-set(SDL_DISABLE_INSTALL_DOCS ON)
-set(SDL_INSTALL_TESTS OFF)
+# set(SDL_SHARED ON)
+# set(SDL_TEST_LIBRARY OFF)
+# set(SDL_TESTS OFF)
+# set(SDL_DISABLE_INSTALL OFF)
+# set(SDL_DISABLE_INSTALL_DOCS ON)
+# set(SDL_INSTALL_TESTS OFF)
 
 # This assumes the SDL source is available in vendored/SDL
 add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
