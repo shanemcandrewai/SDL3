@@ -1,28 +1,24 @@
-#https://cmake.org/cmake/help/book/mastering-cmake
-# cls && cmake -S . -B build && cmake --build build && build\Debug\checkers.exe
-# cls && cmake -S . -B build && cmake --build build --config Release && build\Release\checkers.exe
-# build static SDL library
-# cls && cmake -S vendored\SDL -B buildSDL3 -DSDL_STATIC=ON -DSDL_TEST_LIBRARY=OFF && cmake --build buildSDL3
-# clang -o checkers.exe checkers.c -I SDL3-3.4.2\include -l SDL3-3.4.2\lib\x64\SDL3 -Wl,/subsystem:console
-# clang -o checkers.exe checkers.c -I SDL3-3.4.2\include -l buildSDL3\Debug\SDL3-static.lib -Wl,/subsystem:console #WIP
-
-cmake_minimum_required(VERSION 3.20)
-
+cmake_minimum_required(VERSION 3.16)
 project(checkers)
 
-# add_library(SDL3 SHARED IMPORTED)
-# add_library(SDL3 STATIC IMPORTED) #WIP
-# set_target_properties(SDL3 PROPERTIES
-# INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/install_libSDL3c/include"
-# IMPORTED_IMPLIB "${CMAKE_SOURCE_DIR}/install_libSDL3c/lib/SDL3.lib" # SHARED
-# IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/install_libSDL3c/lib/SDL3-static.lib" #STATIC WIP
-# )
+# set the output directory for built objects.
+# This makes sure that the dynamic library goes into the build directory automatically.
+# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
+# set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
+# set(SDL_STATIC ON)
+# set(SDL_SHARED OFF)
+set(SDL_SHARED ON)
+set(SDL_TEST_LIBRARY OFF)
+set(SDL_TESTS OFF)
+set(SDL_DISABLE_INSTALL ON)
+set(SDL_DISABLE_INSTALL_DOCS ON)
+set(SDL_INSTALL_TESTS OFF)
 
-add_executable(${PROJECT_NAME} checkers.cpp)
+# This assumes the SDL source is available in vendored/SDL
+add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 
-add_library(SDL-static)
+# Create your game executable target as usual
+add_executable(checkers WIN32 checkers.cpp)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL-static)
-
-target_link_directories(SDL-static PRIVATE install_libSDL3c/lib)
-target_include_directories(${PROJECT_NAME} PRIVATE install_libSDL3c/include)
+# Link to the actual SDL3 library.
+target_link_libraries(checkers PRIVATE SDL3::SDL3)

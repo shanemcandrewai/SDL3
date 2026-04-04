@@ -72,4 +72,8 @@ The easiest way to use SDL is to include it as a subproject in your project.
 	emcmake cmake -S vendored/SDL -B build -G "Unix Makefiles" -DSDL_TESTS:BOOL=OFF
 ### woodeneye-008.touch.c
     emcc woodeneye-008.touch.c -sUSE_SDL=3 && copy /y a.* ..\shanemcandrewai.github.io && cd ..\shanemcandrewai.github.io && git commit -am 'next' && git push && cd ..\SDL3
+### cmake
+#### create link vendored\SDL to ..\SDL repo
+##### cmd admin
+    mklink /D vendored\SDL ..\..\SDL
 
