@@ -12,13 +12,13 @@ https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.1/LLVM-22.1.
 https://github.com/libsdl-org/SDL/releases/download/release-3.4.2/SDL3-devel-3.4.2-VC.zip
 ## copy to SDL3.dll to executable's directory
     copy SDL3-3.4.2\lib\x64\SDL3.dll .
-## Execute x64 Native Tools Command Prompt for VS
-    %comspec% /k "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat"
-### compile
+### clang compile
     clang -o hello.exe hello.c -I SDL3-3.4.2\include -l SDL3-3.4.2\lib\x64\SDL3 -Wl,/subsystem:console
 #### lld-link: warning: found main and WinMain; defaulting to /subsystem:console
 add linker option ```-Wl,/subsystem:console```
-#### MSVC compiler
+## MSVC compiler
+### Execute x64 Native Tools Command Prompt for VS
+    %comspec% /k "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat"
     cl hello.cpp SDL3.lib -I SDL3-3.4.2\include /link /LIBPATH:SDL3-3.4.2\lib\x64 /SUBSYSTEM:CONSOLE
 ## ninja
 https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip
@@ -34,7 +34,14 @@ https://github.com/libsdl-org/SDL
 #### execute cmd.exe as admin
     C:\Users\shane\dev\SDL3>mklink /d vendored\SDL ..\..\SDL
 ## cmake
-### cmake-gui
+### cmake commands
+#### generate project files
+    cmake -B build -G "Ninja Multi-Config" -DCMAKE_CXX_COMPILER="D:\Program Files\LLVM\bin\clang++.exe" -DCMAKE_C_COMPILER="D:\Program Files\LLVM\bin\clang.exe"
+#### build
+    cmake --build build [--config Release]
+#### copy SDL.dll
+    copy build\vendored\SDL\Release\SDL3.dll .
+### cmake-gui (alternative, not required)
 #### Where is the source code
     C:/Users/shane/dev/SDL3
 #### Where to build the binaries
@@ -55,13 +62,6 @@ All red entries should be gone
 #### alternatively, from command line
 ##### after cmake-gui config
     cmake -B build
-### cmake command
-#### generate project files
-    cmake -B build -G "Ninja Multi-Config" -DCMAKE_CXX_COMPILER="D:\Program Files\LLVM\bin\clang++.exe" -DCMAKE_C_COMPILER="D:\Program Files\LLVM\bin\clang.exe"
-#### build
-    cmake --build build [--config Release]
-#### copy SDL.dll
-    copy build\vendored\SDL\Release\SDL3.dll .
 ## emscripten
 https://discourse.libsdl.org/t/how-to-compile-sdl3-hello-world-to-webassembly-with-emscripten/66858/6
 ### downloads
