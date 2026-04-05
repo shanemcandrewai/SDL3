@@ -34,7 +34,7 @@ https://github.com/libsdl-org/SDL
 #### execute cmd.exe as admin
     C:\Users\shane\dev\SDL3>mklink /d vendored\SDL ..\..\SDL
 ## cmake
-### execute cmake-gui
+### cmake-gui
 #### Where is the source code
     C:/Users/shane/dev/SDL3
 #### Where to build the binaries
@@ -53,10 +53,14 @@ https://github.com/libsdl-org/SDL
 All red entries should be gone
 ### generate
 #### alternatively, from command line
-   cmake -B build
-### build
-   cmake --build build [--config Release]
-### copy SDL.dll
+##### after cmake-gui config
+    cmake -B build
+### cmake command
+#### generate project files
+    cmake -B build -G "Ninja Multi-Config" -DCMAKE_CXX_COMPILER="D:\Program Files\LLVM\bin\clang++.exe" -DCMAKE_C_COMPILER="D:\Program Files\LLVM\bin\clang.exe"
+#### build
+    cmake --build build [--config Release]
+#### copy SDL.dll
     copy build\vendored\SDL\Release\SDL3.dll .
 ## emscripten
 https://discourse.libsdl.org/t/how-to-compile-sdl3-hello-world-to-webassembly-with-emscripten/66858/6

@@ -5,7 +5,7 @@ https://github.com/emscripten-core/emsdk/releases/tag/5.0.4
 https://github.com/libsdl-org/SDL/releases/tag/release-3.4.2
 https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip
 
-unzip to ninja\ninja.exe
+unzip to ninja-win\ninja.exe
 add ninja\ to PATH
 
 cmake -S ../SDL -B build_libSDL3 -DSDL_TESTS:BOOL=OFF -DSDL_TEST_LIBRARY:BOOL=OFF -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=install_libSDL3 -DCMAKE_TOOLCHAIN_FILE=../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -G Ninja
@@ -13,7 +13,7 @@ cmake -S ../SDL -B build_libSDL3 -DSDL_TESTS:BOOL=OFF -DSDL_TEST_LIBRARY:BOOL=OF
 cmake --build build_libSDL3
 cmake --install build_libSDL3
 
-cmake -S . -B build -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_TOOLCHAIN_FILE=../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -G Ninja
+cmake -B build -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_TOOLCHAIN_FILE=../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -G Ninja
 cmake --build build
 
 python -m http.server 8000

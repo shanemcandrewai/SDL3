@@ -5,6 +5,7 @@
 # cls && cmake -S vendored\SDL -B buildSDL3 -DSDL_STATIC=ON -DSDL_TEST_LIBRARY=OFF -DCMAKE_INSTALL_PREFIX=installSDL3 -G Ninja
 # cmake --build buildSDL3
 # cmake --install buildSDL3
+# cmake -B build -G "Ninja Multi-Config" -DCMAKE_CXX_COMPILER="D:\Program Files\LLVM\bin\clang++.exe" -DCMAKE_C_COMPILER="D:\Program Files\LLVM\bin\clang.exe"
 # cl -o checkers.exe checkers.cpp -I installSDL3\include -L installSDL3\lib -lSDL3-static -Wl,/subsystem:console #WIP
 # clang -o checkers.exe checkers.c -I SDL3-3.4.2\include -l SDL3-3.4.2\lib\x64\SDL3 -Wl,/subsystem:console
 # clang -o checkers.exe checkers.c -I SDL3-3.4.2\include -l buildSDL3\Debug\SDL3-static.lib -Wl,/subsystem:console #WIP
