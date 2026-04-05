@@ -1,20 +1,36 @@
-# build with shared prebuilt SDL3 library (DLL)
-# cls && cmake -S . -B build && cmake --build build && build\Debug\hello.exe
-# cls && cmake -S . -B build && cmake --build build --config Release && build\Release\hello.exe
-# clang -o hello.exe hello.c -I SDL3-3.4.2\include -l SDL3-3.4.2\lib\x64\SDL3 -Wl,/subsystem:console
-# cmake -B build -G "Ninja Multi-Config" -DCMAKE_CXX_COMPILER="D:\Program Files\LLVM\bin\clang++.exe" -DCMAKE_C_COMPILER="D:\Program Files\LLVM\bin\clang.exe"
+cmake_minimum_required(VERSION 3.21)
+project(checkers)
 
-cmake_minimum_required(VERSION 3.20)
+# This assumes the SDL source is available in vendored/SDL
+add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 
-project(hello)
+# Create your game executable target as usual
+add_executable(${PROJECT_NAME} WIN32 checkers.cpp)
 
-add_library(SDL3 SHARED IMPORTED)
-# add_library(SDL3 STATIC IMPORTED) #WIP
-set_target_properties(SDL3 PROPERTIES
-INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/SDL3-3.4.2/include"
-IMPORTED_IMPLIB "${CMAKE_SOURCE_DIR}/SDL3-3.4.2/lib/x64/SDL3.lib" # SHARED
-# IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/buildSDL3/Debug/SDL3-static.lib" #STATIC WIP
+# Link to the actual SDL3 library.
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
+
+# Set the name of the future application (in Windows this would be app.exe, while for web it will be app.js / app.wasm)
+add_executable(${PROJECT_NAME} checkers.cpp)
+
+# emscripten
+
+set(DCMAKE_TOOLCHAIN_FILE ../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake)
+
+# Tell CMake where to find the SDL3 library configuration files
+set(SDL3_DIR install_libSDL3/lib/cmake/SDL3)
+
+# Load SDL3 package settings (compilation parameters and paths to headers)
+find_package(SDL3 REQUIRED)
+
+# Link SDL3 to our application (configures linking and include paths)
+target_link_libraries(checker_wasm PRIVATE SDL3::SDL3)
+
+# Embed the image into the app.wasm file
+
+target_link_options("checker_wasm" PRIVATE
+"SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/blender/blue.ortho.png@/blender/blue.ortho.png\""
+"SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/blender/cylinder.png@/blender/cylinder.png\""
 )
 
-add_executable(${PROJECT_NAME} hello.cpp)
-target_link_libraries(${PROJECT_NAME} SDL3)
+set_property(TARGET "checker_wasm" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/blender/blue.ortho.png")
