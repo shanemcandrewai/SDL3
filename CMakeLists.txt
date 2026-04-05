@@ -1,38 +1,52 @@
+#[[
+downloads -
+
+https://github.com/emscripten-core/emsdk/releases/tag/5.0.4
+https://github.com/libsdl-org/SDL/releases/tag/release-3.4.2
+https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip
+
+unzip to ninja-win\ninja.exe
+add ninja-win to PATH
+
+# Build SDL3 with emscritpten
+
+cmake -S ../SDL -B build_libSDL3 -DSDL_TESTS:BOOL=OFF -DSDL_TEST_LIBRARY:BOOL=OFF -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=install_libSDL3 -DCMAKE_TOOLCHAIN_FILE=../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -G Ninja
+
+cmake --build build_libSDL3
+cmake --install build_libSDL3
+
+# build C++ project with emscripten SDL3
+
+cmake -B build -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_TOOLCHAIN_FILE=../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -G Ninja
+cmake --build build
+
+python -m http.server 8000
+http://localhost:8000
+
+]]
 cmake_minimum_required(VERSION 3.21)
+
 project(checkers)
 
-# cmake -B build -G "Ninja Multi-Config" -DCMAKE_CXX_COMPILER="D:\Program Files\LLVM\bin\clang++.exe" -DCMAKE_C_COMPILER="D:\Program Files\LLVM\bin\clang.exe"
-
-# set(SDL_TESTS OFF)
-# set(SDL_TEST_LIBRARY OFF)
-# set(SDL_INSTALL_TESTS OFF)
-
-# This assumes the SDL source is available in vendored/SDL
-add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
-
-# Create your game executable target as usual
-add_executable(${PROJECT_NAME} WIN32 checkers.cpp)
-
-# Link to the actual SDL3 library.
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
-
-# emscripten
-
 # Set the name of the future application (in Windows this would be app.exe, while for web it will be app.js / app.wasm)
-add_executable(checkers_wasm checkers.cpp)
+add_executable(${PROJECT_NAME} checkers.cpp)
 
 # Tell CMake where to find the SDL3 library configuration files
 set(SDL3_DIR install_libSDL3/lib/cmake/SDL3)
-set(CMAKE_BUILD_TYPE MinSizeRel)
-set(DCMAKE_TOOLCHAIN_FILE "../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake")
 
 # Load SDL3 package settings (compilation parameters and paths to headers)
 find_package(SDL3 REQUIRED)
 
-# Embed the image into the app.wasm file
-target_link_options("checkers" PRIVATE
-"SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/blender/blue.ortho.png@/blender/blue.ortho.png\""
-"SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/blender/cylinder.png@/blender/cylinder.png\""
-)
-set_property(TARGET "checkers" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/blender/blue.ortho.png")
+# Link SDL3 to our application (configures linking and include paths)
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 
+# Embed the image into the app.wasm file
+
+if (EMSCRIPTEN)
+    target_link_options("checkers" PRIVATE
+	"SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/blender/blue.ortho.png@/blender/blue.ortho.png\""
+	"SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/blender/cylinder.png@/blender/cylinder.png\""
+	)
+
+    set_property(TARGET "checkers" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/blender/blue.ortho.png")
+endif()
