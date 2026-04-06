@@ -17,7 +17,8 @@ cmake --install build_libSDL3
 
 # build C++ project with emscripten SDL3
 
-cmake -B build -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_TOOLCHAIN_FILE=../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -G Ninja
+#cmake -B build -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_TOOLCHAIN_FILE=../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -G Ninja
+cmake -B build -G Ninja
 cmake --build build
 
 python -m http.server 8000
@@ -26,10 +27,13 @@ http://localhost:8000
 ]]
 cmake_minimum_required(VERSION 3.21)
 
-project(checkers)
+set(CMAKE_TOOLCHAIN_FILE "../../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake")
+project(checkers_wasm)
+
+set(CMAKE_BUILD_TYPE MinSizeRel)
 
 # Set the name of the future application (in Windows this would be app.exe, while for web it will be app.js / app.wasm)
-add_executable(${PROJECT_NAME} checkers.cpp)
+add_executable(${PROJECT_NAME} ../checkers.cpp)
 
 # Tell CMake where to find the SDL3 library configuration files
 set(SDL3_DIR install_libSDL3/lib/cmake/SDL3)
@@ -42,11 +46,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 
 # Embed the image into the app.wasm file
 
-if (EMSCRIPTEN)
-    target_link_options("checkers" PRIVATE
-	"SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/blender/blue.ortho.png@/blender/blue.ortho.png\""
-	"SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/blender/cylinder.png@/blender/cylinder.png\""
-	)
+target_link_options("checkers_wasm" PRIVATE
+"SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/../blender/blue.ortho.png@/blender/blue.ortho.png\""
+"SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/../blender/cylinder.png@/blender/cylinder.png\""
+)
 
-    set_property(TARGET "checkers" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/blender/blue.ortho.png")
-endif()
+set_property(TARGET "checkers_wasm" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/../blender/blue.ortho.png")
