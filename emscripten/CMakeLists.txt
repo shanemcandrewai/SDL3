@@ -24,12 +24,3 @@ find_package(SDL3 REQUIRED)
 
 # Link SDL3 to our application (configures linking and include paths)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
-
-# Embed the image into the app.wasm file
-
-target_link_options("hello_wasm" PRIVATE
-"SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/../blender/blue.ortho.png@/blender/blue.ortho.png\""
-"SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/../blender/cylinder.png@/blender/cylinder.png\""
-)
-
-set_property(TARGET "hello_wasm" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/../blender/blue.ortho.png")
