@@ -2,34 +2,32 @@
 
 # build with shared prebuilt SDL3 library (DLL)
 
-#cmake -B build -G "Ninja Multi-Config" -DCMAKE_CXX_COMPILER="C:\Program Files\LLVM\bin\clang++.exe" -DCMAKE_C_COMPILER="C:\Program Files\LLVM\bin\clang.exe" -DSDL_TEST_LIBRARY=OFF -DSDL_SHARED=ON
+cmake -B build -G "Ninja Multi-Config" 
 
-cmake -B build -G "Ninja Multi-Config" -DSDL_TEST_LIBRARY=OFF -DSDL_SHARED=ON
+cmake --build build
+build\Debug\hello.exe
 
-# build with shared prebuilt SDL3 static library
-
-cmake -B build -G "Ninja Multi-Config" -DCMAKE_CXX_COMPILER="C:\Program Files\LLVM\bin\clang++.exe" -DCMAKE_C_COMPILER="C:\Program Files\LLVM\bin\clang.exe" -DSDL_TEST_LIBRARY=OFF -DSDL_STATIC=ON -DSDL_SHARED=OFF
-
-cmake --build build --config Debug && build\Debug\checkers.exe
-cmake --build build --config Release && build\Release\checkers.exe
+cmake --build build --config Release
+build\Release\hello.exe
 
 ]]
 
-cmake_minimum_required(VERSION 3.21)
-project(checkers)
+cmake_minimum_required(VERSION 3.20)
+
+project(hello)
 
 set(CMAKE_C_COMPILER "C:/Program Files/LLVM/bin/clang.exe")
 set(CMAKE_CXX_COMPILER "C:/Program Files/LLVM/bin/clang++.exe")
 
 
-# This assumes the SDL source is available in vendored/SDL
-add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
+add_library(SDL3 SHARED IMPORTED)
+set_target_properties(SDL3 PROPERTIES
+INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/SDL3-3.4.2/include"
+IMPORTED_IMPLIB "${CMAKE_SOURCE_DIR}/SDL3-3.4.2/lib/x64/SDL3.lib" # SHARED
+)
 
-# Create your game executable target as usual
-add_executable(${PROJECT_NAME} WIN32 checkers.cpp)
-
-# Link to the actual SDL3 library.
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
+add_executable(${PROJECT_NAME} hello.cpp)
+target_link_libraries(${PROJECT_NAME} SDL3)
 
 #set(ENV{CMAKE_GENERATOR} Ninja)
 #add_subdirectory(emscripten)

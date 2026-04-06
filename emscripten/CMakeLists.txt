@@ -1,23 +1,4 @@
 #[[
-downloads -
-
-https://github.com/emscripten-core/emsdk/releases/tag/5.0.4
-https://github.com/libsdl-org/SDL/releases/tag/release-3.4.2
-https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip
-
-unzip to ninja-win\ninja.exe
-add ninja-win to PATH
-
-# Build SDL3 with emscritpten
-
-cmake -S ../SDL -B build_libSDL3 -DSDL_TESTS:BOOL=OFF -DSDL_TEST_LIBRARY:BOOL=OFF -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=install_libSDL3 -DCMAKE_TOOLCHAIN_FILE=../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -G Ninja
-
-cmake --build build_libSDL3
-cmake --install build_libSDL3
-
-# build C++ project with emscripten SDL3
-
-#cmake -B build -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_TOOLCHAIN_FILE=../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -G Ninja
 cmake -B build -G Ninja
 cmake --build build
 
@@ -28,12 +9,12 @@ http://localhost:8000
 cmake_minimum_required(VERSION 3.21)
 
 set(CMAKE_TOOLCHAIN_FILE "../../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake")
-project(checkers_wasm)
+project(hello_wasm)
 
 set(CMAKE_BUILD_TYPE MinSizeRel)
 
 # Set the name of the future application (in Windows this would be app.exe, while for web it will be app.js / app.wasm)
-add_executable(${PROJECT_NAME} ../checkers.cpp)
+add_executable(${PROJECT_NAME} ../hello.cpp)
 
 # Tell CMake where to find the SDL3 library configuration files
 set(SDL3_DIR install_libSDL3/lib/cmake/SDL3)
@@ -46,9 +27,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 
 # Embed the image into the app.wasm file
 
-target_link_options("checkers_wasm" PRIVATE
+target_link_options("hello_wasm" PRIVATE
 "SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/../blender/blue.ortho.png@/blender/blue.ortho.png\""
 "SHELL:--embed-file \"${CMAKE_CURRENT_SOURCE_DIR}/../blender/cylinder.png@/blender/cylinder.png\""
 )
 
-set_property(TARGET "checkers_wasm" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/../blender/blue.ortho.png")
+set_property(TARGET "hello_wasm" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/../blender/blue.ortho.png")
