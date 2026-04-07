@@ -43,8 +43,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
     return SDL_APP_FAILURE;
   }
 
-  sBlue = SDL_LoadPNG("blender/blue.ortho.png");
-  sCylinder = SDL_LoadPNG("blender/cylinder.png");
+  sBlue = SDL_LoadPNG("assets/blue.ortho.png");
+  sCylinder = SDL_LoadPNG("assets/cylinder.png");
   if (sBlue == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT
             SDL_GetError());
