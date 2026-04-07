@@ -1,8 +1,10 @@
 #[[
+
+# build
 cmake -B build -G Ninja
 cmake --build build
 
-cd emscripten
+# test
 python -m http.server 8000
 http://localhost:8000/
 
@@ -10,8 +12,8 @@ http://localhost:8000/
 cmake_minimum_required(VERSION 3.25)
 
 
-set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_LIST_DIR}/../../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake")
-project(hello_wasm)
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_LIST_DIR}/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake")
+project(hello_emscripten)
 
 #set(CMAKE_BUILD_TYPE MinSizeRel)
 
@@ -19,10 +21,8 @@ project(hello_wasm)
 add_executable(${PROJECT_NAME} "${CMAKE_CURRENT_LIST_DIR}/../hello.cpp")
 
 # Tell CMake where to find the SDL3 library configuration files
-#set(SDL3_DIR "${CMAKE_CURRENT_LIST_DIR}/install_libSDL3/lib/cmake/SDL3")
-set(SDL3_DIR "C:/Users/shane/dev/SDL3/emscripten/install_libSDL3/lib/cmake/SDL3")
+set(SDL3_DIR "${CMAKE_CURRENT_LIST_DIR}/install_libSDL3/lib/cmake/SDL3")
 
-message("fddf")
 
 # Load SDL3 package settings (compilation parameters and paths to headers)
 find_package(SDL3 REQUIRED)

@@ -12,7 +12,7 @@ build\Release\hello.exe
 
 ]]
 
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.25)
 
 project(hello)
 
@@ -30,4 +30,4 @@ add_executable(${PROJECT_NAME} hello.cpp)
 target_link_libraries(${PROJECT_NAME} SDL3)
 
 #set(ENV{CMAKE_GENERATOR} Ninja)
-#add_subdirectory(emscripten)
+add_subdirectory(emscripten)
