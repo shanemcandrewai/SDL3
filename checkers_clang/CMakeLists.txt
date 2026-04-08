@@ -25,5 +25,14 @@ target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 
-install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_CURRENT_LIST_DIR}/install)
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../blender/assets DESTINATION ${CMAKE_CURRENT_LIST_DIR}/install)
+
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set_property(CACHE CMAKE_INSTALL_PREFIX PROPERTY VALUE "${CMAKE_CURRENT_LIST_DIR}/install")
+endif()
+
+install(TARGETS ${PROJECT_NAME} DESTINATION .)
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../blender/assets DESTINATION .)
+if(${SDL_SHARED})
+  install(TARGETS SDL3-shared DESTINATION .)
+endif()
+
