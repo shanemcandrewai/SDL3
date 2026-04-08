@@ -2,7 +2,8 @@
 
 # build with shared prebuilt SDL3 library (DLL)
 
-cmake -B build -DCMAKE_CXX_COMPILER="C:/Program Files/LLVM/bin/clang++.exe" -G "Ninja Multi-Config" 
+cmake -B build -DCMAKE_CXX_COMPILER="C:/Program Files/LLVM/bin/clang++.exe" -DSDL_STATIC=OFF -DSDL_SHARED=ON -G "Ninja Multi-Config" 
+cmake -B build -DCMAKE_CXX_COMPILER="C:/Program Files/LLVM/bin/clang++.exe" -DSDL_STATIC=ON -DSDL_SHARED=OFF -G "Ninja Multi-Config" 
 
 cmake --build build
 .\build\Debug\checkers_clang.exe
@@ -12,18 +13,13 @@ cmake --build build --config Release
 
 ]]
 
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.5)
 
 project(checkers_clang)
 
+add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
+
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/../blender/assets DESTINATION ${CMAKE_CURRENT_LIST_DIR})
 
-add_library(SDL3 SHARED IMPORTED)
-set_target_properties(SDL3 PROPERTIES
-INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/SDL3-3.4.2/include"
-IMPORTED_IMPLIB "${CMAKE_CURRENT_LIST_DIR}/SDL3-3.4.2/lib/x64/SDL3.lib" # SHARED
-)
-
-add_executable(${PROJECT_NAME} ../checkers.cpp)
-target_link_libraries(${PROJECT_NAME} SDL3)
-
+add_executable(${PROJECT_NAME} WIN32 ../checkers.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
