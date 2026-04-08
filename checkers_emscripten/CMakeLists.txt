@@ -6,7 +6,7 @@ python -m http.server 8000
 http://localhost:8000/
 
 ]]
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.23)
 
 
 project(checkers_emscripten)

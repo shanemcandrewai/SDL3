@@ -127,9 +127,11 @@ https://github.com/emscripten-core/emsdk
     http://localhost:8000
 ## clang-repl
 ### windows set up for precompiled SDL3 libaries
-    set CPLUS_INCLUDE_PATH=SDL3-3.4.2/include
-	clang-repl
-	%lib SDL3-3.4.2/lib/x64/SDL3.dll
+```
+set CPLUS_INCLUDE_PATH=SDL3-3.4.2/include
+clang-repl
+%lib SDL3-3.4.2/lib/x64/SDL3.dll
+```
 ### environmental library search path -L  passed on to the linker
     LIBRARY_PATH
 ### environmental include search path -I

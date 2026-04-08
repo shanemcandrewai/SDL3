@@ -9,3 +9,4 @@ $PSVersionTable
 #>
 . $env:HOMEDRIVE$env:HOMEPATH/dev/.venv/3.13/Scripts/Activate.ps1
 cd $env:HOMEDRIVE$env:HOMEPATH/dev/sdl3
+$Env:POWERSHELL_TELEMETRY_OPTOUT = 1

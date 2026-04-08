@@ -22,3 +22,6 @@ b checkers.cpp:40
 br l
 br wr -f bp.txt
 br re -f bp.txt
+
+
+cls && cmake --build ../build --config Release && cmake --install ../build --config Release && .\checkers_clang.exe

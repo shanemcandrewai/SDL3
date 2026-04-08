@@ -20,9 +20,9 @@ const int static HEIGHT = 720;
 struct State { // NOLINT altera-struct-pack-align
   SDL_Renderer *prenderer;
   SDL_Surface *psBlue;
-  SDL_Surface *psCylinder;
+  SDL_Surface *psCylinderPurp;
   SDL_Texture *ptBlue;
-  SDL_Texture *ptCylinder;
+  SDL_Texture *ptCylinderPurp;
 };
 
 /* This function runs once at startup. */
@@ -31,9 +31,9 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   SDL_Window *window = nullptr;
   SDL_Renderer *renderer = nullptr;
   SDL_Surface *sBlue = nullptr;
-  SDL_Surface *sCylinder = nullptr;
+  SDL_Surface *sCylinderPurp = nullptr;
   SDL_Texture *textBlue = nullptr;
-  SDL_Texture *textCylinder = nullptr;
+  SDL_Texture *textCylinderPurp = nullptr;
 
   /* Create the window */
   if (!SDL_CreateWindowAndRenderer("Checkers test", WIDTH, HEIGHT,
@@ -44,15 +44,27 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   }
 
   sBlue = SDL_LoadPNG("assets/blue.ortho.png");
-  sCylinder = SDL_LoadPNG("assets/cylinder.png");
   if (sBlue == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
+  sCylinderPurp = SDL_LoadPNG("assets/CylinderPurp.png");
+  if (sCylinderPurp == nullptr) {
+    SDL_Log("SDL_LoadPNG failed: %s", // NOLINT
+            SDL_GetError());
+    return SDL_APP_FAILURE;
+  }
+
+  if (!SDL_SetWindowIcon(window, sCylinderPurp)) {
+    SDL_Log("SDL_SetWindowIcon failed2: %s", // NOLINT
+            SDL_GetError());
+  }
+
   textBlue = SDL_CreateTextureFromSurface(renderer, sBlue);
-  textCylinder = SDL_CreateTextureFromSurface(renderer, sCylinder);
-  *appstate = new State{renderer, sBlue, sCylinder, textBlue, textCylinder}; // NOLINT
+  textCylinderPurp = SDL_CreateTextureFromSurface(renderer, sCylinderPurp);
+  *appstate =
+      new State{renderer, sBlue, sCylinderPurp, textBlue, textCylinderPurp}; // NOLINT
   return SDL_APP_CONTINUE;
 }
 
@@ -70,7 +82,7 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   auto *renderer = state->prenderer;
   auto *sBlue = state->psBlue;
   auto *textBlue = state->ptBlue;
-  auto *textCylinder = state->ptCylinder;
+  auto *textCylinderPurp = state->ptCylinderPurp;
 
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
   SDL_RenderClear(renderer);
@@ -85,7 +97,7 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
       SDL_RenderTexture(renderer, textBlue, nullptr, &dst_rect);
       dst_rect.w = static_cast<float>(sBlue->w) / 2;
       dst_rect.h = static_cast<float>(sBlue->h) / 2;
-      SDL_RenderTexture(renderer, textCylinder, nullptr, &dst_rect);
+      SDL_RenderTexture(renderer, textCylinderPurp, nullptr, &dst_rect);
     }
   }
 
