@@ -12,8 +12,7 @@ cmake_minimum_required(VERSION 3.25)
 project(checkers_emscripten)
 
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/../blender/assets DESTINATION ${CMAKE_CURRENT_LIST_DIR})
-
-#set(CMAKE_BUILD_TYPE MinSizeRel)
+file(GLOB_RECURSE data assets/*)
 
 # Set the name of the future application (in Windows this would be app.exe, while for web it will be app.js / app.wasm)
 add_executable(${PROJECT_NAME} "${CMAKE_CURRENT_LIST_DIR}/../checkers.cpp")
