@@ -25,3 +25,6 @@ br re -f bp.txt
 
 
 cls && cmake --build ../build --config Release && cmake --install ../build --config Release && .\checkers_clang.exe
+
+SDL3>
+clang++ -Wall -Wextra -o checkers.exe checkers.cpp -I"checkers_clang\SDL3-3.4.2\include" -l"checkers_clang\SDL3-3.4.2\lib\x64\SDL3"

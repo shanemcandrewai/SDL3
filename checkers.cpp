@@ -43,13 +43,18 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
     return SDL_APP_FAILURE;
   }
 
+  // Enable VSync
+  if (SDL_SetRenderVSync(renderer, 1) == false) {
+    SDL_Log("Could not enable VSync! SDL error: %s\n", SDL_GetError());
+  }
+
   sBlue = SDL_LoadPNG("assets/blue.ortho.png");
   if (sBlue == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
-  sCylinderPurp = SDL_LoadPNG("assets/CylinderPurp.png");
+  sCylinderPurp = SDL_LoadPNG("assets/CylinderGold.png");
   if (sCylinderPurp == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT
             SDL_GetError());
@@ -63,8 +68,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
 
   textBlue = SDL_CreateTextureFromSurface(renderer, sBlue);
   textCylinderPurp = SDL_CreateTextureFromSurface(renderer, sCylinderPurp);
-  *appstate =
-      new State{renderer, sBlue, sCylinderPurp, textBlue, textCylinderPurp}; // NOLINT
+  *appstate = new State{renderer, sBlue, sCylinderPurp, textBlue,
+                        textCylinderPurp}; // NOLINT
   return SDL_APP_CONTINUE;
 }
 
