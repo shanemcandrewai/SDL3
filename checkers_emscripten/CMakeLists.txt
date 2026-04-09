@@ -32,7 +32,7 @@ find_package(SDL3 REQUIRED)
 # Link SDL3 to our application (configures linking and include paths)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 
-target_link_options("checkers_emscripten" PRIVATE 
+target_link_options(${PROJECT_NAME} PRIVATE
 "SHELL:--embed-file \"${CMAKE_CURRENT_LIST_DIR}/assets/blue.ortho.png@/assets/blue.ortho.png\""
 "SHELL:--embed-file \"${CMAKE_CURRENT_LIST_DIR}/assets/CylinderPurp.png@/assets/CylinderPurp.png\""
 )
