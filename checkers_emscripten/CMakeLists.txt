@@ -17,9 +17,6 @@ cmake_minimum_required(VERSION 3.23)
 
 project(checkers_emscripten)
 
-file(COPY ${CMAKE_CURRENT_LIST_DIR}/../blender/assets DESTINATION ${CMAKE_CURRENT_LIST_DIR})
-#file(GLOB_RECURSE data assets/*)
-
 # Set the name of the future application (in Windows this would be app.exe, while for web it will be app.js / app.wasm)
 add_executable(${PROJECT_NAME} "${CMAKE_CURRENT_LIST_DIR}/../checkers.cpp")
 
@@ -32,9 +29,5 @@ find_package(SDL3 REQUIRED)
 # Link SDL3 to our application (configures linking and include paths)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 
-target_link_options(${PROJECT_NAME} PRIVATE
-"SHELL:--embed-file \"${CMAKE_CURRENT_LIST_DIR}/assets/blue.ortho.png@/assets/blue.ortho.png\""
-"SHELL:--embed-file \"${CMAKE_CURRENT_LIST_DIR}/assets/CylinderPurp.png@/assets/CylinderPurp.png\""
-)
- 
-set_property(TARGET "checkers_emscripten" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/assets/blue.ortho.png")
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/../blender/assets DESTINATION ${CMAKE_BINARY_DIR})
+target_link_options(${PROJECT_NAME} PRIVATE "SHELL:--embed-file assets")
