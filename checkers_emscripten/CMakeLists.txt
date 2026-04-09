@@ -1,4 +1,10 @@
 #[[
+
+cmake -S ../../SDL -B build_libSDL3 -DSDL_TESTS=OFF -DSDL_TEST_LIBRARY=OFF -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=install_libSDL3 -DCMAKE_TOOLCHAIN_FILE="../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja
+
+cmake --build build_libSDL3
+cmake --install build_libSDL3
+
 cmake -B build -DCMAKE_TOOLCHAIN_FILE="../../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja
 cmake --build build
 
@@ -30,7 +36,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 
 target_link_options("checkers_emscripten" PRIVATE 
 "SHELL:--embed-file \"${CMAKE_CURRENT_LIST_DIR}/assets/blue.ortho.png@/assets/blue.ortho.png\""
-"SHELL:--embed-file \"${CMAKE_CURRENT_LIST_DIR}/assets/cylinder.png@/assets/cylinder.png\""
+"SHELL:--embed-file \"${CMAKE_CURRENT_LIST_DIR}/assets/CylinderPurp.png@/assets/CylinderPurp.png\""
 )
  
 set_property(TARGET "checkers_emscripten" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/assets/blue.ortho.png")

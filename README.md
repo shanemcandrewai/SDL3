@@ -74,11 +74,18 @@ https://github.com/emscripten-core/emsdk
     ./emsdk install latest
 ### build SDL3 libary
 #### generate project buildsystem
-    cmake -S ../SDL -B build_libSDL3 -DSDL_TESTS:BOOL=OFF -DSDL_TEST_LIBRARY:BOOL=OFF -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=install_libSDL3 -DCMAKE_TOOLCHAIN_FILE=../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -G Ninja
+##### replace <user>
+```
+cmake -S ../../SDL -B build_libSDL3 -DSDL_TESTS=OFF -DSDL_TEST_LIBRARY=OFF -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=install_libSDL3 -DCMAKE_TOOLCHAIN_FILE="../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja
+```
 #### build project
-    cmake --build build_libSDL3
+```
+cmake --build build_libSDL3
+```
 #### install project (need cmake files in install_libSDL3\lib\cmake\SDL3 for WASM generation)
-    cmake --install build_libSDL3
+```
+cmake --install build_libSDL3
+```
 ### generate WASM and js files from cpp
 #### sample emscripten project CMakeLists.txt
 	cmake_minimum_required(VERSION 3.21)
