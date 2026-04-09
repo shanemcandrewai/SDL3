@@ -100,9 +100,13 @@ cmake --install build_libSDL3
 	)
     set_property(TARGET "checkers" APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/blender/blue.ortho.png")
 #### generate project buildsystem
-    cmake -B build -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_TOOLCHAIN_FILE=../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -G Ninja
+```
+cmake -B build -DCMAKE_TOOLCHAIN_FILE="../../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja [-DCMAKE_BUILD_TYPE=MinSizeRel]
+```
 #### build project
-    cmake --build build
+```
+cmake --build build
+```
 #### alternative without building SDL3
 - https://emscripten.org/docs/tools_reference/settings_reference.html#use-sdl
 - https://stackoverflow.com/questions/79914903/how-to-compile-sdl3-to-webassembly-with-emscripten
