@@ -7,6 +7,7 @@ cmake --install build_libSDL3
 
 cmake -B build -DCMAKE_TOOLCHAIN_FILE="../../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja [-DCMAKE_BUILD_TYPE=MinSizeRel]
 cmake --build build
+cmake --install build
 
 python -m http.server 8000
 http://localhost:8000/
@@ -31,3 +32,12 @@ target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/../blender/assets DESTINATION ${CMAKE_BINARY_DIR})
 target_link_options(${PROJECT_NAME} PRIVATE "SHELL:--embed-file assets")
+
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set_property(CACHE CMAKE_INSTALL_PREFIX PROPERTY VALUE "${CMAKE_CURRENT_LIST_DIR}../../../shanemcandrewai.github.io")
+endif()
+
+install(TARGETS ${PROJECT_NAME} DESTINATION .)
+install(FILES ${CMAKE_CURRENT_LIST_DIR}/index.html DESTINATION .)
+install(FILES "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.wasm" DESTINATION .)
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../blender/assets DESTINATION .)
