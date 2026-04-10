@@ -18,58 +18,53 @@ const int static WIDTH = 1280;
 const int static HEIGHT = 720;
 
 struct State { // NOLINT altera-struct-pack-align
-  SDL_Renderer *prenderer;
-  SDL_Surface *psBlue;
-  SDL_Surface *psCylinderPurp;
-  SDL_Texture *ptBlue;
-  SDL_Texture *ptCylinderPurp;
+  SDL_Renderer *renderer;
+  SDL_Surface *blueortho;
+  SDL_Surface *cylinderpurp;
+  SDL_Texture *tblueortho;
+  SDL_Texture *tcylinderpurp;
 };
 
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
 
   SDL_Window *window = nullptr;
-  SDL_Renderer *renderer = nullptr;
-  SDL_Surface *sBlue = nullptr;
-  SDL_Surface *sCylinderPurp = nullptr;
-  SDL_Texture *textBlue = nullptr;
-  SDL_Texture *textCylinderPurp = nullptr;
+  State * st = new State;
 
-  /* Create the window */
   if (!SDL_CreateWindowAndRenderer("Checkers test", WIDTH, HEIGHT,
-                                   SDL_WINDOW_RESIZABLE, &window, &renderer)) {
+                                   SDL_WINDOW_RESIZABLE, &window, &st->renderer)) {
     SDL_Log("Couldn't create window and renderer: %s", // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
 
   // Enable VSync
-  if (SDL_SetRenderVSync(renderer, 1) == false) {
+  if (SDL_SetRenderVSync(st->renderer, 1) == false) {
     SDL_Log("Could not enable VSync! SDL error: %s\n", SDL_GetError());
   }
 
-  sBlue = SDL_LoadPNG("assets/blue.ortho.png");
-  if (sBlue == nullptr) {
+  st->blueortho = SDL_LoadPNG("assets/blue.ortho.png");
+  if (st->blueortho == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
-  sCylinderPurp = SDL_LoadPNG("assets/CylinderGold.png");
-  if (sCylinderPurp == nullptr) {
+  st->cylinderpurp = SDL_LoadPNG("assets/CylinderGold.png");
+  if (st->cylinderpurp == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
 
-  if (!SDL_SetWindowIcon(window, sCylinderPurp)) {
+  if (!SDL_SetWindowIcon(window, st->cylinderpurp)) {
     SDL_Log("SDL_SetWindowIcon failed2: %s", // NOLINT
             SDL_GetError());
   }
 
-  textBlue = SDL_CreateTextureFromSurface(renderer, sBlue);
-  textCylinderPurp = SDL_CreateTextureFromSurface(renderer, sCylinderPurp);
-  *appstate = new State{renderer, sBlue, sCylinderPurp, textBlue,
-                        textCylinderPurp}; // NOLINT
+  st->tblueortho = SDL_CreateTextureFromSurface(st->renderer, st->blueortho);
+  st->tcylinderpurp = SDL_CreateTextureFromSurface(st->renderer, st->cylinderpurp);
+  *appstate = st;
+  
   return SDL_APP_CONTINUE;
 }
 
@@ -84,10 +79,10 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) { // NOLINT
 /* This function runs once per frame, and is the heart of the program. */
 SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   auto *state = static_cast<State *>(appstate);
-  auto *renderer = state->prenderer;
-  auto *sBlue = state->psBlue;
-  auto *textBlue = state->ptBlue;
-  auto *textCylinderPurp = state->ptCylinderPurp;
+  auto *renderer = state->renderer;
+  auto *sBlue = state->blueortho;
+  auto *textBlue = state->tblueortho;
+  auto *textCylinderPurp = state->tcylinderpurp;
 
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
   SDL_RenderClear(renderer);
