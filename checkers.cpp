@@ -45,19 +45,19 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
 
   state->blueortho = SDL_LoadPNG("assets/blue.ortho.png");
   if (state->blueortho == nullptr) {
-    SDL_Log("SDL_LoadPNG failed: %s", // NOLINT
+    SDL_Log("SDL_LoadPNG failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
   state->cylinderpurp = SDL_LoadPNG("assets/CylinderGold.png");
   if (state->cylinderpurp == nullptr) {
-    SDL_Log("SDL_LoadPNG failed: %s", // NOLINT
+    SDL_Log("SDL_LoadPNG failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
 
   if (!SDL_SetWindowIcon(window, state->cylinderpurp)) {
-    SDL_Log("SDL_SetWindowIcon failed2: %s", // NOLINT
+    SDL_Log("SDL_SetWindowIcon failed2: %s", // NOLINT hicpp-vararg
             SDL_GetError());
   }
 
