@@ -1,14 +1,5 @@
-cls && clang-tidy checkers.cpp -- -ISDL3-3.4.2\include -ISDL3_image-3.4.0\include -ISDL3_ttf-3.2.2\include
-
-cls && clang-tidy checkers.cpp -checks=* --header-filter=ddd -- -ISDL3-3.4.2\include -ISDL3_image-3.4.0\include -ISDL3_ttf-3.2.2\include
-
-cls && clang -Wall -Wextra -o checkers.exe checkers.cpp -ISDL3-3.4.2\include -lSDL3-3.4.2\lib\x64\SDL3 -Wl,/subsystem:console && checkers.exe
-
-cls && clang -Wall -Wextra -o checkers.exe checkers.cpp -ISDL3-3.4.2\include -ISDL3_image-3.4.0\include -ISDL3_ttf-3.2.2\include -lSDL3-3.4.2\lib\x64\SDL3 -lSDL3_image-3.4.0\lib\x64\SDL3_image -lSDL3_ttf-3.2.2\lib\x64\SDL3_ttf -Wl,/subsystem:console
-
 cls && emcc checkers.cpp -ISDL3-3.4.2\include -ISDL3_image-3.4.0\include -ISDL3_ttf-3.2.2\include -sUSE_SDL=3 -sUSE_SDL_IMAGE=3 -sUSE_SDL_TTF=3
 
-clang-format -i checkers.cpp
 
 7808 warnings generated Suppressed 7814 warnings (7796 in non-user code, 18 NOLINT).
 
@@ -24,7 +15,15 @@ br wr -f bp.txt
 br re -f bp.txt
 
 
-cls && cmake --build ../build --config Release && cmake --install ../build --config Release && .\checkers_clang.exe
 
 SDL3>
-clang++ -Wall -Wextra -o checkers.exe checkers.cpp -I"checkers_clang\SDL3-3.4.2\include" -l"checkers_clang\SDL3-3.4.2\lib\x64\SDL3"
+cls && clang-tidy checkers.cpp -- -I"checkers_clang\SDL3-3.4.2\include"
+cls && clang-tidy checkers.cpp -checks=* --header-filter=ddd -- -I"checkers_clang\SDL3-3.4.2\include"
+
+cls && clang++ -Wall -Wextra -o checkers.exe checkers.cpp -I"checkers_clang\SDL3-3.4.2\include" -l"checkers_clang\SDL3-3.4.2\lib\x64\SDL3" -"Wl,/subsystem:console"
+
+clang-format -i checkers.cpp
+
+SDL3>checkers_clang
+
+cmake --build build --config Release && cmake --install build --config Release && cd install && .\checkers_clang.exe && cd ..
