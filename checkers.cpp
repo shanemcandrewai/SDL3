@@ -12,8 +12,8 @@
 #include <SDL3/SDL_surface.h> //clang-tidy
 #include <SDL3/SDL_video.h>   //clang-tidy
 
-const int static WIDTH = 1280;
-const int static HEIGHT = 720;
+const int static WIDTH = 540;
+const int static HEIGHT = 540;
 
 struct State { // NOLINT altera-struct-pack-align
   SDL_Renderer *renderer;

@@ -14,9 +14,16 @@ br l
 br wr -f bp.txt
 br re -f bp.txt
 
+resolution
+
+pixel 8a 1080 x 2400 pixels, 20:9 ratio (~430 ppi density)
+Lenovo 1920 x 1200 pixels
+
 
 
 SDL3>
+emcc -Wall -Wextra -o checkers.html checkers.cpp -I"checkers_clang\SDL3-3.4.2\include" -sUSE_SDL=3
+
 cls && clang-tidy checkers.cpp -- -I"checkers_clang\SDL3-3.4.2\include"
 cls && clang-tidy checkers.cpp -checks=* --header-filter=ddd -- -I"checkers_clang\SDL3-3.4.2\include"
 
