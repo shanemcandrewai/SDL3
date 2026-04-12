@@ -1,11 +1,11 @@
 #[[
 
-cmake -S ../../SDL -B build_libSDL3 -DSDL_TESTS=OFF -DSDL_TEST_LIBRARY=OFF -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=install_libSDL3 -DCMAKE_TOOLCHAIN_FILE="../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja
+cmake -S ../../SDL -B build_libSDL3 -DSDL_TESTS=OFF -DSDL_TEST_LIBRARY=OFF -DCMAKE_INSTALL_PREFIX=install_libSDL3 -DCMAKE_TOOLCHAIN_FILE="../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja -DCMAKE_BUILD_TYPE=MinSizeRel
 
 cmake --build build_libSDL3
 cmake --install build_libSDL3
 
-cmake -B build -DCMAKE_TOOLCHAIN_FILE="../../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja [-DCMAKE_BUILD_TYPE=MinSizeRel]
+cmake -B build -DCMAKE_TOOLCHAIN_FILE="../../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja -DCMAKE_BUILD_TYPE=MinSizeRel
 cmake --build build
 cmake --install build
 

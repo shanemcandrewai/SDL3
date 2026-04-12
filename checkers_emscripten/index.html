@@ -2,17 +2,23 @@
 <html lang="en">
    <head>
       <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      <title>SDL3 emscripten</title>
+      <!-- <meta name="viewport" content="width=device-width,initial-scale=1"> -->
+      <title>Emscripten-Generated Code</title>
       <script async type="text/javascript" src="checkers_emscripten.js"></script>
+      <style>
+         #canvas {
+            width: 1280px;
+            height: 720px;
+         }
+      </style>
+      <script>
+         console.log('requestFullscreen')
+      </script>
    </head>
    <body>
-      <div class="emscripten_border">
-         <canvas class="emscripten" id="canvas"
-            oncontextmenu="event.preventDefault()"
-            tabindex=-1>
-         </canvas>
-      </div>
-      <textarea id="output" rows="8"></textarea>
+      <canvas id="canvas"></canvas>
+         <input type="button" value="Fullscreen"
+            onclick="Browser.setFullscreenCanvasSize()">
+      <h1>ver 16</h1>
    </body>
 </html>

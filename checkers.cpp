@@ -12,8 +12,8 @@
 #include <SDL3/SDL_surface.h> //clang-tidy
 #include <SDL3/SDL_video.h>   //clang-tidy
 
-const int static WIDTH = 540;
-const int static HEIGHT = 540;
+const int static WIDTH = 1920;
+const int static HEIGHT = 1080 ;
 
 struct State { // NOLINT altera-struct-pack-align
   SDL_Renderer *renderer;
@@ -83,8 +83,8 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   SDL_RenderClear(state->renderer);
 
   SDL_FRect dst_rect;
-  for (int xpos = 10; xpos < 900; xpos += 230) {
-    for (int ypos = 10; ypos < 400; ypos += 105) { // NOLINT
+  for (int xpos = 10; xpos < 1800; xpos += 230) {
+    for (int ypos = 10; ypos < 900; ypos += 105) { // NOLINT
       dst_rect.w = static_cast<float>(state->blueortho->w);
       dst_rect.h = static_cast<float>(state->blueortho->h);
       dst_rect.x = static_cast<float>(xpos);
