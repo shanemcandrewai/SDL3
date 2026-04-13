@@ -32,7 +32,7 @@ https://github.com/libsdl-org/SDL
 ### link SDL directory to SDL3/vendored/SDL
 [The easiest way to use SDL is to include it as a subproject in your project](https://github.com/libsdl-org/SDL/blob/main/docs/INTRO-emscripten.md)
 #### execute cmd.exe as admin
-    C:\Users\shane\dev\SDL3>mklink /d vendored\SDL ..\..\SDL
+    C:\Users\shane\dev\SDL3\checkers> mklink /d vendored\SDL ..\..\..\SDL
 ## cmake
 ### cmake commands
 #### generate project files

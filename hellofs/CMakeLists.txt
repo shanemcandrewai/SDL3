@@ -1,31 +1,27 @@
 #[[
+cmake -B build -DCMAKE_CXX_COMPILER=clang++ -DSDL_STATIC=ON -DSDL_SHARED=OFF -G "Ninja Multi-Config"
+cmake -B build -DCMAKE_CXX_COMPILER=clang++ -DSDL_STATIC=OFF -DSDL_SHARED=ON -G "Ninja Multi-Config"
 
-cmake -B build -DCMAKE_TOOLCHAIN_FILE="../../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja -DCMAKE_BUILD_TYPE=MinSizeRel
-cmake --build build
+cmake --build build //fatal error: 'emscripten.h' file not found
 cmake --install build
 
-..\..\emsdk\emsdk activate latest
-emcc -o ..\..\shanemcandrewai.github.io\hellofs.js .\hellofs.c -sUSE_SDL=3
-emcc -o ..\..\shanemcandrewai.github.io\hellofs.html .\hellofs.c -sUSE_SDL=3
-
-python -m http.server 8000
-http://localhost:8000/
-
+cmake --build build --config Release
+cmake --install build --config Release
 ]]
-cmake_minimum_required(VERSION 3.23)
 
+cmake_minimum_required(VERSION 3.23)
 
 project(hellofs)
 
-add_executable(${PROJECT_NAME} hellofs.c)
-set(SDL3_DIR "${CMAKE_CURRENT_LIST_DIR}/install_libSDL3/lib/cmake/SDL3")
-find_package(SDL3 REQUIRED)
+add_executable(${PROJECT_NAME} WIN32 hellofs.c)
+add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL) #git clone https://github.com/libsdl-org/SDL
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set_property(CACHE CMAKE_INSTALL_PREFIX PROPERTY VALUE "${CMAKE_CURRENT_LIST_DIR}../../../shanemcandrewai.github.io")
+  set_property(CACHE CMAKE_INSTALL_PREFIX PROPERTY VALUE "${CMAKE_CURRENT_LIST_DIR}/install")
 endif()
 
 install(TARGETS ${PROJECT_NAME} DESTINATION .)
-install(FILES ${CMAKE_CURRENT_LIST_DIR}/index.html DESTINATION .)
-install(FILES "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.wasm" DESTINATION .)
+if(${SDL_SHARED})
+  install(TARGETS SDL3-shared DESTINATION .)
+endif()
