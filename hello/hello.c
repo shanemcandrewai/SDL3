@@ -44,6 +44,11 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { //NOLINT
     SDL_Log("Couldn't create window and renderer: %s", SDL_GetError());
     return SDL_APP_FAILURE;
   }
+  // Enable VSync
+  if (!SDL_SetRenderVSync(renderer, 1)) {
+    SDL_Log("Could not enable VSync! SDL error: %s\n", // NOLINT
+            SDL_GetError());
+  }
   *appstate = renderer;
   return SDL_APP_CONTINUE;
 }

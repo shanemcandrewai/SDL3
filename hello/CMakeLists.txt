@@ -1,12 +1,17 @@
 #[[
-cmake -B build -DCMAKE_CXX_COMPILER=clang++ -DSDL_STATIC=ON -DSDL_SHARED=OFF -G "Ninja Multi-Config" 
-cmake -B build -DCMAKE_CXX_COMPILER=clang++ -DSDL_STATIC=OFF -DSDL_SHARED=ON -G "Ninja Multi-Config" 
+cmake -B build -DCMAKE_CXX_COMPILER=clang++ -DSDL_STATIC=ON -DSDL_SHARED=OFF -G "Ninja Multi-Config"
+cmake -B build -DCMAKE_CXX_COMPILER=clang++ -DSDL_STATIC=OFF -DSDL_SHARED=ON -G "Ninja Multi-Config"
 
 cmake --build build
 cmake --install build
 
 cmake --build build --config Release
 cmake --install build --config Release
+
+.\..\emsdk\emsdk activate latest
+emcc -o ..\..\shanemcandrewai.github.io\hello.js .\hello.c -sUSE_SDL=3
+emcc -o ..\..\shanemcandrewai.github.io\hello.html .\hello.c -sUSE_SDL=3
+
 ]]
 
 cmake_minimum_required(VERSION 3.23)
