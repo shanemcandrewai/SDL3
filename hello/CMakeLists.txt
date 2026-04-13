@@ -8,7 +8,7 @@ cmake --install build
 cmake --build build --config Release
 cmake --install build --config Release
 
-.\..\emsdk\emsdk activate latest
+..\..\emsdk\emsdk activate latest
 emcc -o ..\..\shanemcandrewai.github.io\hello.js .\hello.c -sUSE_SDL=3
 emcc -o ..\..\shanemcandrewai.github.io\hello.html .\hello.c -sUSE_SDL=3
 
@@ -18,9 +18,8 @@ cmake_minimum_required(VERSION 3.23)
 
 project(hello)
 
-add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL) #git clone https://github.com/libsdl-org/SDL
-
 add_executable(${PROJECT_NAME} WIN32 hello.cpp)
+add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL) #git clone https://github.com/libsdl-org/SDL
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
@@ -28,7 +27,7 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif()
 
 install(TARGETS ${PROJECT_NAME} DESTINATION .)
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../blender/assets DESTINATION .)
+install(FILES ${CMAKE_CURRENT_LIST_DIR}/hello.html DESTINATION .)
 if(${SDL_SHARED})
   install(TARGETS SDL3-shared DESTINATION .)
 endif()

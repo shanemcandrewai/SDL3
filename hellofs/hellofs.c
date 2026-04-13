@@ -20,7 +20,7 @@ const int static WIDTH = 800;
 const int static HEIGHT = 800;
 const int static MAX = 255;
 const float static SCALE = 4.0F;
-const char static *MESSAGE = "Hello World!"; //NOLINT
+const char static *MESSAGE = "Hello World5!"; //NOLINT
 
 static inline const char *emscripten_event_type_to_string(int eventType) {
   const char *events[] = { "(invalid)", "(none)", "keypress", "keydown", "keyup", "click", "mousedown", "mouseup", "dblclick", "mousemove", "wheel", "resize",
@@ -116,16 +116,16 @@ bool on_canvassize_changed(int eventType, const void *reserved, void *userData) 
   return 0;
 }
 
-void requestFullscreen(int scaleMode, int canvasResolutionScaleMode, int filteringMode) {
-  EmscriptenFullscreenStrategy s;
-  memset(&s, 0, sizeof(s));
-  s.scaleMode = scaleMode;
-  s.canvasResolutionScaleMode = canvasResolutionScaleMode;
-  s.filteringMode = filteringMode;
-  s.canvasResizedCallback = on_canvassize_changed;
-  EMSCRIPTEN_RESULT ret = emscripten_request_fullscreen_strategy("#canvas", 1, &s);
-  TEST_RESULT(requestFullscreen);
-}
+  void requestFullscreen(int scaleMode, int canvasResolutionScaleMode, int filteringMode) {
+    EmscriptenFullscreenStrategy s;
+    memset(&s, 0, sizeof(s));
+    s.scaleMode = scaleMode;
+    s.canvasResolutionScaleMode = canvasResolutionScaleMode;
+    s.filteringMode = filteringMode;
+    s.canvasResizedCallback = on_canvassize_changed;
+    EMSCRIPTEN_RESULT ret = emscripten_request_fullscreen_strategy("#canvas", 1, &s);
+    TEST_RESULT(requestFullscreen);
+  }
 
 void enterSoftFullscreen(int scaleMode, int canvasResolutionScaleMode, int filteringMode) {
   EmscriptenFullscreenStrategy s;
@@ -194,32 +194,32 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { //NOLINT
   // from inside keyboard event handlers. Therefore we must register a callback to
   // mouse events (any other than mousedown) to activate deferred fullscreen/pointerlock
   // requests to occur for IE. The callback itself can be a no-op.
-  ret = emscripten_set_click_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, 1, mouse_callback);
-  TEST_RESULT(emscripten_set_click_callback);
-  ret = emscripten_set_mousedown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, 1, mouse_callback);
-  TEST_RESULT(emscripten_set_mousedown_callback);
-  ret = emscripten_set_mouseup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, 1, mouse_callback);
-  TEST_RESULT(emscripten_set_mouseup_callback);
-  ret = emscripten_set_dblclick_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, 1, mouse_callback);
-  TEST_RESULT(emscripten_set_dblclick_callback);
+  // ret = emscripten_set_click_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, 1, mouse_callback);
+  // TEST_RESULT(emscripten_set_click_callback);
+  // ret = emscripten_set_mousedown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, 1, mouse_callback);
+  // TEST_RESULT(emscripten_set_mousedown_callback);
+  // ret = emscripten_set_mouseup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, 1, mouse_callback);
+  // TEST_RESULT(emscripten_set_mouseup_callback);
+  // ret = emscripten_set_dblclick_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, 1, mouse_callback);
+  // TEST_RESULT(emscripten_set_dblclick_callback);
 
-  emscripten_set_click_callback("#b0", (void*)0, 1, on_button_click);
-  emscripten_set_click_callback("#b1", (void*)1, 1, on_button_click);
-  emscripten_set_click_callback("#b2", (void*)2, 1, on_button_click);
-  emscripten_set_click_callback("#b3", (void*)3, 1, on_button_click);
-  emscripten_set_click_callback("#b4", (void*)4, 1, on_button_click);
-  emscripten_set_click_callback("#b5", (void*)5, 1, on_button_click);
-  emscripten_set_click_callback("#b6", (void*)6, 1, on_button_click);
-  emscripten_set_click_callback("#b7", (void*)7, 1, on_button_click);
-  emscripten_set_click_callback("#b8", (void*)8, 1, on_button_click);
-  emscripten_set_click_callback("#b9", (void*)9, 1, on_button_click);
-  emscripten_set_click_callback("#b10", (void*)10, 1, on_button_click);
-  emscripten_set_click_callback("#b11", (void*)11, 1, on_button_click);
-  emscripten_set_click_callback("#b12", (void*)12, 1, on_button_click);
-  emscripten_set_click_callback("#b13", (void*)13, 1, on_button_click);
-  emscripten_set_click_callback("#b14", (void*)14, 1, on_button_click);
-  emscripten_set_click_callback("#b15", (void*)15, 1, on_button_click);
-  emscripten_set_click_callback("#b16", (void*)16, 1, on_button_click);
+  // emscripten_set_click_callback("#b0", (void*)0, 1, on_button_click);
+  // emscripten_set_click_callback("#b1", (void*)1, 1, on_button_click);
+  // emscripten_set_click_callback("#b2", (void*)2, 1, on_button_click);
+  // emscripten_set_click_callback("#b3", (void*)3, 1, on_button_click);
+  // emscripten_set_click_callback("#b4", (void*)4, 1, on_button_click);
+  // emscripten_set_click_callback("#b5", (void*)5, 1, on_button_click);
+  // emscripten_set_click_callback("#b6", (void*)6, 1, on_button_click);
+  // emscripten_set_click_callback("#b7", (void*)7, 1, on_button_click);
+  // emscripten_set_click_callback("#b8", (void*)8, 1, on_button_click);
+  // emscripten_set_click_callback("#b9", (void*)9, 1, on_button_click);
+  // emscripten_set_click_callback("#b10", (void*)10, 1, on_button_click);
+  // emscripten_set_click_callback("#b11", (void*)11, 1, on_button_click);
+  // emscripten_set_click_callback("#b12", (void*)12, 1, on_button_click);
+  // emscripten_set_click_callback("#b13", (void*)13, 1, on_button_click);
+  // emscripten_set_click_callback("#b14", (void*)14, 1, on_button_click);
+  // emscripten_set_click_callback("#b15", (void*)15, 1, on_button_click);
+  // emscripten_set_click_callback("#b16", (void*)16, 1, on_button_click);
 
   printf("To finish this test, press f to enter fullscreen mode, and then exit it.\n");
 

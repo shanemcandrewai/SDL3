@@ -12,6 +12,10 @@ cmake --install build
 python -m http.server 8000
 http://localhost:8000/
 
+..\..\emsdk\emsdk activate latest
+emcc -o checkers_emscripten.js ..\checkers.cpp -sUSE_SDL=3
+emcc -o checkers_emscripten.html ..\checkers.cpp -sUSE_SDL=3
+
 ]]
 cmake_minimum_required(VERSION 3.23)
 
