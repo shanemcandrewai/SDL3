@@ -49,7 +49,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
-  state->cylinderpurp = SDL_LoadPNG("assets/CylinderGold.png");
+  state->cylinderpurp = SDL_LoadPNG("assets/CylinderPurp.png");
   if (state->cylinderpurp == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
