@@ -5,7 +5,7 @@ cmake -B build -DCMAKE_CXX_COMPILER=clang++ -DSDL_STATIC=OFF -DSDL_SHARED=ON -G 
 cmake --build build //fatal error: 'emscripten.h' file not found
 cmake --install build
 
-cmake --build build --config Release
+cmake --build build --config Release //fatal error: 'emscripten.h' file not found
 cmake --install build --config Release
 ]]
 

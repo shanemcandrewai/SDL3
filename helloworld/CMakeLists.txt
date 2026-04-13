@@ -1,29 +1,21 @@
 #[[
+cmake -B build -DCMAKE_CXX_COMPILER=clang++ -G "Ninja Multi-Config"
 
-cmake -B build -DCMAKE_TOOLCHAIN_FILE="../../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja -DCMAKE_BUILD_TYPE=MinSizeRel
-cmake --build build
-cmake --install build
+cmake --build build //lld-link: error: undefined symbol: WinMain
+cmake --install build 
 
-.\..\emsdk\emsdk activate latest
-emcc -o ..\..\shanemcandrewai.github.io\helloworld.js .\helloworld.c
-emcc -o ..\..\shanemcandrewai.github.io\helloworld.html .\helloworld.c
-
-
-python -m http.server 8000
-http://localhost:8000/
-
+cmake --build build --config Release //lld-link: error: undefined symbol: WinMain
+cmake --install build --config Release
 ]]
-cmake_minimum_required(VERSION 3.23)
 
+cmake_minimum_required(VERSION 3.23)
 
 project(helloworld)
 
-add_executable(${PROJECT_NAME} "${CMAKE_CURRENT_LIST_DIR}/helloworld.c")
+add_executable(${PROJECT_NAME} WIN32 helloworld.c)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set_property(CACHE CMAKE_INSTALL_PREFIX PROPERTY VALUE "${CMAKE_CURRENT_LIST_DIR}../../../shanemcandrewai.github.io")
+  set_property(CACHE CMAKE_INSTALL_PREFIX PROPERTY VALUE "${CMAKE_CURRENT_LIST_DIR}/install")
 endif()
 
 install(TARGETS ${PROJECT_NAME} DESTINATION .)
-install(FILES ${CMAKE_CURRENT_LIST_DIR}/helloworld.html DESTINATION .)
-install(FILES "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.wasm" DESTINATION .)
