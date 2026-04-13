@@ -25,7 +25,7 @@ struct State { // NOLINT altera-struct-pack-align
 
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
-
+  SDL_LogInfo(SDL_LOG_CATEGORY_TEST, "checkers test 10");
   SDL_Window *window = nullptr;
   auto *state = new State; // NOLINT cppcoreguidelines-owning-memory
 

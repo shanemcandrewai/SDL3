@@ -1,6 +1,6 @@
 #[[
 
-# build with shared prebuilt SDL3 library (DLL)
+# build with shared prebuilt SDL3 library (DLL) SDL3-3.4.2
 
 cmake -B build -DCMAKE_CXX_COMPILER="C:/Program Files/LLVM/bin/clang++.exe" -G "Ninja Multi-Config" 
 
