@@ -7,11 +7,6 @@ cmake --install build
 
 cmake --build build --config Release
 cmake --install build --config Release
-
-..\..\emsdk\emsdk activate latest
-emcc -o ..\..\shanemcandrewai.github.io\hello.js .\hello.c -sUSE_SDL=3
-emcc -o ..\..\shanemcandrewai.github.io\hello.html .\hello.c -sUSE_SDL=3
-
 ]]
 
 cmake_minimum_required(VERSION 3.23)
@@ -27,7 +22,6 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif()
 
 install(TARGETS ${PROJECT_NAME} DESTINATION .)
-install(FILES ${CMAKE_CURRENT_LIST_DIR}/hello.html DESTINATION .)
 if(${SDL_SHARED})
   install(TARGETS SDL3-shared DESTINATION .)
 endif()
