@@ -7,6 +7,8 @@ cmake --install build
 
 cmake --build build --config Release
 cmake --install build --config Release
+
+cmake --build build --config Release && cmake --install build --config Release && install\hello.exe
 ]]
 
 cmake_minimum_required(VERSION 3.23)

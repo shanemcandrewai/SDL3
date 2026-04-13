@@ -7,7 +7,6 @@ python -m http.server 8000
 http://localhost:8000/
 
 ..\..\..\emsdk\emsdk activate latest
-emcc -o hello.js ..\hello.cpp -sUSE_SDL=3
 emcc -o hello.html ..\hello.cpp -sUSE_SDL=3
 ]]
 cmake_minimum_required(VERSION 3.23)

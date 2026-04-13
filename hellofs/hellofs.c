@@ -20,7 +20,7 @@ const int static WIDTH = 800;
 const int static HEIGHT = 800;
 const int static MAX = 255;
 const float static SCALE = 4.0F;
-const char static *MESSAGE = "Hello World5!"; //NOLINT
+const char static *MESSAGE = "Hello World!"; //NOLINT
 
 static inline const char *emscripten_event_type_to_string(int eventType) {
   const char *events[] = { "(invalid)", "(none)", "keypress", "keydown", "keyup", "click", "mousedown", "mouseup", "dblclick", "mousemove", "wheel", "resize",
