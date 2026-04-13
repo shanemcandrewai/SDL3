@@ -30,7 +30,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   auto *state = new State; // NOLINT cppcoreguidelines-owning-memory
 
   if (!SDL_CreateWindowAndRenderer("Checkers", WIDTH, HEIGHT,
-                                   SDL_WINDOW_FILL_DOCUMENT, &window,
+                                   SDL_WINDOW_FULLSCREEN, &window,
                                    // SDL_WINDOW_FULLSCREEN, &window,
                                    &state->renderer)) {
     SDL_Log("Couldn't create window and renderer: %s", // NOLINT
@@ -50,7 +50,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
-  state->cylinderpurp = SDL_LoadPNG("assets/CylinderGold.png");
+  state->cylinderpurp = SDL_LoadPNG("assets/CylinderPurp.png");
   if (state->cylinderpurp == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
