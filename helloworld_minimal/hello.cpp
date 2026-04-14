@@ -2,11 +2,11 @@
 #include <SDL3/SDL.h>  //uncomment for release
 #include <SDL3/SDL_main.h>   //keep uncommented for release
 
-const int static WIDTH = 800;
-const int static HEIGHT = 800;
+const int static WIDTH = 300;
+const int static HEIGHT = 300;
 const int static MAX = 255;
 const float static SCALE = 4.0F;
-const char static *MESSAGE = "Hello, World!2"; //NOLINT
+const char static *MESSAGE = "Hello, World!"; //NOLINT
 const float XPOS = 10;
 const float YPOS = 10;
 

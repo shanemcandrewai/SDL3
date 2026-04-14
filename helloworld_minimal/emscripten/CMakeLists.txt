@@ -1,7 +1,6 @@
 #[[
 cmake -B build -DCMAKE_TOOLCHAIN_FILE="../../../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja -DCMAKE_BUILD_TYPE=MinSizeRel
-cmake --build build
-cmake --install build
+cmake --build build && cmake --install build
 
 rm build -r -force && cmake -B build -DCMAKE_TOOLCHAIN_FILE="../../../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja -DCMAKE_BUILD_TYPE=MinSizeRel && cmake --build build && cmake --install build
 
@@ -24,9 +23,8 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set_property(CACHE CMAKE_INSTALL_PREFIX PROPERTY VALUE "${CMAKE_CURRENT_LIST_DIR}/../../../shanemcandrewai.github.io")
 endif()
 
-#install(TARGETS ${PROJECT_NAME} DESTINATION . RENAME ${PROJECT_NAME}_wasm.js)
+#install(TARGETS ${PROJECT_NAME} DESTINATION . )
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/hello.html DESTINATION .)
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/hello_cust.js DESTINATION .)
 install(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.js RENAME ${PROJECT_NAME}_wasm.js DESTINATION .)
-#install(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME}_wasm.js DESTINATION .)
 install(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.wasm DESTINATION .)
