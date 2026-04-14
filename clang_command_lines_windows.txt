@@ -26,10 +26,12 @@ const int static HEIGHT = 1080 ;
 SDL3>
 emcc -Wall -Wextra -o checkers.html checkers.cpp -I"checkers_clang\SDL3-3.4.2\include" -sUSE_SDL=3
 
-cls && clang-tidy checkers.cpp -- -I"checkers_clang\SDL3-3.4.2\include"
-cls && clang-tidy checkers.cpp -checks=* --header-filter=ddd -- -I"checkers_clang\SDL3-3.4.2\include"
+cls && clang-tidy checkers\checkers.cpp -- -I"SDL3-3.4.2\include"
+cls && clang-tidy checkers\checkers.cpp -checks=* --header-filter=ddd -- -I"SDL3-3.4.2\include"
 
-cls && clang++ -Wall -Wextra -o checkers.exe checkers.cpp -I"checkers_clang\SDL3-3.4.2\include" -l"checkers_clang\SDL3-3.4.2\lib\x64\SDL3" -"Wl,/subsystem:console"
+cls && clang++ -Wall -Wextra -o checkers\checkers.exe checkers.cpp -I"SDL3-3.4.2\include" -l"checkers_clang\SDL3-3.4.2\lib\x64\SDL3" -"Wl,/subsystem:console"
+
+cls && clang++ -Wall -Wextra -o helloworld_minimal\hello.exe helloworld_minimal\hello.cpp -I"SDL3-3.4.2\include" -l"SDL3-3.4.2\lib\x64\SDL3" -"Wl,/subsystem:console"
 
 clang-format -i checkers.cpp
 
