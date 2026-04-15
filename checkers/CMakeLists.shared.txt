@@ -2,7 +2,7 @@
 
 # build with shared prebuilt SDL3 library (DLL) SDL3-3.4.2
 
-cmake -B build -DCMAKE_CXX_COMPILER="C:/Program Files/LLVM/bin/clang++.exe" -G "Ninja Multi-Config" 
+cmake -B build -DCMAKE_CXX_COMPILER="C:/Program Files/LLVM/bin/clang++.exe" -G "Ninja Multi-Config"
 
 cmake --build build
 .\build\Debug\checkers_clang.exe
@@ -20,7 +20,7 @@ file(COPY ${CMAKE_CURRENT_LIST_DIR}/../blender/assets DESTINATION ${CMAKE_CURREN
 
 add_library(SDL3 SHARED IMPORTED)
 set_target_properties(SDL3 PROPERTIES
-INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/SDL3-3.4.2/include"
+INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/../SDL3-3.4.2/include"
 IMPORTED_IMPLIB "${CMAKE_CURRENT_LIST_DIR}/SDL3-3.4.2/lib/x64/SDL3.lib" # SHARED
 )
 

@@ -4,6 +4,8 @@ cmake --build build && cmake --install build
 
 rm build -r -force && cmake -B build -DCMAKE_TOOLCHAIN_FILE="../../../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja -DCMAKE_BUILD_TYPE=MinSizeRel && cmake --build build && cmake --install build
 
+rm build -r -force && cmake -B build -DCMAKE_TOOLCHAIN_FILE="../../../emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -G Ninja && cmake --build build && cmake --install build
+
 python -m http.server 8000
 http://localhost:8000/
 

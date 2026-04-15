@@ -13,7 +13,7 @@ cmake_minimum_required(VERSION 3.23)
 
 project(checkers)
 
-add_executable(${PROJECT_NAME} "${CMAKE_CURRENT_LIST_DIR}/../checkers.cpp")
+add_executable(${PROJECT_NAME} "${CMAKE_CURRENT_LIST_DIR}/../${PROJECT_NAME}.cpp")
 set(SDL3_DIR "${CMAKE_CURRENT_LIST_DIR}/../../SDL3_emsdk/install/lib/cmake/SDL3")
 find_package(SDL3 REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
@@ -27,5 +27,5 @@ endif()
 
 install(TARGETS ${PROJECT_NAME} DESTINATION .)
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/index.html DESTINATION .)
+install(FILES ${CMAKE_CURRENT_LIST_DIR}/${PROJECT_NAME}_cust.js DESTINATION .)
 install(FILES "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.wasm" DESTINATION .)
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../../blender/assets DESTINATION .)
