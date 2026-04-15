@@ -12,8 +12,10 @@
 #include <SDL3/SDL_surface.h> //clang-tidy
 #include <SDL3/SDL_video.h>   //clang-tidy
 
-const int static WIDTH = 1920;
-const int static HEIGHT = 1080;
+// const int static WIDTH = 1920;
+// const int static HEIGHT = 1080;
+const int static WIDTH = 1920/3;
+const int static HEIGHT = 1080/3;
 
 struct State { // NOLINT altera-struct-pack-align
   SDL_Renderer *renderer;
@@ -25,11 +27,11 @@ struct State { // NOLINT altera-struct-pack-align
 
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
-  SDL_LogInfo(SDL_LOG_CATEGORY_TEST, "checkers test 1");
+  // SDL_LogInfo(SDL_LOG_CATEGORY_TEST, "checkers test");
   SDL_Window *window = nullptr;
   auto *state = new State; // NOLINT cppcoreguidelines-owning-memory
 
-  if (!SDL_CreateWindowAndRenderer("Checkers", WIDTH, HEIGHT,
+  if (!SDL_CreateWindowAndRenderer("Checkers 8", WIDTH, HEIGHT,
                                    SDL_WINDOW_FULLSCREEN, &window,
                                    &state->renderer)) {
     SDL_Log("Couldn't create window and renderer: %s", // NOLINT
@@ -83,8 +85,8 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   SDL_RenderClear(state->renderer);
 
   SDL_FRect dst_rect;
-  for (int xpos = 10; xpos < 1800; xpos += 230) {
-    for (int ypos = 10; ypos < 900; ypos += 105) { // NOLINT
+  for (int xpos = 10; xpos < WIDTH; xpos += 230) {
+    for (int ypos = 10; ypos < HEIGHT; ypos += 105) { // NOLINT
       dst_rect.w = static_cast<float>(state->blueortho->w);
       dst_rect.h = static_cast<float>(state->blueortho->h);
       dst_rect.x = static_cast<float>(xpos);
