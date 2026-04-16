@@ -17,7 +17,8 @@ br re -f bp.txt
 resolution
 
 pixel 8a 1080 x 2400 pixels, 20:9 ratio (~430 ppi density)
-Lenovo 1920 x 1200 pixels
+Lenovo 1920 x 1200 pixels 16:10 WUXGA
+Full HD 1920 × 1080p	16:9
 
 const int static WIDTH = 1920;
 const int static HEIGHT = 1080 ;
