@@ -16,17 +16,20 @@
 const float static SCALE = 0.75;
 const int static WIDTH = static_cast<int>(round(1920 * SCALE / 2));
 const int static HEIGHT = static_cast<int>(round(1080 * SCALE / 2));
-const int static XPOS_START = 0;
-const int static XPOS_STEP = static_cast<int>(round(220 * SCALE));
-const int static YPOS_START = -20;
+const int static XPOS_START = static_cast<int>(round(30 * SCALE));
+const int static YPOS_START = static_cast<int>(round(0 * SCALE));
+const int static XPOS_STEP = static_cast<int>(round(230 * SCALE));
 const int static YPOS_STEP = static_cast<int>(round(140 * SCALE));
+const int static TOKEN_OFFSET = static_cast<int>(round(40 * SCALE));
 
 struct State { // NOLINT altera-struct-pack-align
   SDL_Renderer *renderer;
   SDL_Surface *blueortho;
-  SDL_Surface *cylinderpurp;
+  SDL_Surface *scylinder;
   SDL_Texture *tblueortho;
-  SDL_Texture *tcylinderpurp;
+  SDL_Texture *tcylinder;
+  int xpos;
+  int ypos;
 };
 
 /* This function runs once at startup. */
@@ -43,10 +46,12 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
     return SDL_APP_FAILURE;
   }
 
+#ifndef __EMSCRIPTEN__
   if (!SDL_SetRenderVSync(state->renderer, 1)) {
     SDL_Log("Could not enable VSync! SDL error: %s\n", // NOLINT
             SDL_GetError());
   }
+#endif
 
   state->blueortho = SDL_LoadPNG("assets/blue.ortho.png");
   if (state->blueortho == nullptr) {
@@ -54,22 +59,25 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
-  state->cylinderpurp = SDL_LoadPNG("assets/CylinderGold.png");
-  if (state->cylinderpurp == nullptr) {
+  state->scylinder = SDL_LoadPNG("assets/CylinderGold.png");
+  if (state->scylinder == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
 
-  if (!SDL_SetWindowIcon(window, state->cylinderpurp)) {
+  if (!SDL_SetWindowIcon(window, state->scylinder)) {
     SDL_Log("SDL_SetWindowIcon failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
   }
 
   state->tblueortho =
       SDL_CreateTextureFromSurface(state->renderer, state->blueortho);
-  state->tcylinderpurp =
-      SDL_CreateTextureFromSurface(state->renderer, state->cylinderpurp);
+  state->tcylinder =
+      SDL_CreateTextureFromSurface(state->renderer, state->scylinder);
+
+  (*state).xpos = XPOS_START;
+  (*state).ypos = YPOS_START;
   *appstate = state;
 
   return SDL_APP_CONTINUE;
@@ -84,6 +92,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) { // NOLINT
 
 SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   auto *state = static_cast<State *>(appstate);
+
   SDL_SetRenderDrawColor(state->renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
   SDL_RenderClear(state->renderer);
 
@@ -96,12 +105,23 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
       dst_rect.w = static_cast<float>(state->blueortho->w) * SCALE;
       dst_rect.h = static_cast<float>(state->blueortho->h) * SCALE;
       SDL_RenderTexture(state->renderer, state->tblueortho, nullptr, &dst_rect);
-      dst_rect.w = static_cast<float>(state->blueortho->w) * SCALE / 2;
-      dst_rect.h = static_cast<float>(state->blueortho->h) * SCALE / 2;
-      SDL_RenderTexture(state->renderer, state->tcylinderpurp, nullptr,
-                        &dst_rect);
+      // dst_rect.w = static_cast<float>(state->blueortho->w) * SCALE / 2;
+      // dst_rect.h = static_cast<float>(state->blueortho->h) * SCALE / 2;
+      // SDL_RenderTexture(state->renderer, state->tcylinder, nullptr,
+      // &dst_rect);
     }
   }
+
+  dst_rect.w = static_cast<float>(state->blueortho->w) * SCALE / 2;
+  dst_rect.h = static_cast<float>(state->blueortho->h) * SCALE / 2;
+
+  if ((*state).xpos < WIDTH && (*state).ypos < HEIGHT + YPOS_START) {
+    (*state).xpos += 1;
+    (*state).ypos += 1;
+  }
+  dst_rect.x = static_cast<float>((*state).xpos);
+  dst_rect.y = static_cast<float>((*state).ypos);
+  SDL_RenderTexture(state->renderer, state->tcylinder, nullptr, &dst_rect);
 
   SDL_RenderPresent(state->renderer);
 
