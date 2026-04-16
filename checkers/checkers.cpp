@@ -13,7 +13,7 @@
 #include <SDL3/SDL_video.h>   //clang-tidy
 #include <cmath>
 
-const float static SPRITE_SCALE = 0.75;
+const float static SPRITE_SCALE = 0.50;
 const int static WIDTH_FULL_HD = 1920;
 const int static HEIGHT_FULL_HD = 1080;
 const int static WIDTH_PIXEL8A = 1080;
@@ -27,7 +27,7 @@ const float static BOARD_SCALE_X = 0.5;
 #else
 const int static WIDTH = static_cast<int>(round(HEIGHT_PIXEL8A * SPRITE_SCALE));
 const int static HEIGHT = static_cast<int>(round(WIDTH_PIXEL8A * SPRITE_SCALE));
-const float static BOARD_SCALE_X = 0.4;
+const float static BOARD_SCALE_X = 0.6;
 #endif
 const float static BOARD_SCALE_Y = 0.4;
 
@@ -70,8 +70,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   }
 #else
   if (!SDL_CreateWindowAndRenderer("Checkers", WIDTH, HEIGHT,
-                                   SDL_WINDOW_FILL_DOCUMENT |
-                                       SDL_WINDOW_FULLSCREEN,
+                                   SDL_WINDOW_FILL_DOCUMENT,
+                                      //  SDL_WINDOW_FULLSCREEN,
                                    &window, &state->renderer)) {
     SDL_Log("Couldn't create window and renderer: %s", // NOLINT
             SDL_GetError());
@@ -85,7 +85,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
-  state->scylinder = SDL_LoadPNG("assets/CylinderPurp.png");
+  state->scylinder = SDL_LoadPNG("assets/CylinderGold.png");
   if (state->scylinder == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
