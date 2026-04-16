@@ -14,22 +14,28 @@
 #include <cmath>
 
 const float static SPRITE_SCALE = 0.75;
-const float static BOARD_SCALE = 0.4;
 const int static WIDTH_FULL_HD = 1920;
 const int static HEIGHT_FULL_HD = 1080;
-// const int static WIDTH_WUXGA = 1920;
-// const int static HEIGHT_WUXGA = 1200;
 const int static WIDTH_PIXEL8A = 1080;
 const int static HEIGHT_PIXEL8A = 2400;
+
 #ifndef __EMSCRIPTEN__
 const int static WIDTH = static_cast<int>(round(WIDTH_FULL_HD * SPRITE_SCALE));
 const int static HEIGHT =
     static_cast<int>(round(HEIGHT_FULL_HD * SPRITE_SCALE));
+const float static BOARD_SCALE_X = 0.5;
 #else
 const int static WIDTH = static_cast<int>(round(HEIGHT_PIXEL8A * SPRITE_SCALE));
 const int static HEIGHT = static_cast<int>(round(WIDTH_PIXEL8A * SPRITE_SCALE));
+const float static BOARD_SCALE_X = 0.4;
 #endif
+const float static BOARD_SCALE_Y = 0.4;
+
 const int static XPOS_START = static_cast<int>(round(-20 * SPRITE_SCALE));
+const int static XPOS_SPRITE_OFFSET =
+    static_cast<int>(round(70 * SPRITE_SCALE));
+const int static XPOS_SPRITE_END = static_cast<int>(round(110 * SPRITE_SCALE));
+const int static YPOS_SPRITE_END = static_cast<int>(round(70 * SPRITE_SCALE));
 const int static YPOS_START = static_cast<int>(round(-70 * SPRITE_SCALE));
 const int static XPOS_STEP = static_cast<int>(round(230 * SPRITE_SCALE));
 const int static YPOS_STEP = static_cast<int>(round(140 * SPRITE_SCALE));
@@ -58,17 +64,10 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
-  // if (!SDL_SetRenderLogicalPresentation(state->renderer, WIDTH * 2,
-  //                                       HEIGHT * 2,
-  //                                       SDL_LOGICAL_PRESENTATION_STRETCH)) {
-  //   SDL_Log("SDL_SetRenderLogicalPresentation failed: %s", // NOLINT
-  //           SDL_GetError());
-  // }
   if (!SDL_SetRenderVSync(state->renderer, 1)) {
     SDL_Log("Could not enable VSync! SDL error: %s", // NOLINT
             SDL_GetError());
   }
-
 #else
   if (!SDL_CreateWindowAndRenderer("Checkers", WIDTH, HEIGHT,
                                    SDL_WINDOW_FILL_DOCUMENT |
@@ -78,9 +77,6 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
-#endif
-
-#ifndef __EMSCRIPTEN__
 #endif
 
   state->blueortho = SDL_LoadPNG("assets/blue.ortho.png");
@@ -107,7 +103,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
       SDL_CreateTextureFromSurface(state->renderer, state->scylinder);
 
   (*state).xpos = XPOS_START;
-  (*state).ypos = YPOS_START;
+  (*state).ypos = YPOS_START / 3;
   *appstate = state;
 
   return SDL_APP_CONTINUE;
@@ -127,12 +123,12 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   SDL_RenderClear(state->renderer);
 
   SDL_FRect dst_rect;
-  for (int xpos = XPOS_START;                                      // NOLINT
-       xpos < static_cast<int>(                                    // NOLINT
-                  round(static_cast<float>(WIDTH) * BOARD_SCALE)); // NOLINT
-       xpos += XPOS_STEP) {                                        // NOLINT
-    for (int ypos = YPOS_START; ypos < HEIGHT * BOARD_SCALE;       // NOLINT
-         ypos += YPOS_STEP) {                                      // NOLINT
+  for (int xpos = XPOS_START;
+       xpos < static_cast<int>(round(WIDTH * BOARD_SCALE_X)); // NOLINT
+       xpos += XPOS_STEP) {
+    for (int ypos = YPOS_START; // NOLINT altera-unroll-loops
+         ypos < static_cast<int>(round(HEIGHT * BOARD_SCALE_Y)); // NOLINT
+         ypos += YPOS_STEP) {                                    // NOLINT
       dst_rect.x = static_cast<float>(xpos);
       dst_rect.y = static_cast<float>(ypos);
       dst_rect.w = static_cast<float>(state->blueortho->w) * SPRITE_SCALE;
@@ -145,13 +141,15 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   dst_rect.h = static_cast<float>(state->blueortho->h) * SPRITE_SCALE / 2;
 
   if ((*state).xpos <
-          static_cast<int>(round(static_cast<float>(WIDTH) * BOARD_SCALE)) &&
+          static_cast<int>(round((WIDTH - XPOS_SPRITE_END) * // NOLINT
+                                 BOARD_SCALE_X)) &&          // NOLINT
       (*state).ypos <
-          static_cast<int>(round(static_cast<float>(HEIGHT) * BOARD_SCALE))) {
+          static_cast<int>(round((HEIGHT - YPOS_SPRITE_END) * // NOLINT
+                                 BOARD_SCALE_Y))) {           // NOLINT
     (*state).xpos += 1;
     (*state).ypos += 1;
   }
-  dst_rect.x = static_cast<float>((*state).xpos);
+  dst_rect.x = static_cast<float>(XPOS_SPRITE_OFFSET + (*state).xpos);
   dst_rect.y = static_cast<float>((*state).ypos);
   SDL_RenderTexture(state->renderer, state->tcylinder, nullptr, &dst_rect);
 
