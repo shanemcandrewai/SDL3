@@ -8,15 +8,15 @@ cmake --install build
 cmake --build build --config Release
 cmake --install build --config Release
 
-cmake --build build --config Release && cmake --install build --config Release && cd install && .\checkers_clang.exe && cd ..
+cmake --build build --config Release && cmake --install build --config Release && cd install && .\checkers.exe && cd ..
 ]]
 
 cmake_minimum_required(VERSION 3.23)
 
-project(checkers_clang)
+project(checkers)
 
 add_executable(${PROJECT_NAME} WIN32)
-target_sources(${PROJECT_NAME} PRIVATE checkers.cpp)
+target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}.cpp)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)

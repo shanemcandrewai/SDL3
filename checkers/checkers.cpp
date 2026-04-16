@@ -31,7 +31,6 @@ struct State { // NOLINT altera-struct-pack-align
 
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
-  // SDL_LogInfo(SDL_LOG_CATEGORY_TEST, "checkers test");
   SDL_Window *window = nullptr;
   auto *state = new State; // NOLINT cppcoreguidelines-owning-memory
 
@@ -44,9 +43,6 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
     return SDL_APP_FAILURE;
   }
 
-  // SDL_SetRenderLogicalPresentation(state->renderer, WIDTH, HEIGHT,
-  //                                  SDL_LOGICAL_PRESENTATION_DISABLED);
-
   if (!SDL_SetRenderVSync(state->renderer, 1)) {
     SDL_Log("Could not enable VSync! SDL error: %s\n", // NOLINT
             SDL_GetError());
@@ -58,7 +54,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
-  state->cylinderpurp = SDL_LoadPNG("assets/CylinderPurp.png");
+  state->cylinderpurp = SDL_LoadPNG("assets/CylinderGold.png");
   if (state->cylinderpurp == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
@@ -81,7 +77,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
 
 SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) { // NOLINT
   if (event->type == SDL_EVENT_KEY_DOWN || event->type == SDL_EVENT_QUIT) {
-    return SDL_APP_SUCCESS; /* end the program, reporting success to the OS. */
+    return SDL_APP_SUCCESS;
   }
   return SDL_APP_CONTINUE;
 }
@@ -93,8 +89,8 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
 
   SDL_FRect dst_rect;
   for (int xpos = XPOS_START; xpos < WIDTH; xpos += XPOS_STEP) { // NOLINT
-    for (int ypos = YPOS_START; ypos < HEIGHT + YPOS_START; // NOLINT
-         ypos += YPOS_STEP) { // NOLINT
+    for (int ypos = YPOS_START; ypos < HEIGHT + YPOS_START;      // NOLINT
+         ypos += YPOS_STEP) {
       dst_rect.x = static_cast<float>(xpos);
       dst_rect.y = static_cast<float>(ypos);
       dst_rect.w = static_cast<float>(state->blueortho->w) * SCALE;
