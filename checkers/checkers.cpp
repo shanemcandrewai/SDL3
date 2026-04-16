@@ -14,10 +14,12 @@
 #include <cmath>
 
 const float static SCALE = 0.75;
-const int static WIDTH = static_cast<int>(round(1920 * SCALE / 2));
-const int static HEIGHT = static_cast<int>(round(1080 * SCALE / 2));
-const int static XPOS_START = static_cast<int>(round(30 * SCALE));
-const int static YPOS_START = static_cast<int>(round(0 * SCALE));
+const int static WIDTH_FULL_HD = 1920;
+const int static HEIGHT_FULL_HD = 1080;
+const int static WIDTH = static_cast<int>(round(WIDTH_FULL_HD * SCALE / 2));
+const int static HEIGHT = static_cast<int>(round(HEIGHT_FULL_HD * SCALE / 2));
+const int static XPOS_START = static_cast<int>(round(-20 * SCALE));
+const int static YPOS_START = static_cast<int>(round(-70 * SCALE));
 const int static XPOS_STEP = static_cast<int>(round(230 * SCALE));
 const int static YPOS_STEP = static_cast<int>(round(140 * SCALE));
 const int static TOKEN_OFFSET = static_cast<int>(round(40 * SCALE));
@@ -37,6 +39,25 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   SDL_Window *window = nullptr;
   auto *state = new State; // NOLINT cppcoreguidelines-owning-memory
 
+#ifndef __EMSCRIPTEN__
+  if (!SDL_CreateWindowAndRenderer("Checkers", WIDTH_FULL_HD, HEIGHT_FULL_HD,
+                                   SDL_WINDOW_RESIZABLE, &window,
+                                   &state->renderer)) {
+    SDL_Log("Couldn't create window and renderer: %s", // NOLINT
+            SDL_GetError());
+    return SDL_APP_FAILURE;
+  }
+  if (!SDL_SetRenderLogicalPresentation(state->renderer, WIDTH, HEIGHT,
+                                        SDL_LOGICAL_PRESENTATION_STRETCH)) {
+    SDL_Log("SDL_SetRenderLogicalPresentation failed: %s", // NOLINT
+            SDL_GetError());
+  }
+  if (!SDL_SetRenderVSync(state->renderer, 1)) {
+    SDL_Log("Could not enable VSync! SDL error: %s", // NOLINT
+            SDL_GetError());
+  }
+
+#else
   if (!SDL_CreateWindowAndRenderer("Checkers", WIDTH, HEIGHT,
                                    SDL_WINDOW_FILL_DOCUMENT |
                                        SDL_WINDOW_FULLSCREEN,
@@ -45,12 +66,9 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
+#endif
 
 #ifndef __EMSCRIPTEN__
-  if (!SDL_SetRenderVSync(state->renderer, 1)) {
-    SDL_Log("Could not enable VSync! SDL error: %s\n", // NOLINT
-            SDL_GetError());
-  }
 #endif
 
   state->blueortho = SDL_LoadPNG("assets/blue.ortho.png");
@@ -59,7 +77,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
-  state->scylinder = SDL_LoadPNG("assets/CylinderGold.png");
+  state->scylinder = SDL_LoadPNG("assets/CylinderPurp.png");
   if (state->scylinder == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
@@ -99,16 +117,12 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   SDL_FRect dst_rect;
   for (int xpos = XPOS_START; xpos < WIDTH; xpos += XPOS_STEP) { // NOLINT
     for (int ypos = YPOS_START; ypos < HEIGHT + YPOS_START;      // NOLINT
-         ypos += YPOS_STEP) {
+         ypos += YPOS_STEP) {                                    // NOLINT
       dst_rect.x = static_cast<float>(xpos);
       dst_rect.y = static_cast<float>(ypos);
       dst_rect.w = static_cast<float>(state->blueortho->w) * SCALE;
       dst_rect.h = static_cast<float>(state->blueortho->h) * SCALE;
       SDL_RenderTexture(state->renderer, state->tblueortho, nullptr, &dst_rect);
-      // dst_rect.w = static_cast<float>(state->blueortho->w) * SCALE / 2;
-      // dst_rect.h = static_cast<float>(state->blueortho->h) * SCALE / 2;
-      // SDL_RenderTexture(state->renderer, state->tcylinder, nullptr,
-      // &dst_rect);
     }
   }
 
