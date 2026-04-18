@@ -51,7 +51,25 @@ struct State { // NOLINT altera-struct-pack-align
   int ypos;
 };
 
-/* This function runs once at startup. */
+int static draw_board(int xdim, int ydim, State *state) {
+  SDL_FRect dst_rect;
+  for (int xpos = XPOS_START;
+       xpos < static_cast<int>(round(WIDTH * BOARD_SCALE_X)); // NOLINT
+       xpos += XPOS_STEP) {
+    for (int ypos = YPOS_START; // NOLINT altera-unroll-loops
+         ypos < static_cast<int>(round(HEIGHT * BOARD_SCALE_Y)); // NOLINT
+         ypos += YPOS_STEP) {                                    // NOLINT
+      dst_rect.x = static_cast<float>(xpos);
+      dst_rect.y = static_cast<float>(ypos);
+      dst_rect.w = static_cast<float>(state->blueortho->w) * SPRITE_SCALE;
+      dst_rect.h = static_cast<float>(state->blueortho->h) * SPRITE_SCALE;
+      SDL_RenderTexture(state->renderer, state->tblueortho, nullptr, &dst_rect);
+    }
+  }
+
+  return 0;
+}
+
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   SDL_Window *window = nullptr;
   auto *state = new State; // NOLINT cppcoreguidelines-owning-memory
@@ -71,7 +89,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
 #else
   if (!SDL_CreateWindowAndRenderer("Checkers", WIDTH, HEIGHT,
                                    SDL_WINDOW_FILL_DOCUMENT,
-                                      //  SDL_WINDOW_FULLSCREEN,
+                                   //  SDL_WINDOW_FULLSCREEN,
                                    &window, &state->renderer)) {
     SDL_Log("Couldn't create window and renderer: %s", // NOLINT
             SDL_GetError());
@@ -122,20 +140,11 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   SDL_SetRenderDrawColor(state->renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
   SDL_RenderClear(state->renderer);
 
-  SDL_FRect dst_rect;
-  for (int xpos = XPOS_START;
-       xpos < static_cast<int>(round(WIDTH * BOARD_SCALE_X)); // NOLINT
-       xpos += XPOS_STEP) {
-    for (int ypos = YPOS_START; // NOLINT altera-unroll-loops
-         ypos < static_cast<int>(round(HEIGHT * BOARD_SCALE_Y)); // NOLINT
-         ypos += YPOS_STEP) {                                    // NOLINT
-      dst_rect.x = static_cast<float>(xpos);
-      dst_rect.y = static_cast<float>(ypos);
-      dst_rect.w = static_cast<float>(state->blueortho->w) * SPRITE_SCALE;
-      dst_rect.h = static_cast<float>(state->blueortho->h) * SPRITE_SCALE;
-      SDL_RenderTexture(state->renderer, state->tblueortho, nullptr, &dst_rect);
-    }
+  if (draw_board(0, 0, state) > 0) {
+    SDL_Log("draw board failed"); // NOLINT
   }
+
+  SDL_FRect dst_rect;
 
   dst_rect.w = static_cast<float>(state->blueortho->w) * SPRITE_SCALE / 2;
   dst_rect.h = static_cast<float>(state->blueortho->h) * SPRITE_SCALE / 2;

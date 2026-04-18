@@ -54,4 +54,4 @@ clang-format -i checkers\checkers.cpp
 
 SDL3>checkers
 
-cmake --build build --config Release && cmake --install build --config Release && cd install && .\checkers_clang.exe && cd ..
+cmake --build build --config Release && cmake --install build --config Release && cd install && .\checkers.exe && cd ..
