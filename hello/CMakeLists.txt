@@ -15,7 +15,7 @@ cmake_minimum_required(VERSION 3.23)
 
 project(hello)
 
-add_executable(${PROJECT_NAME} WIN32 hello.cpp)
+add_executable(${PROJECT_NAME} WIN32 hello.cpp hello_internal.cpp)
 add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL) #git clone https://github.com/libsdl-org/SDL
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 

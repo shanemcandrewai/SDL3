@@ -55,3 +55,7 @@ clang-format -i checkers\checkers.cpp
 SDL3>checkers
 
 cmake --build build --config Release && cmake --install build --config Release && cd install && .\checkers.exe && cd ..
+
+cmake --build build --config Release && cmake --install build --config Release && cd install && .\hello.exe && cd ..
+
+clang++  -Wall -Wextra -o hello.exe hello.cpp hello_internal.cpp -I"..\SDL3-3.4.4\include" -I. -l"..\SDL3-3.4.4\lib\x64\SDL3" -"Wl,/subsystem:console"
