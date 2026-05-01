@@ -1,5 +1,18 @@
 // checkers.cpp
+#define SDL_MAIN_USE_CALLBACKS 1 // NOLINT cppcoreguidelines-macro-usage
+#include <SDL3/SDL_main.h>    //keep uncommented for release
+
 #include "draw.h"
+// #include <SDL3/SDL_error.h>   //clang-tidy
+// #include <SDL3/SDL_events.h>  //clang-tidy
+// #include <SDL3/SDL_init.h>    //clang-tidy
+// #include <SDL3/SDL_log.h>     //clang-tidy
+// #include <SDL3/SDL_pixels.h>  //clang-tidy
+// #include <SDL3/SDL_rect.h>    //clang-tidy
+// #include <SDL3/SDL_render.h>  //clang-tidy
+// #include <SDL3/SDL_surface.h> //clang-tidy
+// #include <SDL3/SDL_video.h>   //clang-tidy
+
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   SDL_Window *window = nullptr;
