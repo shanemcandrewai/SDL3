@@ -1,6 +1,6 @@
 // checkers.cpp
 #define SDL_MAIN_USE_CALLBACKS 1 // NOLINT cppcoreguidelines-macro-usage
-#include <SDL3/SDL_main.h>    //keep uncommented for release
+#include <SDL3/SDL_main.h>       //keep uncommented for release
 
 #include "draw.h"
 #include <SDL3/SDL_error.h>   //clang-tidy
@@ -12,7 +12,7 @@
 #include <SDL3/SDL_render.h>  //clang-tidy
 #include <SDL3/SDL_surface.h> //clang-tidy
 #include <SDL3/SDL_video.h>   //clang-tidy
-
+#include <cmath>              //clang-tidy
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   SDL_Window *window = nullptr;
@@ -84,7 +84,7 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   SDL_SetRenderDrawColor(state->renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
   SDL_RenderClear(state->renderer);
 
-  if (draw_board(0, 0, state) > 0) {
+  if (draw_board(3, 4, state) > 0) {
     SDL_Log("draw board failed"); // NOLINT
   }
 
@@ -93,12 +93,8 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   dst_rect.w = static_cast<float>(state->blueortho->w) * SPRITE_SCALE / 2;
   dst_rect.h = static_cast<float>(state->blueortho->h) * SPRITE_SCALE / 2;
 
-  if ((*state).xpos <
-          static_cast<int>(round((WIDTH - XPOS_SPRITE_END) * // NOLINT
-                                 BOARD_SCALE_X)) &&          // NOLINT
-      (*state).ypos <
-          static_cast<int>(round((HEIGHT - YPOS_SPRITE_END) * // NOLINT
-                                 BOARD_SCALE_Y))) {           // NOLINT
+  if ((*state).xpos < static_cast<int>(round((WIDTH - XPOS_SPRITE_END))) &&
+      (*state).ypos < static_cast<int>(round((HEIGHT - YPOS_SPRITE_END)))) {
     (*state).xpos += 1;
     (*state).ypos += 1;
   }

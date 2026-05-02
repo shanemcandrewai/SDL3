@@ -12,13 +12,10 @@ const int HEIGHT_PIXEL8A = 2400;
 #ifndef __EMSCRIPTEN__
 const int WIDTH = static_cast<int>(round(WIDTH_FULL_HD * SPRITE_SCALE));
 const int HEIGHT = static_cast<int>(round(HEIGHT_FULL_HD * SPRITE_SCALE));
-const float BOARD_SCALE_X = 0.5;
 #else
 const int WIDTH = static_cast<int>(round(HEIGHT_PIXEL8A * SPRITE_SCALE));
 const int HEIGHT = static_cast<int>(round(WIDTH_PIXEL8A * SPRITE_SCALE));
-const float BOARD_SCALE_X = 0.6;
 #endif
-const float BOARD_SCALE_Y = 0.4;
 
 const int XPOS_START = static_cast<int>(round(-20 * SPRITE_SCALE));
 const int XPOS_SPRITE_OFFSET = static_cast<int>(round(70 * SPRITE_SCALE));
@@ -39,6 +36,6 @@ struct State { // NOLINT altera-struct-pack-align
   int ypos;
 };
 
-extern int draw_board(int, int, State *);
+extern auto draw_board(int, int, State *) -> int;
 
 #endif
