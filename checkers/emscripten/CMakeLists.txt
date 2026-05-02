@@ -13,10 +13,15 @@ cmake_minimum_required(VERSION 3.23)
 
 project(checkers)
 
-add_executable(${PROJECT_NAME} "${CMAKE_CURRENT_LIST_DIR}/../${PROJECT_NAME}.cpp")
+add_executable(${PROJECT_NAME})
+target_sources(${PROJECT_NAME} PRIVATE
+${CMAKE_CURRENT_LIST_DIR}/../${PROJECT_NAME}.cpp
+${CMAKE_CURRENT_LIST_DIR}/../draw.cpp)
 set(SDL3_DIR "${CMAKE_CURRENT_LIST_DIR}/../../SDL3_emsdk/install/lib/cmake/SDL3")
 find_package(SDL3 REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../include)
+
 
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/../../blender/assets DESTINATION ${CMAKE_BINARY_DIR})
 target_link_options(${PROJECT_NAME} PRIVATE "SHELL:--embed-file assets")

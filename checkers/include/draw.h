@@ -1,6 +1,7 @@
 #ifndef DRAW
 #define DRAW
 #include <SDL3/SDL.h>
+#include <cmath>
 
 const float SPRITE_SCALE = 0.50;
 const int WIDTH_FULL_HD = 1920;
