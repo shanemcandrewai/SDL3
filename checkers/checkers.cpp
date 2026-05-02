@@ -15,14 +15,8 @@
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   SDL_Window *window = nullptr;
 
-  auto *state = new State; // NOLINT cppcoreguidelines-owning-memory
-    SDL_Log("*state->pcylinder).x1: %d", state->pcylinder->x);
-  *(*state->pcylinder).x = XPOS_START;
-  // state->pcylinder->x = XPOS_START;
-    SDL_Log("*state->pcylinder).x2: %d", state->pcylinder->x);
-
-
-
+  auto *state = new State;          // NOLINT cppcoreguidelines-owning-memory
+  state->pcylinder = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
 
 #ifndef __EMSCRIPTEN__
   if (!SDL_CreateWindowAndRenderer("Checkers", WIDTH, HEIGHT,
@@ -70,10 +64,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   state->tcylinder =
       SDL_CreateTextureFromSurface(state->renderer, state->scylinder);
 
-  (*state->pcylinder).x = XPOS_START;
-    SDL_Log("*state->pcylinder).x: %d", (*state->pcylinder).x);
-
-  (*state->pcylinder).y = YPOS_START / 3;
+  state->pcylinder->x = XPOS_START;
+  state->pcylinder->y = YPOS_START / 3;
   *appstate = state;
 
   return SDL_APP_CONTINUE;
