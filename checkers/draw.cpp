@@ -29,13 +29,13 @@ auto draw_token(State *state) -> int { // NOLINT
   dst_rect.w = static_cast<float>(state->blueortho->w) * SPRITE_SCALE / 2;
   dst_rect.h = static_cast<float>(state->blueortho->h) * SPRITE_SCALE / 2;
 
-  if ((*state).xpos < static_cast<int>(round(WIDTH - XPOS_SPRITE_END)) &&
-      (*state).ypos < static_cast<int>(round(HEIGHT - YPOS_SPRITE_END))) {
-    (*state).xpos += 1;
-    (*state).ypos += 1;
+  if ((*state->pcylinder).x < static_cast<int>(round(WIDTH - XPOS_SPRITE_END)) &&
+      (*state->pcylinder).y < static_cast<int>(round(HEIGHT - YPOS_SPRITE_END))) {
+    (*state->pcylinder).x += 1;
+    (*state->pcylinder).y += 1;
   }
-  dst_rect.x = static_cast<float>(XPOS_SPRITE_OFFSET + (*state).xpos);
-  dst_rect.y = static_cast<float>((*state).ypos);
+  dst_rect.x = static_cast<float>(XPOS_SPRITE_OFFSET + (*state->pcylinder).x);
+  dst_rect.y = static_cast<float>((*state->pcylinder).y);
   SDL_RenderTexture(state->renderer, state->tcylinder, nullptr, &dst_rect);
 
   return 0;

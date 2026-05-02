@@ -32,8 +32,7 @@ struct State { // NOLINT altera-struct-pack-align
   SDL_Surface *scylinder;
   SDL_Texture *tblueortho;
   SDL_Texture *tcylinder;
-  int xpos;
-  int ypos;
+  SDL_Point *pcylinder;
 };
 
 extern auto draw_board(int, int, State *) -> int;
