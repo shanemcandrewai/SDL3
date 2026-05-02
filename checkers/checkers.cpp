@@ -87,7 +87,7 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   }
 
   if (draw_token(state) > 0) {
-    SDL_Log("draw token failed"); // NOLINT
+    SDL_Log("draw board failed"); // NOLINT
   }
 
   SDL_RenderPresent(state->renderer);
