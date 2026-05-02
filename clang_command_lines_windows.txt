@@ -62,5 +62,5 @@ cls && clang-tidy checkers\*.cpp -- -I"SDL3-3.4.4/include" -I"checkers/include"
 
 cmake --build build --config Release && cmake --install build --config Release && cd install && .\checkers.exe && cd ..
 
-cls && clang++ -Wall -Wextra -o checkers\checkers.exe checkers\checkers.cpp -I"SDL3-3.4.4/include" -I"checkers/include" -l"SDL3-3.4.4/lib/x64/SDL3" -"Wl,/subsystem:console"
 
+cls && clang++ -Wall -Wextra -o checkers\install\checkers.exe checkers\*.cpp -I"SDL3-3.4.4/include" -I"checkers/include" -l"SDL3-3.4.4/lib/x64/SDL3" -"Wl,/subsystem:console"
