@@ -37,5 +37,6 @@ struct State { // NOLINT altera-struct-pack-align
 };
 
 extern auto draw_board(int, int, State *) -> int;
+extern auto draw_token(State *) -> int;
 
 #endif

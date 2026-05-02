@@ -8,11 +8,9 @@
 #include <SDL3/SDL_init.h>    //clang-tidy
 #include <SDL3/SDL_log.h>     //clang-tidy
 #include <SDL3/SDL_pixels.h>  //clang-tidy
-#include <SDL3/SDL_rect.h>    //clang-tidy
 #include <SDL3/SDL_render.h>  //clang-tidy
 #include <SDL3/SDL_surface.h> //clang-tidy
 #include <SDL3/SDL_video.h>   //clang-tidy
-#include <cmath>              //clang-tidy
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   SDL_Window *window = nullptr;
@@ -88,19 +86,9 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
     SDL_Log("draw board failed"); // NOLINT
   }
 
-  SDL_FRect dst_rect;
-
-  dst_rect.w = static_cast<float>(state->blueortho->w) * SPRITE_SCALE / 2;
-  dst_rect.h = static_cast<float>(state->blueortho->h) * SPRITE_SCALE / 2;
-
-  if ((*state).xpos < static_cast<int>(round((WIDTH - XPOS_SPRITE_END))) &&
-      (*state).ypos < static_cast<int>(round((HEIGHT - YPOS_SPRITE_END)))) {
-    (*state).xpos += 1;
-    (*state).ypos += 1;
+  if (draw_token(state) > 0) {
+    SDL_Log("draw token failed"); // NOLINT
   }
-  dst_rect.x = static_cast<float>(XPOS_SPRITE_OFFSET + (*state).xpos);
-  dst_rect.y = static_cast<float>((*state).ypos);
-  SDL_RenderTexture(state->renderer, state->tcylinder, nullptr, &dst_rect);
 
   SDL_RenderPresent(state->renderer);
 
