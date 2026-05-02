@@ -1,0 +1,9 @@
+SDL3-3.4.4
+SDL3_emsdk
+ninja-win
+build
+old
+checkers/install
+hello/install_libSDL3
+hellofs
+*/vendored/SDL
