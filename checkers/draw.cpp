@@ -1,15 +1,8 @@
 #include "draw.h"
 
-// #include <SDL3/SDL_error.h>   //clang-tidy
-// #include <SDL3/SDL_events.h>  //clang-tidy
-// #include <SDL3/SDL_init.h>    //clang-tidy
-// #include <SDL3/SDL_log.h>     //clang-tidy
-// #include <SDL3/SDL_pixels.h>  //clang-tidy
-// #include <SDL3/SDL_rect.h>    //clang-tidy
-// #include <SDL3/SDL_render.h>  //clang-tidy
-// #include <SDL3/SDL_surface.h> //clang-tidy
-// #include <SDL3/SDL_video.h>   //clang-tidy
-
+#include <SDL3/SDL_rect.h>    //clang-tidy
+#include <SDL3/SDL_render.h>  //clang-tidy
+#include <SDL3/SDL_surface.h> //clang-tidy
 
 int draw_board(int xdim, int ydim, State *state) {
   SDL_FRect dst_rect;
