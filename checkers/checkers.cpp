@@ -17,7 +17,11 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
 
   auto *state = new State;          // NOLINT cppcoreguidelines-owning-memory
   state->token = new Token; // NOLINT cppcoreguidelines-owning-memory
+  state->board = new Board; // NOLINT cppcoreguidelines-owning-memory
   state->token->point = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
+  state->token->from = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
+  state->token->to = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
+  state->token->speed = 1;
 
 #ifndef __EMSCRIPTEN__
   if (!SDL_CreateWindowAndRenderer("Checkers", WIDTH, HEIGHT,
@@ -42,8 +46,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   }
 #endif
 
-  state->blueortho = SDL_LoadPNG("assets/blue.ortho.png");
-  if (state->blueortho == nullptr) {
+  state->board->blueortho = SDL_LoadPNG("assets/blue.ortho.png");
+  if (state->board->blueortho == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
     return SDL_APP_FAILURE;
@@ -60,8 +64,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());
   }
 
-  state->tblueortho =
-      SDL_CreateTextureFromSurface(state->renderer, state->blueortho);
+  state->board->tblueortho =
+      SDL_CreateTextureFromSurface(state->renderer, state->board->blueortho);
   state->token->tcylinder =
       SDL_CreateTextureFromSurface(state->renderer, state->token->scylinder);
 
