@@ -18,6 +18,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   auto *state = new State;          // NOLINT cppcoreguidelines-owning-memory
   state->token = new Token; // NOLINT cppcoreguidelines-owning-memory
   state->board = new Board; // NOLINT cppcoreguidelines-owning-memory
+  state->board->xdim = 4;
+  state->board->ydim = 4;
   state->token->point = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
   state->token->from = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
   state->token->to = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
@@ -52,7 +54,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
-  state->token->scylinder = SDL_LoadPNG("assets/CylinderGold.png");
+  state->token->scylinder = SDL_LoadPNG("assets/CylinderPurp.png");
   if (state->token->scylinder == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
@@ -76,20 +78,13 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   return SDL_APP_CONTINUE;
 }
 
-SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) { // NOLINT
-  if (event->type == SDL_EVENT_KEY_DOWN || event->type == SDL_EVENT_QUIT) {
-    return SDL_APP_SUCCESS;
-  }
-  return SDL_APP_CONTINUE;
-}
-
 SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   auto *state = static_cast<State *>(appstate);
 
   SDL_SetRenderDrawColor(state->renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
   SDL_RenderClear(state->renderer);
 
-  if (draw_board(3, 4, state) > 0) {
+  if (draw_board(state->board->xdim, state->board->ydim, state) > 0) {
     SDL_Log("draw board failed"); // NOLINT
   }
 
@@ -99,6 +94,13 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
 
   SDL_RenderPresent(state->renderer);
 
+  return SDL_APP_CONTINUE;
+}
+
+SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) { // NOLINT
+  if (event->type == SDL_EVENT_KEY_DOWN || event->type == SDL_EVENT_QUIT) {
+    return SDL_APP_SUCCESS;
+  }
   return SDL_APP_CONTINUE;
 }
 
