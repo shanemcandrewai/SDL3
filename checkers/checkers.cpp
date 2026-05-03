@@ -12,18 +12,17 @@
 #include <SDL3/SDL_surface.h> //clang-tidy
 #include <SDL3/SDL_video.h>   //clang-tidy
 
-
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   SDL_Window *window = nullptr;
 
-  auto *state = new State;          // NOLINT cppcoreguidelines-owning-memory
+  auto *state = new State;  // NOLINT cppcoreguidelines-owning-memory
   state->token = new Token; // NOLINT cppcoreguidelines-owning-memory
   state->board = new Board; // NOLINT cppcoreguidelines-owning-memory
   state->board->xdim = XDIM;
   state->board->ydim = YDIM;
   state->token->point = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
-  state->token->from = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
-  state->token->to = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
+  state->token->from = new SDL_Point;  // NOLINT cppcoreguidelines-owning-memory
+  state->token->to = new SDL_Point;    // NOLINT cppcoreguidelines-owning-memory
   state->token->speed = SPEED_INIT;
 
 #ifndef __EMSCRIPTEN__
@@ -90,7 +89,7 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   }
 
   if (draw_token(state) > 0) {
-    SDL_Log("draw board failed"); // NOLINT
+    SDL_Log("draw token failed"); // NOLINT
   }
 
   SDL_RenderPresent(state->renderer);

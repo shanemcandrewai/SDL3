@@ -4,14 +4,15 @@
 #include <cmath>
 #include <string>
 
-// const std::string TOKEN_FILE = "assets/CylinderPurp.png";
-const std::string TOKEN_FILE = "assets/CylinderGold.png";
+const std::string TOKEN_FILE = "assets/CylinderPurp.png";
+// const std::string TOKEN_FILE = "assets/CylinderGold.png";
 const std::string BOARD_FILE = "assets/blue.ortho.png";
 const std::string WINDOW_TITLE = "checkers";
 
 const int XDIM = 4;
 const int YDIM = 4;
-const int SPEED_INIT = 1;
+const float SPEED_INIT = 1;
+const float SPEED_MAX = 2;
 
 const float SPRITE_SCALE = 0.50;
 const int WIDTH_FULL_HD = 1920;
@@ -49,7 +50,7 @@ typedef struct Token { // NOLINT altera-struct-pack-align
   SDL_Point *point;
   SDL_Point *from;
   SDL_Point *to;
-  int speed;
+  float speed;
 } Token;
 
 struct State { // NOLINT altera-struct-pack-align
@@ -60,5 +61,6 @@ struct State { // NOLINT altera-struct-pack-align
 
 extern auto draw_board(int, int, State *) -> int;
 extern auto draw_token(State *) -> int;
+extern auto calc_point(State *) -> int;
 
 #endif
