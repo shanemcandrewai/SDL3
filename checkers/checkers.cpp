@@ -16,7 +16,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   SDL_Window *window = nullptr;
 
   auto *state = new State;          // NOLINT cppcoreguidelines-owning-memory
-  state->pcylinder = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
+  state->token = new Token; // NOLINT cppcoreguidelines-owning-memory
+  state->token->point = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
 
 #ifndef __EMSCRIPTEN__
   if (!SDL_CreateWindowAndRenderer("Checkers", WIDTH, HEIGHT,
@@ -47,25 +48,25 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
-  state->scylinder = SDL_LoadPNG("assets/CylinderGold.png");
-  if (state->scylinder == nullptr) {
+  state->token->scylinder = SDL_LoadPNG("assets/CylinderGold.png");
+  if (state->token->scylinder == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
 
-  if (!SDL_SetWindowIcon(window, state->scylinder)) {
+  if (!SDL_SetWindowIcon(window, state->token->scylinder)) {
     SDL_Log("SDL_SetWindowIcon failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
   }
 
   state->tblueortho =
       SDL_CreateTextureFromSurface(state->renderer, state->blueortho);
-  state->tcylinder =
-      SDL_CreateTextureFromSurface(state->renderer, state->scylinder);
+  state->token->tcylinder =
+      SDL_CreateTextureFromSurface(state->renderer, state->token->scylinder);
 
-  state->pcylinder->x = XPOS_START;
-  state->pcylinder->y = YPOS_START / 3;
+  state->token->point->x = XPOS_START;
+  state->token->point->y = YPOS_START / 3;
   *appstate = state;
 
   return SDL_APP_CONTINUE;

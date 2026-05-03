@@ -26,13 +26,20 @@ const int XPOS_STEP = static_cast<int>(round(230 * SPRITE_SCALE));
 const int YPOS_STEP = static_cast<int>(round(140 * SPRITE_SCALE));
 const int TOKEN_OFFSET = static_cast<int>(round(40 * SPRITE_SCALE));
 
+typedef struct Token { // NOLINT altera-struct-pack-align
+  SDL_Surface *scylinder;
+  SDL_Texture *tcylinder;
+  SDL_Point *point;
+  SDL_Point *from;
+  SDL_Point *to;
+  int speed;
+} Token;
+
 struct State { // NOLINT altera-struct-pack-align
   SDL_Renderer *renderer;
   SDL_Surface *blueortho;
-  SDL_Surface *scylinder;
   SDL_Texture *tblueortho;
-  SDL_Texture *tcylinder;
-  SDL_Point *pcylinder;
+  Token *token;
 };
 
 extern auto draw_board(int, int, State *) -> int;
