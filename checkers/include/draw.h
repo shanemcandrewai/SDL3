@@ -53,9 +53,9 @@ typedef struct Token { // NOLINT altera-struct-pack-align
   SDL_Surface *surf;
   SDL_Texture *textu;
   Point_float *point;
+  Point_float *step;
   SDL_Point *from;
   SDL_Point *to;
-  double angle;
   float speed;
 } Token;
 
@@ -65,8 +65,8 @@ struct State { // NOLINT altera-struct-pack-align
   Token *token;
 };
 
+extern auto calc_token_to(int, int, State *) -> int;
 extern auto draw_board(int, int, State *) -> int;
-extern auto set_destination(State *, SDL_Point) -> int;
 extern auto draw_token(State *) -> int;
 extern auto calc_point(State *) -> int;
 

@@ -5,8 +5,7 @@
 #include <SDL3/SDL_stdinc.h> //clang-tidy
 // #include <cmath>             //clang-tidy
 
-auto draw_board(int xdim, int ydim, State *state) -> int { // NOLINT
-  SDL_FRect dst_rect;
+auto calc_token_to(int xdim, int ydim, State *state) -> int { // NOLINT
   state->token->from->x = XPOS_START;
   state->token->from->y = YPOS_START;
   for (int xpos = XPOS_START; xpos < (xdim - 1) * XPOS_STEP; // NOLINT
@@ -16,6 +15,26 @@ auto draw_board(int xdim, int ydim, State *state) -> int { // NOLINT
     for (int ypos = YPOS_START; ypos < (ydim - 1) * YPOS_STEP; // NOLINT
          ypos += YPOS_STEP) {
       state->token->to->y = ypos + YPOS_STEP;
+    }
+  }
+  const double angle = SDL_atan2(
+      static_cast<float>(state->token->to->y) - state->token->point->y,
+      static_cast<float>(state->token->to->x) - state->token->point->x);
+
+  state->token->step->x = static_cast<float>(SDL_cos(angle));
+  state->token->step->y = static_cast<float>(SDL_sin(angle));
+  return 0;
+}
+
+auto draw_board(int xdim, int ydim, State *state) -> int { // NOLINT
+  SDL_FRect dst_rect;
+  state->token->from->x = XPOS_START;
+  state->token->from->y = YPOS_START;
+  for (int xpos = XPOS_START; xpos < (xdim - 1) * XPOS_STEP; // NOLINT
+       xpos += XPOS_STEP) {
+
+    for (int ypos = YPOS_START; ypos < (ydim - 1) * YPOS_STEP; // NOLINT
+         ypos += YPOS_STEP) {
 
       dst_rect.x = static_cast<float>(xpos);
       dst_rect.y = static_cast<float>(ypos);
@@ -44,24 +63,14 @@ auto draw_token(State *state) -> int { // NOLINT
   SDL_RenderTexture(state->renderer, state->token->textu, nullptr, &dst_rect);
   return 0;
 }
-auto set_destination(State *state, SDL_Point destination) -> int { // NOLINT
-
-  state->token->angle =
-      SDL_atan2(static_cast<float>(destination.y) - state->token->point->y,
-                static_cast<float>(destination.x) - state->token->point->x);
-
-  state->token->to->x = destination.x;
-  state->token->to->y = destination.y;
-  return 0;
-}
 
 auto calc_point(State *state) -> int { // NOLINT
 
   if (state->token->point->x < static_cast<float>(state->token->to->x) &&
       state->token->point->y < static_cast<float>(state->token->to->y)) {
 
-    state->token->point->x += static_cast<float>(SDL_cos(state->token->angle));
-    state->token->point->y += static_cast<float>(SDL_sin(state->token->angle));
+    state->token->point->x += state->token->step->x;
+    state->token->point->y += state->token->step->y;
   }
   return 0;
 }
