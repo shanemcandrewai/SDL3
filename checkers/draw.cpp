@@ -71,6 +71,11 @@ auto calc_point(State *state) -> int { // NOLINT
 
     state->token->point->x += state->token->step->x;
     state->token->point->y += state->token->step->y;
+  } else {
+      if (calc_token_to(state->board->xdim -1, state->board->ydim -1, state) > 0) {
+    SDL_Log("calc_token_to failed"); // NOLINT
+  }
+
   }
   return 0;
 }
