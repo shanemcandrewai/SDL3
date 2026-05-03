@@ -66,16 +66,19 @@ auto draw_token(State *state) -> int { // NOLINT
 
 auto calc_point(State *state) -> int { // NOLINT
 
-  if (state->token->point->x < static_cast<float>(state->token->to->x) &&
+  if (state->token->point->x >= 0 && state->token->point->y >= 0 &&
+      state->token->point->x < static_cast<float>(state->token->to->x) &&
       state->token->point->y < static_cast<float>(state->token->to->y)) {
 
     state->token->point->x += state->token->step->x;
     state->token->point->y += state->token->step->y;
   } else {
-      if (calc_token_to(state->board->xdim -1, state->board->ydim -1, state) > 0) {
-    SDL_Log("calc_token_to failed"); // NOLINT
-  }
-
+    if (calc_token_to(state->board->xdim - 1, state->board->ydim - 1, state) >
+        0) {
+      SDL_Log("calc_token_to failed"); // NOLINT
+    }
+    state->token->point->x += state->token->step->x;
+    state->token->point->y += state->token->step->y;
   }
   return 0;
 }
