@@ -39,22 +39,29 @@ auto draw_token(State *state) -> int { // NOLINT
     SDL_Log("calc_point"); // NOLINT
   }
 
-  dst_rect.x = static_cast<float>(XPOS_SPRITE_OFFSET + state->token->point->x);
-  dst_rect.y = static_cast<float>(state->token->point->y);
+  dst_rect.x = static_cast<float>(XPOS_SPRITE_OFFSET) + state->token->point->x;
+  dst_rect.y = state->token->point->y;
   SDL_RenderTexture(state->renderer, state->token->textu, nullptr, &dst_rect);
+  return 0;
+}
+auto set_destination(State *state, SDL_Point destination) -> int { // NOLINT
+
+  state->token->angle =
+      SDL_atan2(static_cast<float>(destination.y) - state->token->point->y,
+                static_cast<float>(destination.x) - state->token->point->x);
+
+  state->token->to->x = destination.x;
+  state->token->to->y = destination.y;
   return 0;
 }
 
 auto calc_point(State *state) -> int { // NOLINT
 
-  if (state->token->point->x < state->token->to->x &&
-      state->token->point->y < state->token->to->y) {
-    const double angle = SDL_atan2(state->token->to->y - state->token->point->y,
-                             state->token->to->x - state->token->point->x);
-    SDL_Log("angle %.2f\n", angle); // NOLINT
+  if (state->token->point->x < static_cast<float>(state->token->to->x) &&
+      state->token->point->y < static_cast<float>(state->token->to->y)) {
 
-    state->token->point->x += static_cast<int>(angle);
-    state->token->point->y += static_cast<int>(SDL_PI_D - angle);
+    state->token->point->x += static_cast<float>(SDL_cos(state->token->angle));
+    state->token->point->y += static_cast<float>(SDL_sin(state->token->angle));
   }
   return 0;
 }

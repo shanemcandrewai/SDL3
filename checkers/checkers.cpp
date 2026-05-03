@@ -20,9 +20,9 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   state->board = new Board; // NOLINT cppcoreguidelines-owning-memory
   state->board->xdim = XDIM;
   state->board->ydim = YDIM;
-  state->token->point = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
-  state->token->from = new SDL_Point;  // NOLINT cppcoreguidelines-owning-memory
-  state->token->to = new SDL_Point;    // NOLINT cppcoreguidelines-owning-memory
+  state->token->point = new Point_float; // NOLINT
+  state->token->from = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
+  state->token->to = new SDL_Point;   // NOLINT cppcoreguidelines-owning-memory
   state->token->speed = SPEED_INIT;
 
 #ifndef __EMSCRIPTEN__
@@ -71,8 +71,9 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   state->token->textu =
       SDL_CreateTextureFromSurface(state->renderer, state->token->surf);
 
-  state->token->point->x = XPOS_START;
-  state->token->point->y = YPOS_START / 3;
+  state->token->point->x = static_cast<float>(XPOS_START);
+  state->token->point->y = static_cast<float>(YPOS_START) / 3;
+  set_destination(state, {200, 400}); // NOLINT
   *appstate = state;
 
   return SDL_APP_CONTINUE;
