@@ -2,6 +2,8 @@
 
 #include <SDL3/SDL_rect.h>   //clang-tidy
 #include <SDL3/SDL_render.h> //clang-tidy
+#include <SDL3/SDL_stdinc.h> //clang-tidy
+// #include <cmath>             //clang-tidy
 
 auto draw_board(int xdim, int ydim, State *state) -> int { // NOLINT
   SDL_FRect dst_rect;
@@ -47,8 +49,12 @@ auto calc_point(State *state) -> int { // NOLINT
 
   if (state->token->point->x < state->token->to->x &&
       state->token->point->y < state->token->to->y) {
-    state->token->point->x += 1;
-    state->token->point->y += 1;
+    const double angle = SDL_atan2(state->token->to->y - state->token->point->y,
+                             state->token->to->x - state->token->point->x);
+    SDL_Log("angle %.2f\n", angle); // NOLINT
+
+    state->token->point->x += static_cast<int>(angle);
+    state->token->point->y += static_cast<int>(SDL_PI_D - angle);
   }
   return 0;
 }

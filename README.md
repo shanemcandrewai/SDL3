@@ -139,9 +139,15 @@ cmake --build build
 ## clang-repl
 ### windows set up for precompiled SDL3 libaries
 ```
-set CPLUS_INCLUDE_PATH=SDL3-3.4.2/include
+set CPLUS_INCLUDE_PATH=SDL3-3.4.4/include
 clang-repl
-%lib SDL3-3.4.2/lib/x64/SDL3.dll
+%lib SDL3-3.4.4/lib/x64/SDL3.dll
+```
+### powershell
+```
+$Env:CPLUS_INCLUDE_PATH = 'SDL3-3.4.4/include'
+clang-repl
+#include <SDL3/SDL.h>
 ```
 ### environmental library search path -L  passed on to the linker
     LIBRARY_PATH

@@ -9,8 +9,8 @@ const std::string TOKEN_FILE = "assets/CylinderPurp.png";
 const std::string BOARD_FILE = "assets/blue.ortho.png";
 const std::string WINDOW_TITLE = "checkers";
 
-const int XDIM = 4;
-const int YDIM = 4;
+const int XDIM = 3;
+const int YDIM = 7;
 const float SPEED_INIT = 1;
 const float SPEED_MAX = 2;
 
