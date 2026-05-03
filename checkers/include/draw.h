@@ -2,6 +2,16 @@
 #define DRAW
 #include <SDL3/SDL.h>
 #include <cmath>
+#include <string>
+
+// const std::string TOKEN_FILE = "assets/CylinderPurp.png";
+const std::string TOKEN_FILE = "assets/CylinderGold.png";
+const std::string BOARD_FILE = "assets/blue.ortho.png";
+const std::string WINDOW_TITLE = "checkers";
+
+const int XDIM = 4;
+const int YDIM = 4;
+const int SPEED_INIT = 1;
 
 const float SPRITE_SCALE = 0.50;
 const int WIDTH_FULL_HD = 1920;
@@ -27,15 +37,15 @@ const int YPOS_STEP = static_cast<int>(round(140 * SPRITE_SCALE));
 const int TOKEN_OFFSET = static_cast<int>(round(40 * SPRITE_SCALE));
 
 typedef struct Board { // NOLINT altera-struct-pack-align
-  SDL_Surface *blueortho;
-  SDL_Texture *tblueortho;
+  SDL_Surface *surf;
+  SDL_Texture *textu;
   int xdim;
   int ydim;
 } Board;
 
 typedef struct Token { // NOLINT altera-struct-pack-align
-  SDL_Surface *scylinder;
-  SDL_Texture *tcylinder;
+  SDL_Surface *surf;
+  SDL_Texture *textu;
   SDL_Point *point;
   SDL_Point *from;
   SDL_Point *to;

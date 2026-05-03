@@ -12,21 +12,22 @@
 #include <SDL3/SDL_surface.h> //clang-tidy
 #include <SDL3/SDL_video.h>   //clang-tidy
 
+
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   SDL_Window *window = nullptr;
 
   auto *state = new State;          // NOLINT cppcoreguidelines-owning-memory
   state->token = new Token; // NOLINT cppcoreguidelines-owning-memory
   state->board = new Board; // NOLINT cppcoreguidelines-owning-memory
-  state->board->xdim = 4;
-  state->board->ydim = 4;
+  state->board->xdim = XDIM;
+  state->board->ydim = YDIM;
   state->token->point = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
   state->token->from = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
   state->token->to = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
-  state->token->speed = 1;
+  state->token->speed = SPEED_INIT;
 
 #ifndef __EMSCRIPTEN__
-  if (!SDL_CreateWindowAndRenderer("Checkers", WIDTH, HEIGHT,
+  if (!SDL_CreateWindowAndRenderer(WINDOW_TITLE.c_str(), WIDTH, HEIGHT,
                                    SDL_WINDOW_RESIZABLE, &window,
                                    &state->renderer)) {
     SDL_Log("Couldn't create window and renderer: %s", // NOLINT
@@ -38,7 +39,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());
   }
 #else
-  if (!SDL_CreateWindowAndRenderer("Checkers", WIDTH, HEIGHT,
+  if (!SDL_CreateWindowAndRenderer(WINDOW_TITLE.c_str(), WIDTH, HEIGHT,
                                    SDL_WINDOW_FILL_DOCUMENT,
                                    //  SDL_WINDOW_FULLSCREEN,
                                    &window, &state->renderer)) {
@@ -48,28 +49,28 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   }
 #endif
 
-  state->board->blueortho = SDL_LoadPNG("assets/blue.ortho.png");
-  if (state->board->blueortho == nullptr) {
+  state->board->surf = SDL_LoadPNG(BOARD_FILE.c_str());
+  if (state->board->surf == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
-  state->token->scylinder = SDL_LoadPNG("assets/CylinderPurp.png");
-  if (state->token->scylinder == nullptr) {
+  state->token->surf = SDL_LoadPNG(TOKEN_FILE.c_str());
+  if (state->token->surf == nullptr) {
     SDL_Log("SDL_LoadPNG failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
 
-  if (!SDL_SetWindowIcon(window, state->token->scylinder)) {
+  if (!SDL_SetWindowIcon(window, state->token->surf)) {
     SDL_Log("SDL_SetWindowIcon failed: %s", // NOLINT hicpp-vararg
             SDL_GetError());
   }
 
-  state->board->tblueortho =
-      SDL_CreateTextureFromSurface(state->renderer, state->board->blueortho);
-  state->token->tcylinder =
-      SDL_CreateTextureFromSurface(state->renderer, state->token->scylinder);
+  state->board->textu =
+      SDL_CreateTextureFromSurface(state->renderer, state->board->surf);
+  state->token->textu =
+      SDL_CreateTextureFromSurface(state->renderer, state->token->surf);
 
   state->token->point->x = XPOS_START;
   state->token->point->y = YPOS_START / 3;
