@@ -43,11 +43,11 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   // SDL_Log("rend: %s\n", SDL_GetRendererName(state->renderer));
 
 #ifndef __EMSCRIPTEN__
-  if (!SDL_SetRenderVSync(state->renderer, 1)) {
-    SDL_Log("SDL_SetRenderVSync failed: %s", // NOLINT
-            SDL_GetError());
-    return SDL_APP_FAILURE;
-  }
+  // if (!SDL_SetRenderVSync(state->renderer, 1)) {
+  //   SDL_Log("SDL_SetRenderVSync failed: %s", // NOLINT
+  //           SDL_GetError());
+  //   return SDL_APP_FAILURE;
+  // }
 #endif
 
   state->board->surf = SDL_LoadPNG(BOARD_FILE.c_str());
@@ -75,7 +75,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
 
   state->token->point->x = static_cast<float>(XPOS_START);
   state->token->point->y = static_cast<float>(YPOS_START) / 3;
-  if (calc_token_to(state->board->xdim, state->board->ydim, state) > 0) {
+  if (calc_token_to(state->board->xdim - 1, state->board->ydim - 1, state) >
+      0) {
     SDL_Log("calc_token_to failed"); // NOLINT
   }
 

@@ -79,27 +79,20 @@ auto calc_point(State *state) -> int { // NOLINT
   if (!step_executed) {
     std::random_device rdev;
     std::mt19937 merst(rdev());
-    std::uniform_int_distribution<int> distx(0, XDIM);
-    std::uniform_int_distribution<int> disty(0, YDIM);
+    std::uniform_int_distribution<int> distx(0, state->board->xdim - 1);
+    std::uniform_int_distribution<int> disty(0, state->board->ydim - 1);
 
     if (calc_token_to(distx(merst), disty(merst), state) > 0) {
       SDL_Log("calc_token_to failed"); // NOLINT
-      return -1;
+      return 1;
     }
   }
   return 0;
 }
 
 auto calc_token_to(int xdim, int ydim, State *state) -> int { // NOLINT
-  for (int xpos = XPOS_START; xpos < (xdim - 1) * XPOS_STEP;  // NOLINT
-       xpos += XPOS_STEP) {
-    state->token->to->x = xpos;
-
-    for (int ypos = YPOS_START; ypos < (ydim - 1) * YPOS_STEP; // NOLINT
-         ypos += YPOS_STEP) {
-      state->token->to->y = ypos;
-    }
-  }
+  state->token->to->x = (XPOS_STEP * xdim) + XPOS_START;
+  state->token->to->y = (YPOS_STEP * ydim) + YPOS_START;
   const double angle = SDL_atan2(
       static_cast<float>(state->token->to->y) - state->token->point->y,
       static_cast<float>(state->token->to->x) - state->token->point->x);
