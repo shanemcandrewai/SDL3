@@ -25,6 +25,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   state->token->from = new SDL_Point; // NOLINT cppcoreguidelines-owning-memory
   state->token->to = new SDL_Point;   // NOLINT cppcoreguidelines-owning-memory
   state->token->speed = SPEED_INIT;
+  state->token->from->x = XPOS_START;
+  state->token->from->y = YPOS_START;
 
 #ifdef __EMSCRIPTEN__
   const SDL_WindowFlags window_flags = SDL_WINDOW_FILL_DOCUMENT;
@@ -38,6 +40,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
+  // SDL_Log("rend: %s\n", SDL_GetRendererName(state->renderer));
 
 #ifndef __EMSCRIPTEN__
   if (!SDL_SetRenderVSync(state->renderer, 1)) {

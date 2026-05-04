@@ -3,6 +3,7 @@
 #include <SDL3/SDL.h>
 #include <cmath>
 #include <string>
+#include <random>
 
 // const std::string TOKEN_FILE = "assets/CylinderPurp.png";
 const std::string TOKEN_FILE = "assets/CylinderGold.png";
@@ -65,9 +66,9 @@ struct State { // NOLINT altera-struct-pack-align
   Token *token;
 };
 
-extern auto calc_token_to(int, int, State *) -> int;
 extern auto draw_board(int, int, State *) -> int;
 extern auto draw_token(State *) -> int;
 extern auto calc_point(State *) -> int;
+extern auto calc_token_to(int, int, State *) -> int;
 
 #endif
