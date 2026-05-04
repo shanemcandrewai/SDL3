@@ -36,7 +36,7 @@ auto draw_token(State *state) -> int { // NOLINT
   }
 
   dst_rect.x = static_cast<float>(XPOS_SPRITE_OFFSET) + state->token->point->x;
-  dst_rect.y = state->token->point->y;
+  dst_rect.y = static_cast<float>(XPOS_SPRITE_OFFSET) + state->token->point->y;
   SDL_RenderTexture(state->renderer, state->token->textu, nullptr, &dst_rect);
   return 0;
 }

@@ -31,6 +31,7 @@ const int HEIGHT = static_cast<int>(round(WIDTH_PIXEL8A * SPRITE_SCALE));
 
 const int XPOS_START = static_cast<int>(round(-20 * SPRITE_SCALE));
 const int XPOS_SPRITE_OFFSET = static_cast<int>(round(70 * SPRITE_SCALE));
+const int YPOS_SPRITE_OFFSET = static_cast<int>(round(70 * SPRITE_SCALE));
 const int XPOS_SPRITE_END = static_cast<int>(round(110 * SPRITE_SCALE));
 const int YPOS_SPRITE_END = static_cast<int>(round(70 * SPRITE_SCALE));
 const int YPOS_START = static_cast<int>(round(-70 * SPRITE_SCALE));
