@@ -45,23 +45,35 @@ auto calc_point(State *state) -> int { // NOLINT
   bool step_executed = false;
   if (state->token->step->x > 0 &&
       state->token->point->x < static_cast<float>(state->token->to->x)) {
+    const float orig = state->token->point->x;
     state->token->point->x += state->token->step->x;
-    step_executed = true;
+    if (orig != state->token->point->x) {
+      step_executed = true;
+    }
   }
   if (state->token->step->x < 0 &&
       state->token->point->x > static_cast<float>(state->token->to->x)) {
+    const float orig = state->token->point->x;
     state->token->point->x += state->token->step->x;
-    step_executed = true;
+    if (orig != state->token->point->x) {
+      step_executed = true;
+    }
   }
   if (state->token->step->y > 0 &&
       state->token->point->y < static_cast<float>(state->token->to->y)) {
+    const float orig = state->token->point->y;
     state->token->point->y += state->token->step->y;
-    step_executed = true;
+    if (orig != state->token->point->y) {
+      step_executed = true;
+    }
   }
   if (state->token->step->y < 0 &&
       state->token->point->y > static_cast<float>(state->token->to->y)) {
+    const float orig = state->token->point->y;
     state->token->point->y += state->token->step->y;
-    step_executed = true;
+    if (orig != state->token->point->y) {
+      step_executed = true;
+    }
   }
 
   if (!step_executed) {
@@ -81,15 +93,13 @@ auto calc_point(State *state) -> int { // NOLINT
 auto calc_token_to(int xdim, int ydim, State *state) -> int { // NOLINT
   for (int xpos = XPOS_START; xpos < (xdim - 1) * XPOS_STEP;  // NOLINT
        xpos += XPOS_STEP) {
-    state->token->to->x = xpos + XPOS_STEP;
+    state->token->to->x = xpos;
 
     for (int ypos = YPOS_START; ypos < (ydim - 1) * YPOS_STEP; // NOLINT
          ypos += YPOS_STEP) {
-      state->token->to->y = ypos + YPOS_STEP;
+      state->token->to->y = ypos;
     }
   }
-  SDL_Log("state->token->to->x: %d\n", state->token->to->x); // NOLINT
-  SDL_Log("state->token->to->y: %d\n", state->token->to->y); // NOLINT
   const double angle = SDL_atan2(
       static_cast<float>(state->token->to->y) - state->token->point->y,
       static_cast<float>(state->token->to->x) - state->token->point->x);
