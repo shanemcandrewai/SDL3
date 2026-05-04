@@ -137,17 +137,16 @@ cmake --build build
 ##### open browser URL
     http://localhost:8000
 ## clang-repl
-### windows set up for precompiled SDL3 libaries
+### windows cmd
+    set CPLUS_INCLUDE_PATH=SDL3-3.4.4/include
+### powershell
+    $Env:CPLUS_INCLUDE_PATH = 'SDL3-3.4.4/include'
+### shell independent
 ```
-set CPLUS_INCLUDE_PATH=SDL3-3.4.4/include
 clang-repl
 %lib SDL3-3.4.4/lib/x64/SDL3.dll
-```
-### powershell
-```
-$Env:CPLUS_INCLUDE_PATH = 'SDL3-3.4.4/include'
-clang-repl
 #include <SDL3/SDL.h>
+SDL_Log("SDL_Log test");
 ```
 ### environmental library search path -L  passed on to the linker
     LIBRARY_PATH
@@ -162,7 +161,7 @@ clang-repl
 ### windows
 #### display ENVIRONMENT_VARIABLE
     echo %ENVIRONMENT_VARIABLE%
-#### set ENVIRONMENT_VARIABLE to "value"
+#### windows cmd set ENVIRONMENT_VARIABLE to "value"
     set ENVIRONMENT_VARIABLE=value
 ## clang-tidy wip
     cls && clang-tidy hello.c -checks=* --header-filter=ddd -- -ISDL3-3.4.2\include

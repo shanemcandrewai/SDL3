@@ -47,7 +47,7 @@ cls && clang-tidy checkers\checkers.cpp -checks=* --header-filter=ddd -- -I"SDL3
 
 
 
-clang-format -i checkers\checkers.cpp
+clang-format -i checkers\*.cpp
 
 SDL3>hello
 
@@ -55,6 +55,9 @@ cmake --build build --config Release && cmake --install build --config Release &
 
 clang++  -Wall -Wextra -o hello.exe hello.cpp hello_internal.cpp -I"..\SDL3-3.4.4\include" -I. -l"..\SDL3-3.4.4\lib\x64\SDL3" -"Wl,/subsystem:console"
 
+SDL3>checkers>emscripten
+
+cmake --build build && cmake --install build
 
 SDL3>checkers
 

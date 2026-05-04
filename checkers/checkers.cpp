@@ -26,24 +26,22 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   state->token->to = new SDL_Point;   // NOLINT cppcoreguidelines-owning-memory
   state->token->speed = SPEED_INIT;
 
-#ifndef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN__
+  const SDL_WindowFlags window_flags = SDL_WINDOW_FILL_DOCUMENT;
+#else
+  const SDL_WindowFlags window_flags = SDL_WINDOW_RESIZABLE;
+#endif
+
   if (!SDL_CreateWindowAndRenderer(WINDOW_TITLE.c_str(), WIDTH, HEIGHT,
-                                   SDL_WINDOW_RESIZABLE, &window,
-                                   &state->renderer)) {
+                                   window_flags, &window, &state->renderer)) {
     SDL_Log("Couldn't create window and renderer: %s", // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
+
+#ifndef __EMSCRIPTEN__
   if (!SDL_SetRenderVSync(state->renderer, 1)) {
-    SDL_Log("Could not enable VSync! SDL error: %s", // NOLINT
-            SDL_GetError());
-  }
-#else
-  if (!SDL_CreateWindowAndRenderer(WINDOW_TITLE.c_str(), WIDTH, HEIGHT,
-                                   SDL_WINDOW_FILL_DOCUMENT,
-                                   //  SDL_WINDOW_FULLSCREEN,
-                                   &window, &state->renderer)) {
-    SDL_Log("Couldn't create window and renderer: %s", // NOLINT
+    SDL_Log("SDL_SetRenderVSync failed: %s", // NOLINT
             SDL_GetError());
     return SDL_APP_FAILURE;
   }
@@ -79,7 +77,6 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   }
 
   *appstate = state;
-
   return SDL_APP_CONTINUE;
 }
 
