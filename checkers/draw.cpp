@@ -28,8 +28,8 @@ auto calc_token_to(int xdim, int ydim, State *state) -> int { // NOLINT
 
 auto draw_board(int xdim, int ydim, State *state) -> int { // NOLINT
   SDL_FRect dst_rect;
-  state->token->from->x = XPOS_START;
-  state->token->from->y = YPOS_START;
+  // state->token->from->x = XPOS_START;
+  // state->token->from->y = YPOS_START;
   for (int xpos = XPOS_START; xpos < (xdim - 1) * XPOS_STEP; // NOLINT
        xpos += XPOS_STEP) {
 
