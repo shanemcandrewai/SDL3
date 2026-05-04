@@ -72,6 +72,4 @@ extern auto draw_token(State *) -> int;
 extern auto calc_point(State *) -> int;
 extern auto calc_token_to(int, int, State *) -> int;
 
-    std::random_device rdev;
-
 #endif

@@ -1,9 +1,9 @@
 #include "draw.h"
+#include <random>
 
 #include <SDL3/SDL_rect.h>   //clang-tidy
 #include <SDL3/SDL_render.h> //clang-tidy
 #include <SDL3/SDL_stdinc.h> //clang-tidy
-#include <random>            //clang-tidy
 
 auto draw_board(int xdim, int ydim, State *state) -> int { // NOLINT
   SDL_FRect dst_rect;

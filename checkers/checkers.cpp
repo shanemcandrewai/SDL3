@@ -104,8 +104,40 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
 }
 
 SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) { // NOLINT
-  if (event->type == SDL_EVENT_KEY_DOWN || event->type == SDL_EVENT_QUIT) {
+  auto *state = static_cast<State *>(appstate);
+  switch (event->type) {
+  case SDL_EVENT_KEY_DOWN:
+  case SDL_EVENT_QUIT:
     return SDL_APP_SUCCESS;
+  case SDL_EVENT_FINGER_DOWN:
+    calc_token_to(
+        static_cast<int>(event->tfinger.x /
+                         (static_cast<float>(state->board->surf->w) * XDIM)),
+        static_cast<int>(event->tfinger.y /
+                         (static_cast<float>(state->board->surf->h) * YDIM)),
+        state);
+    break;
+
+  case SDL_EVENT_MOUSE_BUTTON_DOWN:
+    SDL_Log("event->button.x %f\n", event->button.x); // NOLINT
+    SDL_Log("event->button.y %f\n", event->button.y); // NOLINT
+    // SDL_Log("x %f\n", event->button.x /
+    // (static_cast<float>(state->board->surf->w) * XDIM)); // NOLINT SDL_Log("x
+    // %f\n", event->button.x / (static_cast<float>(state->board->surf->w) *
+    // XDIM)); // NOLINT
+    SDL_Log("x %f\n", (event->button.x * SPRITE_SCALE / static_cast<float>(state->board->surf->w)) 
+                          ); // NOLINT
+    SDL_Log("x %f\n", (event->button.x * SPRITE_SCALE / static_cast<float>(state->board->surf->w)) 
+    SDL_Log("y %f\n", (event->button.y * SPRITE_SCALE / static_cast<float>(state->board->surf->h))); // NOLINT
+    calc_token_to(
+        static_cast<int>(event->button.x /
+                         (static_cast<float>(state->board->surf->w) * XDIM)),
+        static_cast<int>(event->button.y /
+                         (static_cast<float>(state->board->surf->h) * YDIM)),
+        state);
+    break;
+  default:
+    break;
   }
   return SDL_APP_CONTINUE;
 }
