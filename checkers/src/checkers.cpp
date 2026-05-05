@@ -45,11 +45,11 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
   // SDL_Log("rend: %s\n", SDL_GetRendererName(state->renderer));
 
 #ifndef __EMSCRIPTEN__
-  // if (!SDL_SetRenderVSync(state->renderer, 1)) {
-  //   SDL_Log("SDL_SetRenderVSync failed: %s", // NOLINT
-  //           SDL_GetError());
-  //   return SDL_APP_FAILURE;
-  // }
+  if (!SDL_SetRenderVSync(state->renderer, 1)) {
+    SDL_Log("SDL_SetRenderVSync failed: %s", // NOLINT
+            SDL_GetError());
+    return SDL_APP_FAILURE;
+  }
 #endif
 
   state->board->surf = SDL_LoadPNG(BOARD_FILE.c_str());
@@ -111,35 +111,26 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) { // NOLINT
   case SDL_EVENT_KEY_DOWN:
   case SDL_EVENT_QUIT:
     return SDL_APP_SUCCESS;
-  case SDL_EVENT_FINGER_DOWN:
-    calc_token_to(
-        static_cast<int>(event->tfinger.x /
-                         (static_cast<float>(state->board->surf->w) * XDIM)),
-        static_cast<int>(event->tfinger.y /
-                         (static_cast<float>(state->board->surf->h) * YDIM)),
-        state);
-    break;
-
-  case SDL_EVENT_MOUSE_BUTTON_DOWN:
-    // SDL_Log("\n");                                    // NOLINT
-    // SDL_Log("event->button.x %f\n", event->button.x); // NOLINT
-    // SDL_Log("event->button.y %f\n", event->button.y); // NOLINT
-    // SDL_Log("xx %d\n", Board::max.x);                 // NOLINT
-    // SDL_Log("yy %d\n", Board::max.y);                 // NOLINT
-    // SDL_Log("xxx %d\n", static_cast<int>(std::round(event->button.x * XDIM /
-    //                                                 Board::max.x))); //
-    //                                                 NOLINT
-    // SDL_Log("yyy %d\n", static_cast<int>(std::round(event->button.y * YDIM /
-    //                                                 Board::max.y))); //
-    //                                                 NOLINT
-    const int touch_x = static_cast<int>(
-        std::round(event->button.x * XDIM / static_cast<float>(Board::max.x)));
-    const int touch_y = static_cast<int>(
-        std::round(event->button.y * XDIM / static_cast<float>(Board::max.y)));
+  case SDL_EVENT_FINGER_DOWN: {
+    const int touch_x = static_cast<int>(std::round(event->tfinger.x * XDIM / static_cast<float>(Board::max.x)));
+    const int touch_y = static_cast<int>(std::round(event->tfinger.y * YDIM / static_cast<float>(Board::max.y)));
     calc_token_to(touch_x, touch_y, state);
+    SDL_Log("\n");                                    // NOLINT
+    SDL_Log("state->token->to->x %d\n", state->token->to->x); // NOLINT
+    SDL_Log("state->token->to->y %d\n", state->token->to->y); // NOLINT
     break;
-    default:
-      break;
+  }
+  case SDL_EVENT_MOUSE_BUTTON_DOWN: {
+    const int mouse_x = static_cast<int>(std::round(event->button.x * XDIM / static_cast<float>(Board::max.x)));
+    const int mouse_y = static_cast<int>(std::round(event->button.y * YDIM / static_cast<float>(Board::max.y)));
+    calc_token_to(mouse_x, mouse_y, state);
+    SDL_Log("\n");                                    // NOLINT
+    SDL_Log("state->token->to->x %d\n", state->token->to->x); // NOLINT
+    SDL_Log("state->token->to->y %d\n", state->token->to->y); // NOLINT
+    break;
+  }
+  default:
+    break;
   }
   return SDL_APP_CONTINUE;
 }

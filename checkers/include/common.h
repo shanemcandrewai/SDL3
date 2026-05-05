@@ -5,8 +5,8 @@
 #include <string>
 #include <random>
 
-const std::string TOKEN_FILE = "assets/CylinderPurp.png";
-// const std::string TOKEN_FILE = "assets/CylinderGold.png";
+// const std::string TOKEN_FILE = "assets/CylinderPurp.png";
+const std::string TOKEN_FILE = "assets/CylinderGold.png";
 const std::string BOARD_FILE = "assets/blue.ortho.png";
 const std::string WINDOW_TITLE = "checkers";
 
