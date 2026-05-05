@@ -107,13 +107,19 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
 
 SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) { // NOLINT
   auto *state = static_cast<State *>(appstate);
+  int width = 0;
+  int height = 0;
+  SDL_GetRenderOutputSize(state->renderer, &width, &height);
+
   switch (event->type) {
   case SDL_EVENT_KEY_DOWN:
   case SDL_EVENT_QUIT:
     return SDL_APP_SUCCESS;
   case SDL_EVENT_FINGER_DOWN: {
-    const int touch_x = static_cast<int>(std::round(event->tfinger.x * XDIM / static_cast<float>(Board::max.x)));
-    const int touch_y = static_cast<int>(std::round(event->tfinger.y * YDIM / static_cast<float>(Board::max.y)));
+    // const int touch_x = static_cast<int>(std::round(event->tfinger.x * XDIM / static_cast<float>(Board::max.x)));
+    // const int touch_y = static_cast<int>(std::round(event->tfinger.y * YDIM / static_cast<float>(Board::max.y)));
+    const int touch_x = static_cast<int>(std::round(event->tfinger.x * XDIM / static_cast<float>(width)));
+    const int touch_y = static_cast<int>(std::round(event->tfinger.y * YDIM / static_cast<float>(height)));
     calc_token_to(touch_x, touch_y, state);
     SDL_Log("\n");                                    // NOLINT
     SDL_Log("touch_x %d\n", state->token->to->x); // NOLINT
