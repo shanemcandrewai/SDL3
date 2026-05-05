@@ -1,5 +1,5 @@
 #include "board.h"
-#include "common.h"//clang-tidy
+#include "common.h"          //clang-tidy
 #include <SDL3/SDL_rect.h>   //clang-tidy
 #include <SDL3/SDL_render.h> //clang-tidy
 
@@ -18,9 +18,13 @@ int Board::draw(int xdim, int ydim, State *state) { // NOLINT
       dst_rect.h = static_cast<float>(state->board->surf->h) * SPRITE_SCALE;
       SDL_RenderTexture(state->renderer, state->board->textu, nullptr,
                         &dst_rect);
-      max.y = static_cast<int>(static_cast<float>(state->board->surf->h) * SPRITE_SCALE) + ypos;
+      max.y = static_cast<int>(static_cast<float>(state->board->surf->h) *
+                               SPRITE_SCALE) +
+              ypos;
     }
-      max.x = static_cast<int>(static_cast<float>(state->board->surf->w) * SPRITE_SCALE) + xpos;
+    max.x = static_cast<int>(static_cast<float>(state->board->surf->w) *
+                             SPRITE_SCALE) +
+            xpos;
   }
   return 0;
 }

@@ -3,7 +3,7 @@ SDL3_emsdk
 ninja-win
 build
 old
-checkers/install
-hello/install_libSDL3
+install
+install_libSDL3
 hellofs
-*/vendored/SDL
+vendored
