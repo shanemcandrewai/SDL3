@@ -32,7 +32,7 @@ https://github.com/libsdl-org/SDL
 ### link SDL directory to SDL3/vendored/SDL
 [The easiest way to use SDL is to include it as a subproject in your project](https://github.com/libsdl-org/SDL/blob/main/docs/INTRO-emscripten.md)
 #### execute cmd.exe as admin
-    C:\Users\shane\dev\SDL3\checkers> mklink /d vendored\SDL ..\..\..\SDL
+    C:\Users\shane\dev\SDL3\checkers\src> mklink /d vendored\SDL ..\..\..\..\SDL
 ## cmake
 ### cmake commands
 #### generate project files
@@ -189,8 +189,4 @@ SDL_Log("SDL_Log test");
 	emcmake cmake -S vendored/SDL -B build -G "Unix Makefiles" -DSDL_TESTS:BOOL=OFF
 ### woodeneye-008.touch.c
     emcc woodeneye-008.touch.c -sUSE_SDL=3 && copy /y a.* ..\shanemcandrewai.github.io && cd ..\shanemcandrewai.github.io && git commit -am 'next' && git push && cd ..\SDL3
-### cmake
-#### create link vendored\SDL to ..\SDL repo
-##### cmd admin
-    mklink /D vendored\SDL ..\..\SDL
 

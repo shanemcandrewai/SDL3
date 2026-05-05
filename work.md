@@ -1,3 +1,5 @@
+# SDL3 project command lines
+## clang-tidy
 7808 warnings generated Suppressed 7814 warnings (7796 in non-user code, 18 NOLINT).
 
 lldb
@@ -18,14 +20,15 @@ set PATH=%PATH%;%LocalAppData%\Python\pythoncore-3.11-64
       }
    </style> -->
 
-
+## lldb
+```
 lldb checkers.exe
 b checkers.cpp:40
 br l
 br wr -f bp.txt
 br re -f bp.txt
-
-resolution
+```
+## screen resolution
 
 pixel 8a 1080 x 2400 pixels, 20:9 ratio (~430 ppi density)
 Lenovo 1920 x 1200 pixels 16:10 WUXGA
@@ -37,32 +40,27 @@ Full HD 1920 × 1080p	16:9
 
 const int static WIDTH = 1920;
 const int static HEIGHT = 1080 ;
-
-
-SDL3>
-emcc -Wall -Wextra -o checkers.html checkers.cpp -I"checkers_clang\SDL3-3.4.2\include" -sUSE_SDL=3
-
-
-cls && clang-tidy checkers\checkers.cpp -checks=* --header-filter=ddd -- -I"SDL3-3.4.4/include" -I"checkers/include"
-
-
-
-clang-format -i checkers\*.cpp
-
-SDL3>hello
-
+### SDL3>hello
+```
 cmake --build build --config Release && cmake --install build --config Release && cd install && .\hello.exe && cd ..
-
 clang++  -Wall -Wextra -o hello.exe hello.cpp hello_internal.cpp -I"..\SDL3-3.4.4\include" -I. -l"..\SDL3-3.4.4\lib\x64\SDL3" -"Wl,/subsystem:console"
-
-SDL3>checkers>emscripten
-
+```
+### emscripten>
+```
+emcc -Wall -Wextra -o checkers.html checkers.cpp -I"checkers_clang\SDL3-3.4.2\include" -sUSE_SDL=3
+```
+### SDL3>checkers>emscripten
+```
 cmake --build build && cmake --install build
-
-SDL3>checkers
-
-cls && clang-tidy checkers\*.cpp -- -I"SDL3-3.4.4/include" -I"checkers/include"
-
-cls && clang++ -Wall -Wextra -o checkers\install\checkers.exe checkers\*.cpp -I"SDL3-3.4.4/include" -I"checkers/include" -l"SDL3-3.4.4/lib/x64/SDL3" -"Wl,/subsystem:console"
-
-cmake --build build --config Release && cmake --install build --config Release && cd install && .\checkers.exe && cd ..
+```
+### SDL3>
+```
+clang-format -i checkers\src\*.cpp
+cls && clang-tidy checkers\src\*.cpp -- -I"SDL3-3.4.4/include" -I"checkers/include"
+cls && clang-tidy checkers\src\checkers.cpp -checks=* --header-filter=ddd -- -I"SDL3-3.4.4/include" -I"checkers/include"
+cls && clang++ -Wall -Wextra -o checkers\install\checkers.exe checkers\src\*.cpp -I"SDL3-3.4.4/include" -I"checkers/include" -l"SDL3-3.4.4/lib/x64/SDL3" -"Wl,/subsystem:console"
+```
+### SDL3>checkers
+```
+cls && cmake --build build --config Release && cmake --install build --config Release && cd install && .\checkers.exe && cd ..
+```

@@ -14,9 +14,8 @@ cmake_minimum_required(VERSION 3.23)
 project(checkers)
 
 add_executable(${PROJECT_NAME})
-target_sources(${PROJECT_NAME} PRIVATE
-${CMAKE_CURRENT_LIST_DIR}/../${PROJECT_NAME}.cpp
-${CMAKE_CURRENT_LIST_DIR}/../draw.cpp)
+file(GLOB src_files ${CMAKE_CURRENT_LIST_DIR}/../src/*.cpp)
+target_sources(${PROJECT_NAME} PRIVATE ${src_files})
 set(SDL3_DIR "${CMAKE_CURRENT_LIST_DIR}/../../SDL3_emsdk/install/lib/cmake/SDL3")
 find_package(SDL3 REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)

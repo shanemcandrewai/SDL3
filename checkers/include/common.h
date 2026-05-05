@@ -1,5 +1,5 @@
-#ifndef DRAW
-#define DRAW
+#ifndef COMMON
+#define COMMON
 #include <SDL3/SDL.h>
 #include <cmath>
 #include <string>
@@ -44,12 +44,12 @@ typedef struct Point_float {
   float y;
 } Point_float;
 
-typedef struct Board { // NOLINT altera-struct-pack-align
+typedef struct SBoard { // NOLINT altera-struct-pack-align
   SDL_Surface *surf;
   SDL_Texture *textu;
   int xdim;
   int ydim;
-} Board;
+} SBoard;
 
 typedef struct Token { // NOLINT altera-struct-pack-align
   SDL_Surface *surf;
@@ -63,11 +63,10 @@ typedef struct Token { // NOLINT altera-struct-pack-align
 
 struct State { // NOLINT altera-struct-pack-align
   SDL_Renderer *renderer;
-  Board *board;
+  SBoard *board;
   Token *token;
 };
 
-extern auto draw_board(int, int, State *) -> int;
 extern auto draw_token(State *) -> int;
 extern auto calc_point(State *) -> int;
 extern auto calc_token_to(int, int, State *) -> int;

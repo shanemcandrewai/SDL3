@@ -2,7 +2,8 @@
 #define SDL_MAIN_USE_CALLBACKS 1 // NOLINT cppcoreguidelines-macro-usage
 #include <SDL3/SDL_main.h>       //keep uncommented for release
 
-#include "draw.h"
+#include "common.h"
+#include "board.h"
 #include <SDL3/SDL_error.h>   //clang-tidy
 #include <SDL3/SDL_events.h>  //clang-tidy
 #include <SDL3/SDL_init.h>    //clang-tidy
@@ -17,7 +18,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) { // NOLINT
 
   auto *state = new State;  // NOLINT cppcoreguidelines-owning-memory
   state->token = new Token; // NOLINT cppcoreguidelines-owning-memory
-  state->board = new Board; // NOLINT cppcoreguidelines-owning-memory
+  state->board = new SBoard; // NOLINT cppcoreguidelines-owning-memory
   state->board->xdim = XDIM;
   state->board->ydim = YDIM;
   state->token->point = new Point_float; // NOLINT
@@ -90,7 +91,7 @@ SDL_AppResult SDL_AppIterate(void *appstate) { // NOLINT
   SDL_SetRenderDrawColor(state->renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
   SDL_RenderClear(state->renderer);
 
-  if (draw_board(state->board->xdim, state->board->ydim, state) > 0) {
+  if (Board::draw(state->board->xdim, state->board->ydim, state) > 0) {
     SDL_Log("draw board failed"); // NOLINT
   }
 
@@ -119,17 +120,14 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) { // NOLINT
     break;
 
   case SDL_EVENT_MOUSE_BUTTON_DOWN:
+    SDL_Log("\n");// NOLINT
     SDL_Log("event->button.x %f\n", event->button.x); // NOLINT
     SDL_Log("event->button.y %f\n", event->button.y); // NOLINT
-    // SDL_Log("x %f\n", event->button.x /
-    // (static_cast<float>(state->board->surf->w) * XDIM)); // NOLINT SDL_Log("x
-    // %f\n", event->button.x / (static_cast<float>(state->board->surf->w) *
-    // XDIM)); // NOLINT
-    SDL_Log("x %f\n", (event->button.x * SPRITE_SCALE / static_cast<float>(state->board->surf->w)) 
-                          ); // NOLINT
-    SDL_Log("x %f\n", (event->button.x * SPRITE_SCALE / static_cast<float>(state->board->surf->w)) 
-    SDL_Log("y %f\n", (event->button.y * SPRITE_SCALE / static_cast<float>(state->board->surf->h))); // NOLINT
-    calc_token_to(
+    SDL_Log("xx %d\n", Board::max.x);      // NOLINT
+    SDL_Log("yy %d\n", Board::max.y);      // NOLINT
+    SDL_Log("xxx %f\n", event->button.x * (XDIM) / ((XDIM-1) * XPOS_STEP + XPOS_START + state->board->surf->w * SPRITE_SCALE)); // NOLINT
+    SDL_Log("yyy %f\n", event->button.y * (YDIM) / ((YDIM-1) * YPOS_STEP + YPOS_START+ state->board->surf->h * SPRITE_SCALE)); // NOLINT
+     calc_token_to(
         static_cast<int>(event->button.x /
                          (static_cast<float>(state->board->surf->w) * XDIM)),
         static_cast<int>(event->button.y /
