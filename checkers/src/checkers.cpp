@@ -116,8 +116,8 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) { // NOLINT
     const int touch_y = static_cast<int>(std::round(event->tfinger.y * YDIM / static_cast<float>(Board::max.y)));
     calc_token_to(touch_x, touch_y, state);
     SDL_Log("\n");                                    // NOLINT
-    SDL_Log("state->token->to->x %d\n", state->token->to->x); // NOLINT
-    SDL_Log("state->token->to->y %d\n", state->token->to->y); // NOLINT
+    SDL_Log("touch_x %d\n", state->token->to->x); // NOLINT
+    SDL_Log("touch_y %d\n", state->token->to->y); // NOLINT
     break;
   }
   case SDL_EVENT_MOUSE_BUTTON_DOWN: {
@@ -125,8 +125,8 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) { // NOLINT
     const int mouse_y = static_cast<int>(std::round(event->button.y * YDIM / static_cast<float>(Board::max.y)));
     calc_token_to(mouse_x, mouse_y, state);
     SDL_Log("\n");                                    // NOLINT
-    SDL_Log("state->token->to->x %d\n", state->token->to->x); // NOLINT
-    SDL_Log("state->token->to->y %d\n", state->token->to->y); // NOLINT
+    SDL_Log("mouse_x %d\n", state->token->to->x); // NOLINT
+    SDL_Log("mouse_y %d\n", state->token->to->y); // NOLINT
     break;
   }
   default:
